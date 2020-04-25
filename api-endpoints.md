@@ -55,6 +55,8 @@
 
 ## 用户管理
 
+TODO: 忘记密码
+
 ### 用户登录 <3.4.1>
 
 `POST /api/v1/sessions`
@@ -307,17 +309,15 @@
 
 ### 导出用户信息 Excel 表【管理员】<3.2.3 (1)>
 
-`GET /api/v1/users?excel={boolean}&from={datestring}&to={datestring}`
+`GET /api/v1/users?excel={boolean}`
 
 #### 参数
 
-备注：鬼知道会不会改需求 就先加个excel字段了 反正不影响 下同
+备注：鬼知道会不会改需求 就先加个excel字段了 反正不影响 下同 只有excel=true的时候才返回xlsx
 
-| 字段名 | 字段类型   | 必填 | 含义                            | 样例       |
-| ------ | ---------- | ---- | ------------------------------- | ---------- |
-| excel  | boolean    |      | 是否导出成 Excel 表             | true       |
-| from   | datestring |      | 开始时间（为空则无此约束 下同） | 2020-04-25 |
-| to     | datestring |      | 结束时间                        | 2020-04-25 |
+| 字段名 | 字段类型 | 必填 | 含义                | 样例 |
+| ------ | -------- | ---- | ------------------- | ---- |
+| excel  | boolean  |      | 是否导出成 Excel 表 | true |
 
 #### 返回值
 
@@ -443,27 +443,49 @@ TODO: 盘点记录 盘点异常
 #### 参数
 
 ```json
-[
-    {
-        "name": "wdnmd", // 文物名称
-        "count": 2, // 数量
-        "year": "南北朝", // 年代
-        "reign": "xxx", // 年号
-        "type": "沙雕", // 器型
-        "source": "xxx捐赠", // 来源
-        "size": "11cm x 45cm x 14cm", // 尺寸
-        "weight": 19198.10, // 重量 kg
-        "warehouseId": 1, // 收储仓库id
-        "place": "aaa", // 收储地点
-        "statusId": 1, // 状态id
-        "comment": "a" // 备注
-    }
-]
+{
+    "name": "wdnmd", // 文物名称
+    "count": 2, // 数量
+    "year": "南北朝", // 年代
+    "reign": "xxx", // 年号
+    "type": "沙雕", // 器型
+    "source": "xxx捐赠", // 来源
+    "size": "11cm x 45cm x 14cm", // 尺寸
+    "weight": 19198.10, // 重量 kg
+    "warehouseId": 1, // 收储仓库id
+    "place": "aaa", // 收储地点
+    "statusId": 1, // 状态id
+    "comment": "a" // 备注
+}
 ```
 
 #### 返回值
 
-同 [创建文物（拍照上传）【拍照人员】 <3.2.1>](#创建文物拍照上传拍照人员-321) 返回值
+```json
+{
+    "id": 1, // 文物编号
+    "name": "wdnmd", // 文物名称
+    "count": 2, // 数量
+    "picturePath": "//files/relics/images/1.jpg", // 照片地址
+    "year": "南北朝", // 年代
+    "reign": "xxx", // 年号
+    "type": "沙雕", // 器型
+    "source": "xxx捐赠", // 来源
+    "size": "11cm x 45cm x 14cm", // 尺寸
+    "weight": 19198.10, // 重量 kg
+    "warehouseId": 1, // 收储仓库id
+    "place": "aaa", // 收储地点
+    "enterPrice": "12345678.90", // 入馆价值【资产科】
+    "leavePrice": "12345678.90", // 离馆价值【资产科】
+    "statusId": 1, // 状态id
+    "lastCheckTime": "2020-04-25 11:11:11", // 最后盘点时间【仓库管理员】
+    "enterTime": "2020-04-25 11:11:11", // 入馆时间【仓库管理员】
+    "leaveTime": "2020-04-25 11:11:11", // 离馆时间【仓库管理员】
+    "moveTime": "2020-04-25 11:11:11", // 移入仓库时间【仓库管理员】
+    "lendTime": "2020-04-25 11:11:11", // 出借时间【仓库管理员】
+    "comment": "a" // 备注
+}
+```
 
 #### 错误状态码
 
@@ -471,34 +493,56 @@ TODO: 盘点记录 盘点异常
 
 ### 入馆后修改文物状态信息/盘点/移动【仓库管理员】 <3.2.4/5/6>
 
-`PUT /api/v1/relics/{relicId}`
+`PUT /api/v1/relics/{relicId:int:文物编号}`
 
 TODO: 分离文物盘点接口
 
 #### 参数
 
 ```json
-[
-    {
-        "name": "wdnmd", // 文物名称
-        "count": 2, // 数量
-        "year": "南北朝", // 年代
-        "reign": "xxx", // 年号
-        "type": "沙雕", // 器型
-        "source": "xxx捐赠", // 来源
-        "size": "11cm x 45cm x 14cm", // 尺寸
-        "weight": 19198.10, // 重量 kg
-        "warehouseId": 1, // 收储仓库id
-        "place": "aaa", // 收储地点
-        "statusId": 1, // 状态id
-        "comment": "a" // 备注
-    }
-]
+{
+    "name": "wdnmd", // 文物名称
+    "count": 2, // 数量
+    "year": "南北朝", // 年代
+    "reign": "xxx", // 年号
+    "type": "沙雕", // 器型
+    "source": "xxx捐赠", // 来源
+    "size": "11cm x 45cm x 14cm", // 尺寸
+    "weight": 19198.10, // 重量 kg
+    "warehouseId": 1, // 收储仓库id
+    "place": "aaa", // 收储地点
+    "statusId": 1, // 状态id
+    "comment": "a" // 备注
+}
 ```
 
 #### 返回值
 
-同 [创建文物（拍照上传）【拍照人员】 <3.2.1>](#创建文物拍照上传拍照人员-321) 返回值
+```json
+{
+    "id": 1, // 文物编号
+    "name": "wdnmd", // 文物名称
+    "count": 2, // 数量
+    "picturePath": "//files/relics/images/1.jpg", // 照片地址
+    "year": "南北朝", // 年代
+    "reign": "xxx", // 年号
+    "type": "沙雕", // 器型
+    "source": "xxx捐赠", // 来源
+    "size": "11cm x 45cm x 14cm", // 尺寸
+    "weight": 19198.10, // 重量 kg
+    "warehouseId": 1, // 收储仓库id
+    "place": "aaa", // 收储地点
+    "enterPrice": "12345678.90", // 入馆价值【资产科】
+    "leavePrice": "12345678.90", // 离馆价值【资产科】
+    "statusId": 1, // 状态id
+    "lastCheckTime": "2020-04-25 11:11:11", // 最后盘点时间【仓库管理员】
+    "enterTime": "2020-04-25 11:11:11", // 入馆时间【仓库管理员】
+    "leaveTime": "2020-04-25 11:11:11", // 离馆时间【仓库管理员】
+    "moveTime": "2020-04-25 11:11:11", // 移入仓库时间【仓库管理员】
+    "lendTime": "2020-04-25 11:11:11", // 出借时间【仓库管理员】
+    "comment": "a" // 备注
+}
+```
 
 #### 错误状态码
 
@@ -506,22 +550,44 @@ TODO: 分离文物盘点接口
 
 ### 修改文物价值【资产科】 <3.2.9>
 
-`PUT /api/v1/relics/{relicId}`
+`PUT /api/v1/relics/{relicId:int:文物编号}`
 
 #### 参数
 
 ```json
-[
-    {
-        "enterPrice": "12345678.90", // 入馆价值【资产科】
-        "leavePrice": "12345678.90" // 离馆价值【资产科】
-    }
-]
+{
+    "enterPrice": "12345678.90", // 入馆价值【资产科】
+    "leavePrice": "12345678.90" // 离馆价值【资产科】
+}
 ```
 
 #### 返回值
 
-同 [创建文物（拍照上传）【拍照人员】 <3.2.1>](#创建文物拍照上传拍照人员-321) 返回值
+```json
+{
+    "id": 1, // 文物编号
+    "name": "wdnmd", // 文物名称
+    "count": 2, // 数量
+    "picturePath": "//files/relics/images/1.jpg", // 照片地址
+    "year": "南北朝", // 年代
+    "reign": "xxx", // 年号
+    "type": "沙雕", // 器型
+    "source": "xxx捐赠", // 来源
+    "size": "11cm x 45cm x 14cm", // 尺寸
+    "weight": 19198.10, // 重量 kg
+    "warehouseId": 1, // 收储仓库id
+    "place": "aaa", // 收储地点
+    "enterPrice": "12345678.90", // 入馆价值【资产科】
+    "leavePrice": "12345678.90", // 离馆价值【资产科】
+    "statusId": 1, // 状态id
+    "lastCheckTime": "2020-04-25 11:11:11", // 最后盘点时间【仓库管理员】
+    "enterTime": "2020-04-25 11:11:11", // 入馆时间【仓库管理员】
+    "leaveTime": "2020-04-25 11:11:11", // 离馆时间【仓库管理员】
+    "moveTime": "2020-04-25 11:11:11", // 移入仓库时间【仓库管理员】
+    "lendTime": "2020-04-25 11:11:11", // 出借时间【仓库管理员】
+    "comment": "a" // 备注
+}
+```
 
 #### 错误状态码
 
@@ -529,15 +595,13 @@ TODO: 分离文物盘点接口
 
 ### 导出文物一览 Excel 表【文职人员（无价值）、管理员】 <3.2.3 (2)>
 
-`GET /api/v1/relics?excel={boolean}&from={datestring}&to={datestring}`
+`GET /api/v1/relics?excel={boolean}`
 
 #### 参数
 
-| 字段名 | 字段类型   | 必填 | 含义                | 样例       |
-| ------ | ---------- | ---- | ------------------- | ---------- |
-| excel  | boolean    |      | 是否导出成 Excel 表 | true       |
-| from   | datestring |      | 开始时间            | 2020-04-25 |
-| to     | datestring |      | 结束时间            | 2020-04-25 |
+| 字段名 | 字段类型 | 必填 | 含义                | 样例 |
+| ------ | -------- | ---- | ------------------- | ---- |
+| excel  | boolean  |      | 是否导出成 Excel 表 | true |
 
 #### 返回值
 
@@ -557,11 +621,10 @@ TODO: 分离文物盘点接口
 
 #### 参数
 
-| 字段名 | 字段类型   | 必填 | 含义                | 样例       |
-| ------ | ---------- | ---- | ------------------- | ---------- |
-| excel  | boolean    |      | 是否导出成 Excel 表 | true       |
-| from   | datestring |      | 开始时间            | 2020-04-25 |
-| to     | datestring |      | 结束时间            | 2020-04-25 |
+| 字段名      | 字段类型 | 必填 | 含义                | 样例 |
+| ----------- | -------- | ---- | ------------------- | ---- |
+| excel       | boolean  |      | 是否导出成 Excel 表 | true |
+| warehouseId | int      | Y    | 仓库编号            | 1    |
 
 #### 返回值
 
@@ -603,11 +666,15 @@ TODO: 分离文物盘点接口
 
 ### 获取所有仓库信息【仓库管理员】
 
-`GET /api/v1/warehouses`
+`GET /api/v1/warehouses?name={string}&page={int}&count={int}`
 
 #### 参数
 
-无
+| 字段名 | 字段类型 | 必填 | 含义                     | 样例 |
+| ------ | -------- | ---- | ------------------------ | ---- |
+| name   | string   |      | 按名字搜索               | aaa  |
+| page   | int      | Y    | 页码                     | 1    |
+| count  | int      | Y    | 一次获取的个数（上限20） | 20   |
 
 #### 返回值
 
@@ -649,7 +716,7 @@ TODO: 分离文物盘点接口
 
 ### 修改仓库信息【仓库管理员】
 
-`PUT /api/v1/warehouses/{warehouseId}`
+`PUT /api/v1/warehouses/{warehouseId:int:仓库编号}`
 
 #### 参数
 
@@ -674,7 +741,7 @@ TODO: 分离文物盘点接口
 
 ### 删除仓库【仓库管理员】
 
-`DELETE /api/v1/warehouses/{warehouseId}`
+`DELETE /api/v1/warehouses/{warehouseId:int:仓库编号}`
 
 #### 参数
 
@@ -746,7 +813,7 @@ TODO: 数据库操作大概需要验证一下密码？
 
 ### 数据库恢复【管理员】
 
-`GET /api/v1/backups/{backupId}`
+`GET /api/v1/backups/{backupId:int:备份编号}`
 
 #### 参数
 
