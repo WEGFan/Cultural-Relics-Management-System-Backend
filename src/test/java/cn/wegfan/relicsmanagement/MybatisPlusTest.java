@@ -1,0 +1,40 @@
+package cn.wegfan.relicsmanagement;
+
+import cn.wegfan.relicsmanagement.entity.Job;
+import cn.wegfan.relicsmanagement.entity.User;
+import cn.wegfan.relicsmanagement.mapper.JobDao;
+import cn.wegfan.relicsmanagement.mapper.UserDao;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+
+@SpringBootTest
+@Slf4j
+public class MybatisPlusTest {
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private JobDao jobDao;
+
+    @Test
+    void test1() {
+        List<User> userList = userDao.selectList(null);
+        log.debug(userList.toString());
+    }
+
+    @Test
+    void test2() {
+
+        Job job = new Job();
+        job.setName("1312312313");
+        jobDao.insert(job);
+        log.debug(jobDao.selectList(null).toString());
+    }
+
+}

@@ -1,0 +1,5 @@
+### get all jobs
+GET {{host}}/api/v1/jobs
+Accept: application/json
+
+###
