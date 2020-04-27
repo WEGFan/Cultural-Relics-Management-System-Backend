@@ -1,13 +1,16 @@
 package cn.wegfan.relicsmanagement.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
+import net.bytebuddy.agent.builder.AgentBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.StringJoiner;
 
 @Data
@@ -18,6 +21,7 @@ public class User implements Serializable {
     /**
      * 用户编号     primary key
      */
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -64,7 +68,11 @@ public class User implements Serializable {
      * 删除时间
      */
     private Date deleteTime;
-
+    
+    
+    @TableField(exist = false)
+    private List<Permission> permissions;
+    
     @Override
     public String toString() {
         return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
@@ -78,6 +86,7 @@ public class User implements Serializable {
                 .add("createTime=" + createTime)
                 .add("updateTime=" + updateTime)
                 .add("deleteTime=" + deleteTime)
+                .add("permissions=" + permissions)
                 .toString();
     }
 
