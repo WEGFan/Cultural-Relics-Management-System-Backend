@@ -13,7 +13,7 @@ public class Job implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 职务编号     primary key
+     * 职务编号
      */
     @TableId(type = IdType.AUTO)
     private Integer id;

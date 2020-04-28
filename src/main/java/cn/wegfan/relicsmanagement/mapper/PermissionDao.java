@@ -1,14 +1,14 @@
 package cn.wegfan.relicsmanagement.mapper;
 
-import cn.wegfan.relicsmanagement.entity.Job;
 import cn.wegfan.relicsmanagement.entity.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 public interface PermissionDao extends BaseMapper<Permission> {
 
     @Select("SELECT * FROM permission, user_permission " +

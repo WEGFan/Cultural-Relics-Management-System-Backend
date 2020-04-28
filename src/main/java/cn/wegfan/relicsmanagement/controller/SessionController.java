@@ -1,7 +1,7 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.service.SessionService;
-import cn.wegfan.relicsmanagement.util.DataReturn;
+import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +22,7 @@ public class SessionController {
      * 用户登录
      */
     @PostMapping("")
-    public DataReturn userLogin() {
+    public DataReturnVo userLogin() {
         throw new NotImplementedException();
     }
 
@@ -30,7 +30,7 @@ public class SessionController {
      * 用户退出登录
      */
     @DeleteMapping("")
-    public DataReturn userLogout() {
+    public DataReturnVo userLogout() {
         throw new NotImplementedException();
     }
 

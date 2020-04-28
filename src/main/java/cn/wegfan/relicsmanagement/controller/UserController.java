@@ -1,9 +1,7 @@
 package cn.wegfan.relicsmanagement.controller;
 
-import cn.wegfan.relicsmanagement.mapper.UserDao;
-import cn.wegfan.relicsmanagement.service.PermissionService;
 import cn.wegfan.relicsmanagement.service.UserService;
-import cn.wegfan.relicsmanagement.util.DataReturn;
+import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,15 +19,15 @@ public class UserController {
      * 获取所有用户信息【管理员】
      */
     @GetMapping("")
-    public DataReturn listAllUsers() {
-        return DataReturn.success(userService.listAllUsers());
+    public DataReturnVo listAllUsers() {
+        return DataReturnVo.success(userService.listAllUsers());
     }
 
     /**
      * 增加新用户【管理员】
      */
     @PostMapping("")
-    public DataReturn addUser() {
+    public DataReturnVo addUser() {
         throw new NotImplementedException();
     }
 
@@ -39,7 +37,7 @@ public class UserController {
      * @param userId 用户编号
      */
     @PutMapping("{userId}")
-    public DataReturn updateUserInfo(@PathVariable String userId) {
+    public DataReturnVo updateUserInfo(@PathVariable String userId) {
         throw new NotImplementedException();
     }
 
@@ -47,7 +45,7 @@ public class UserController {
      * 修改用户密码
      */
     @PutMapping("password")
-    public DataReturn updateUserPassword() {
+    public DataReturnVo updateUserPassword() {
         throw new NotImplementedException();
     }
 
@@ -56,17 +54,22 @@ public class UserController {
      *
      * @param userId 用户编号
      */
-    @PutMapping("{userId}")
-    public DataReturn deleteUser(@PathVariable String userId) {
+    @DeleteMapping("{userId}")
+    public DataReturnVo deleteUser(@PathVariable String userId) {
         throw new NotImplementedException();
     }
 
     /**
      * 导出用户信息 Excel 表【管理员】
+     * 
+     * @param excel 是否导出成 Excel
      */
     @GetMapping(value = "", params = "excel=true")
-    public DataReturn exportAllUsersToExcel() {
-        return DataReturn.success(userService.listAllUsers());
+    public DataReturnVo exportAllUsersToExcel(@RequestParam Boolean excel) {
+        if (excel.equals(Boolean.FALSE)) {
+            throw new NotImplementedException();
+        }
+        return DataReturnVo.success(userService.listAllUsers());
     }
 
 }

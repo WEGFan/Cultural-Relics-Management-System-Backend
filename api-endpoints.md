@@ -550,7 +550,7 @@ TODO: 分离文物盘点接口
 
 ### 修改文物价值【资产科】 <3.2.9>
 
-`PUT /api/v1/relics/{relicId:int:文物编号}`
+`PUT /api/v1/relics/{relicId:int:文物编号}/price`
 
 #### 参数
 
@@ -617,7 +617,7 @@ TODO: 分离文物盘点接口
 
 ### 导出某仓库文物一览 Excel 表【仓库管理员、管理员】 <3.2.3 (3)>
 
-`GET /api/v1/relics/?warehouseId={int}&excel={boolean}`
+`GET /api/v1/relics?excel={boolean}&warehouseId={int}`
 
 #### 参数
 

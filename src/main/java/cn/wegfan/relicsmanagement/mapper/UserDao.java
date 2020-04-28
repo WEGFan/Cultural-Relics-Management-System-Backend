@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import java.io.Serializable;
 import java.util.List;
 
-@Component
+@Repository
 public interface UserDao extends BaseMapper<User> {
 
     @Select("SELECT * FROM user")

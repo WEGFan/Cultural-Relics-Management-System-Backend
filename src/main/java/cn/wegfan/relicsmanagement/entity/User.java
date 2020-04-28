@@ -4,9 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
-import net.bytebuddy.agent.builder.AgentBuilder;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,8 +1,7 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.service.JobService;
-import cn.wegfan.relicsmanagement.util.DataReturn;
-import lombok.Data;
+import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +20,8 @@ public class JobController {
      * 获取所有职务
      */
     @GetMapping("")
-    public DataReturn listAllJobs() {
-        return DataReturn.success(jobService.listAllJobs());
+    public DataReturnVo listAllJobs() {
+        return DataReturnVo.success(jobService.listAllJobs());
     }
 
 }

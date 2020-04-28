@@ -2,4 +2,7 @@
 GET {{host}}/api/v1/jobs
 Accept: application/json
 
+### list relics
+GET {{host}}/api/v1/relics?name=1111&page=1&count=4
+
 ###

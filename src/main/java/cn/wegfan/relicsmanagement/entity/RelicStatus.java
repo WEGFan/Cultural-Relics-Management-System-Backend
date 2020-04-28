@@ -1,21 +1,18 @@
 package cn.wegfan.relicsmanagement.entity;
 
-import lombok.Data;
-
 import java.io.Serializable;
 
-@Data
-public class Permission implements Serializable {
+public class RelicStatus implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 权限编号
+     * 文物状态编号
      */
     private Integer id;
 
     /**
-     * 权限名称
+     * 状态名称
      */
     private String name;
 

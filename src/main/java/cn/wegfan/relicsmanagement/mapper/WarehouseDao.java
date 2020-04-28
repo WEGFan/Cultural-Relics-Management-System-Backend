@@ -1,11 +1,10 @@
 package cn.wegfan.relicsmanagement.mapper;
 
-import cn.wegfan.relicsmanagement.entity.Job;
+import cn.wegfan.relicsmanagement.entity.Warehouse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface JobDao extends BaseMapper<Job> {
+public interface WarehouseDao extends BaseMapper<Warehouse> {
 
 }
