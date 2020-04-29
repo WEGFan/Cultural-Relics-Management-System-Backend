@@ -65,8 +65,10 @@ public class User implements Serializable {
      * 删除时间
      */
     private Date deleteTime;
-    
-    
+
+    /**
+     * 权限列表
+     */
     @TableField(exist = false)
     private List<Permission> permissions;
     

@@ -9,4 +9,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     lazy-loading-enabled: false
-
+  global-config:
+    db-config:
+      update-strategy: ignored
+      insert-strategy: ignored

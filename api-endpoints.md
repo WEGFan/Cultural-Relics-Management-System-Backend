@@ -226,16 +226,14 @@ TODO: 忘记密码
 #### 参数
 
 ```json
-[
-    {
-        "workId": 1, // 工号
-        "name": "aaa", // 姓名
-        "password": "abc", // 密码
-        "jobId": 1, // 职务ID
-        "permissionId": [1, 2, 3], // 权限ID
-        "telephone": "13800138000" // 手机号
-    }
-]
+{
+    "workId": 1, // 工号
+    "name": "aaa", // 姓名
+    "password": "abc", // 密码
+    "jobId": 1, // 职务ID
+    "permissionId": [1, 2, 3], // 权限ID
+    "telephone": "13800138000" // 手机号
+}
 ```
 
 #### 返回值
@@ -259,23 +257,21 @@ TODO: 忘记密码
 #### 参数
 
 ```json
-[
-    {
-        "workId": 1, // 工号
-        "name": "aaa", // 姓名
-        "password": "abc", // 密码
-        "jobId": 1, // 职务ID
-        "permissionId": [1, 2, 3], // 权限ID
-        "telephone": "13800138000" // 手机号
-    }
-]
+{
+    "workId": 1, // 工号
+    "name": "aaa", // 姓名
+    "password": "abc", // 密码
+    "jobId": 1, // 职务ID
+    "permissionId": [1, 2, 3], // 权限ID
+    "telephone": "13800138000" // 手机号
+}
 ```
 
 #### 返回值
 
 ```json
 {
-    "success": true // 是否成功
+    "id": 1 // 用户编号
 }
 ```
 

@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.controller;
 
+import cn.wegfan.relicsmanagement.dto.UserInfoDto;
 import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,8 @@ public class UserController {
      * 增加新用户【管理员】
      */
     @PostMapping("")
-    public DataReturnVo addUser() {
-        throw new NotImplementedException();
+    public DataReturnVo addUser(@RequestBody UserInfoDto userInfo) {
+        return DataReturnVo.success(userService.addUser(userInfo));
     }
 
     /**
@@ -37,8 +38,9 @@ public class UserController {
      * @param userId 用户编号
      */
     @PutMapping("{userId}")
-    public DataReturnVo updateUserInfo(@PathVariable String userId) {
-        throw new NotImplementedException();
+    public DataReturnVo updateUserInfo(@PathVariable String userId,
+                                       @RequestBody UserInfoDto userInfo) {
+        return DataReturnVo.success(userService.updateUserInfo(userInfo));
     }
 
     /**
@@ -61,7 +63,7 @@ public class UserController {
 
     /**
      * 导出用户信息 Excel 表【管理员】
-     * 
+     *
      * @param excel 是否导出成 Excel
      */
     @GetMapping(value = "", params = "excel=true")

@@ -2,12 +2,11 @@ package cn.wegfan.relicsmanagement.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.sun.org.apache.xml.internal.serializer.Serializer;
-import com.sun.org.apache.xml.internal.serializer.utils.SerializerMessages_zh_CN;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.StringJoiner;
 
 @Data
 public class Warehouse implements Serializable {
@@ -40,7 +39,15 @@ public class Warehouse implements Serializable {
      */
     private Date deleteTime;
 
-    public Warehouse() {
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Warehouse.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .add("createTime=" + createTime)
+                .add("updateTime=" + updateTime)
+                .add("deleteTime=" + deleteTime)
+                .toString();
     }
 
 }

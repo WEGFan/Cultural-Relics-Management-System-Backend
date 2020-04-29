@@ -2,7 +2,23 @@
 GET {{host}}/api/v1/jobs
 Accept: application/json
 
+### list all users
+GET {{host}}/api/v1/users
+
 ### list relics
 GET {{host}}/api/v1/relics?name=1111&page=1&count=4
+
+### add new user
+POST {{host}}/api/v1/users
+Content-Type: application/json
+
+{
+    "workId": 123446,
+    "name": "aaa",
+    "password": "abc",
+    "jobId": 1,
+    "permissionId": [1, 2, 3],
+    "telephone": "13800138440"
+}
 
 ###

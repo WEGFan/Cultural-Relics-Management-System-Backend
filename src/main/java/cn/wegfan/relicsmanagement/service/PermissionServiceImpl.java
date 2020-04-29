@@ -17,7 +17,6 @@ public class PermissionServiceImpl implements PermissionService {
     @Autowired
     private PermissionDao permissionDao;
 
-
     @Override
     public List<Permission> listAllPermissions() {
         return permissionDao.selectList(null);

@@ -1,17 +1,15 @@
-package cn.wegfan.relicsmanagement.vo;
+package cn.wegfan.relicsmanagement.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.StringJoiner;
 
 @Data
-public class UserVo {
+public class UserInfoDto implements Serializable {
 
-    /**
-     * 用户编号
-     */
-    private Integer id;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 工号
@@ -22,6 +20,11 @@ public class UserVo {
      * 姓名
      */
     private String name;
+
+    /**
+     * 密码
+     */
+    private String password;
 
     /**
      * 职务
@@ -40,10 +43,10 @@ public class UserVo {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", UserVo.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
+        return new StringJoiner(", ", UserInfoDto.class.getSimpleName() + "[", "]")
                 .add("workId=" + workId)
                 .add("name='" + name + "'")
+                .add("password='" + password + "'")
                 .add("jobId=" + jobId)
                 .add("telephone='" + telephone + "'")
                 .add("permissionId=" + permissionId)
@@ -51,3 +54,4 @@ public class UserVo {
     }
 
 }
+
