@@ -21,7 +21,7 @@ public class UserController {
      */
     @GetMapping("")
     public DataReturnVo listAllUsers() {
-        return DataReturnVo.success(userService.listAllUsers());
+        return DataReturnVo.success(userService.listAllInWorkUsers());
     }
 
     /**
@@ -38,9 +38,9 @@ public class UserController {
      * @param userId 用户编号
      */
     @PutMapping("{userId}")
-    public DataReturnVo updateUserInfo(@PathVariable String userId,
+    public DataReturnVo updateUserInfo(@PathVariable Integer userId,
                                        @RequestBody UserInfoDto userInfo) {
-        return DataReturnVo.success(userService.updateUserInfo(userInfo));
+        return DataReturnVo.success(userService.updateUserInfo(userId, userInfo));
     }
 
     /**
@@ -57,8 +57,8 @@ public class UserController {
      * @param userId 用户编号
      */
     @DeleteMapping("{userId}")
-    public DataReturnVo deleteUser(@PathVariable String userId) {
-        throw new NotImplementedException();
+    public DataReturnVo deleteUser(@PathVariable Integer userId) {
+        return DataReturnVo.success(userService.deleteUserById(userId));
     }
 
     /**
@@ -71,7 +71,7 @@ public class UserController {
         if (excel.equals(Boolean.FALSE)) {
             throw new NotImplementedException();
         }
-        return DataReturnVo.success(userService.listAllUsers());
+        return DataReturnVo.success(userService.listAllInWorkUsers());
     }
 
 }

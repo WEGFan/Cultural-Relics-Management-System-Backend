@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface UserPermissionDao extends BaseMapper<UserPermission> {
 
     @Delete("DELETE FROM user_permission WHERE user_id = #{userId}")
-    Integer deleteByUserId(Integer userId);
+    int deleteByUserId(Integer userId);
 
 }

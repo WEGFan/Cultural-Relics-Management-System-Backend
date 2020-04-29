@@ -21,4 +21,22 @@ Content-Type: application/json
     "telephone": "13800138440"
 }
 
+### update user
+PUT {{host}}/api/v1/users/0x22
+Content-Type: application/json
+
+{
+    "workId": 122,
+    "name": "aaddda",
+    "password": "aaaaabc",
+    "jobId": 1,
+    "permissionId": [
+        1
+    ],
+    "telephone": "231312"
+}
+
+### delete user
+DELETE {{host}}/api/v1/users/1
+
 ###

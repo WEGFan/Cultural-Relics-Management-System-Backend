@@ -54,7 +54,7 @@ public class Test1 {
     @Test
     void test4() {
         log.debug(userService.getUserById(1).toString());
-        log.debug(userService.listAllUsers().toString());
+        log.debug(userService.listAllInWorkUsers().toString());
         log.debug(String.valueOf(userDao.selectByWorkId(11111)));
     }
 

@@ -64,12 +64,12 @@ public class UserServiceImpl implements UserService {
                 .register();
         mapperFacade = mapperFactory.getMapperFacade();
     }
-
+    
     @Override
-    public List<UserVo> listAllUsers() {
+    public List<UserVo> listAllInWorkUsers() {
         // MapperFacade mapperFacade = mapperFactory.getMapperFacade();
 
-        List<User> userList = userDao.selectList(null);
+        List<User> userList = userDao.selectListByNotDeleted();
         for (User user : userList) {
             user.setPermissions(permissionDao.selectListByUserId(user.getId()));
         }
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = mapperFacade.map(userInfo, User.class);
-        user.setSalt("");
+        user.setSalt(""); // TODO
         user.setCreateTime(new Date());
         log.debug(user.toString());
 
@@ -110,18 +110,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SuccessVo updateUserInfo(UserInfoDto userInfo) {
+    public SuccessVo updateUserInfo(Integer userId, UserInfoDto userInfo) {
         // 检查工号是否重复
         if (userDao.selectByWorkId(userInfo.getWorkId()) != null) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
         }
 
         User user = mapperFacade.map(userInfo, User.class);
+        user.setId(userId);
         user.setUpdateTime(new Date());
 
         userDao.updateById(user);
         userPermissionService.updateUserPermissions(user.getId(), userInfo.getPermissionId());
         return new SuccessVo(true);
+    }
+
+    @Override
+    public SuccessVo deleteUserById(Integer userId) {
+        int result = userDao.deleteUserById(userId);
+        return new SuccessVo(result > 0);
     }
 
 }
