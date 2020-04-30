@@ -21,7 +21,6 @@ public class UserPermission implements Serializable {
      * 权限编号
      */
     private Integer permissionId;
-    
 
     @Override
     public String toString() {
