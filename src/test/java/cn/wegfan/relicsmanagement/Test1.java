@@ -6,6 +6,8 @@ import cn.wegfan.relicsmanagement.mapper.JobDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.service.UserPermissionService;
 import cn.wegfan.relicsmanagement.service.UserService;
+import cn.wegfan.relicsmanagement.service.WarehouseService;
+import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +80,22 @@ public class Test1 {
         user.setDeleteTime(null);
         userDao.updateById(user);
 
+    }
+
+    @Autowired
+    private WarehouseService warehouseService;
+
+    @Test
+    void test7() {
+        PageResultVo result = warehouseService.listWarehousesByNameAndPage(null, 1, 8);
+        log.debug(result.toString());
+    }
+
+    @Test
+    void test8() {
+        long a = (long)Integer.MAX_VALUE + 1;
+        int b = (int)a;
+        System.out.println(b);
     }
 
 }

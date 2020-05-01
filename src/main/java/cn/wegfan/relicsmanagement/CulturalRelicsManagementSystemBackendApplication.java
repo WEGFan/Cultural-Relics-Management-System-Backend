@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("cn.wegfan.relicsmanagement.mapper")
+// @MapperScan("cn.wegfan.relicsmanagement.mapper")
 public class CulturalRelicsManagementSystemBackendApplication {
 
     public static void main(String[] args) {

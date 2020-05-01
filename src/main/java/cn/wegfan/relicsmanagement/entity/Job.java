@@ -23,12 +23,12 @@ public class Job implements Serializable {
      */
     private String name;
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Job.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("name='" + name + "'")
-                .toString();
-    }
+    // @Override
+    // public String toString() {
+    //     return new StringJoiner(", ", Job.class.getSimpleName() + "[", "]")
+    //             .add("id=" + id)
+    //             .add("name='" + name + "'")
+    //             .toString();
+    // }
 
 }

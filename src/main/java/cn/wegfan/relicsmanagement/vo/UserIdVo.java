@@ -14,11 +14,11 @@ public class UserIdVo {
      */
     private Integer id;
     
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", UserIdVo.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .toString();
-    }
+    // @Override
+    // public String toString() {
+    //     return new StringJoiner(", ", UserIdVo.class.getSimpleName() + "[", "]")
+    //             .add("id=" + id)
+    //             .toString();
+    // }
 
 }

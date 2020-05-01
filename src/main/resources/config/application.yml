@@ -9,3 +9,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     lazy-loading-enabled: false
+
+logging:
+  level:
+    cn.wegfan.relicsmanagement: info

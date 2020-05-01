@@ -1,33 +1,27 @@
-package cn.wegfan.relicsmanagement.entity;
+package cn.wegfan.relicsmanagement.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.StringJoiner;
 
 @Data
-@AllArgsConstructor
-public class Permission implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class WarehouseVo {
 
     /**
-     * 权限编号
+     * 仓库编号
      */
-    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 权限名称
+     * 仓库名
      */
     private String name;
 
     // @Override
     // public String toString() {
-    //     return new StringJoiner(", ", Permission.class.getSimpleName() + "[", "]")
+    //     return new StringJoiner(", ", WarehouseVo.class.getSimpleName() + "[", "]")
     //             .add("id=" + id)
     //             .add("name='" + name + "'")
     //             .toString();

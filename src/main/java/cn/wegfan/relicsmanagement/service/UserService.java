@@ -20,5 +20,9 @@ public interface UserService {
     
     SuccessVo deleteUserById(Integer userId);
 
+    UserVo userLogin(Integer workId, String password);
+    
+    Boolean userLogout();
+
 }
 

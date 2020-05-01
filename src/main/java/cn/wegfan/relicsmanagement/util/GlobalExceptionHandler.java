@@ -14,4 +14,10 @@ public class GlobalExceptionHandler {
         return DataReturnVo.error(e);
     }
 
+    @ExceptionHandler(Exception.class)
+    public DataReturnVo handleException(Exception e) {
+        log.error("", e);
+        return DataReturnVo.error(500, e.getMessage());
+    }
+
 }

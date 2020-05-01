@@ -39,15 +39,15 @@ public class Warehouse implements Serializable {
      */
     private Date deleteTime;
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Warehouse.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("name='" + name + "'")
-                .add("createTime=" + createTime)
-                .add("updateTime=" + updateTime)
-                .add("deleteTime=" + deleteTime)
-                .toString();
-    }
+    // @Override
+    // public String toString() {
+    //     return new StringJoiner(", ", Warehouse.class.getSimpleName() + "[", "]")
+    //             .add("id=" + id)
+    //             .add("name='" + name + "'")
+    //             .add("createTime=" + createTime)
+    //             .add("updateTime=" + updateTime)
+    //             .add("deleteTime=" + deleteTime)
+    //             .toString();
+    // }
 
 }

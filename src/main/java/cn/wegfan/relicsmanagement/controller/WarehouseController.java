@@ -1,7 +1,9 @@
 package cn.wegfan.relicsmanagement.controller;
 
+import cn.wegfan.relicsmanagement.service.WarehouseService;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -9,6 +11,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @RestController
 @RequestMapping("/api/v1/warehouses")
 public class WarehouseController {
+
+    @Autowired
+    private WarehouseService warehouseService;
 
     /**
      * 获取所有仓库信息【仓库管理员】
@@ -21,7 +26,7 @@ public class WarehouseController {
     public DataReturnVo listWarehouses(@RequestParam(required = false) String name,
                                        @RequestParam Integer page,
                                        @RequestParam Integer count) {
-        throw new NotImplementedException();
+        return DataReturnVo.success(warehouseService.listWarehousesByNameAndPage(name, page, count));
     }
 
     /**

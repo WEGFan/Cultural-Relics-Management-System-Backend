@@ -9,6 +9,7 @@ public enum BusinessErrorEnum {
     DuplicateWorkId(10001, "工号重复");
 
     private Integer errorCode;
+
     private String errorMessage;
 
     BusinessErrorEnum(Integer errorCode, String errorMessage) {

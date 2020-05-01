@@ -25,12 +25,12 @@ public class RelicStatus implements Serializable {
      */
     private String name;
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", RelicStatus.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("name='" + name + "'")
-                .toString();
-    }
+    // @Override
+    // public String toString() {
+    //     return new StringJoiner(", ", RelicStatus.class.getSimpleName() + "[", "]")
+    //             .add("id=" + id)
+    //             .add("name='" + name + "'")
+    //             .toString();
+    // }
 
 }

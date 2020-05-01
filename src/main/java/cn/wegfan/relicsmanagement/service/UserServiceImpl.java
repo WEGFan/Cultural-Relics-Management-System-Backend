@@ -20,6 +20,7 @@ import ma.glasnost.orika.metadata.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Date;
 import java.util.List;
@@ -98,7 +99,7 @@ public class UserServiceImpl implements UserService {
         if (userDao.selectByWorkId(userInfo.getWorkId()) != null) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
         }
-
+        // TODO 密码加盐
         User user = mapperFacade.map(userInfo, User.class);
         user.setSalt(""); // TODO
         user.setCreateTime(new Date());
@@ -115,7 +116,7 @@ public class UserServiceImpl implements UserService {
         if (userDao.selectByWorkId(userInfo.getWorkId()) != null) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
         }
-
+        // TODO 密码加盐
         User user = mapperFacade.map(userInfo, User.class);
         user.setId(userId);
         user.setUpdateTime(new Date());
@@ -129,6 +130,22 @@ public class UserServiceImpl implements UserService {
     public SuccessVo deleteUserById(Integer userId) {
         int result = userDao.deleteUserById(userId);
         return new SuccessVo(result > 0);
+    }
+
+    @Override
+    public UserVo userLogin(Integer workId, String password) {
+        // 检查工号和密码是否正确
+        User user = userDao.selectByWorkIdAndPassword(workId, password);
+        if (user == null) {
+            throw new BusinessException(BusinessErrorEnum.WrongAccountOrPassword);
+        }
+        UserVo userVo = mapperFacade.map(user, UserVo.class);
+        return userVo;
+    }
+
+    @Override
+    public Boolean userLogout() {
+        throw new NotImplementedException();
     }
 
 }

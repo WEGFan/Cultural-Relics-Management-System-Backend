@@ -22,12 +22,12 @@ public class UserPermission implements Serializable {
      */
     private Integer permissionId;
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", UserPermission.class.getSimpleName() + "[", "]")
-                .add("userId=" + userId)
-                .add("permissionId=" + permissionId)
-                .toString();
-    }
+    // @Override
+    // public String toString() {
+    //     return new StringJoiner(", ", UserPermission.class.getSimpleName() + "[", "]")
+    //             .add("userId=" + userId)
+    //             .add("permissionId=" + permissionId)
+    //             .toString();
+    // }
 
 }

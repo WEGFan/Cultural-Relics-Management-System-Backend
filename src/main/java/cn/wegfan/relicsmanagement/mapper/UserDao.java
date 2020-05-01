@@ -25,13 +25,16 @@ public interface UserDao extends BaseMapper<User> {
     // @ResultMap("userResultMap")
     // @Override
     // User selectById(Serializable userId);
-    @Select("SELECT * FROM user WHERE delete_time IS NOT NULL")
+    @Select("SELECT * FROM user WHERE delete_time IS NULL")
     List<User> selectListByNotDeleted();
 
     @Select("SELECT * FROM user WHERE work_id = #{workId} LIMIT 1")
     User selectByWorkId(Integer workId);
-    
-    @Update("UPDATE user SET delete_time = now() where id=#{userId}")
+
+    @Update("UPDATE user SET delete_time = now() WHERE id = #{userId}")
     int deleteUserById(Integer userId);
+
+    @Select("SELECT * FROM user WHERE work_id = #{workId} AND password = #{password} AND delete_time IS NULL LIMIT 1")
+    User selectByWorkIdAndPassword(Integer workId, String password);
 
 }

@@ -38,16 +38,16 @@ public class UserVo {
      */
     private List<Integer> permissionId;
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", UserVo.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("workId=" + workId)
-                .add("name='" + name + "'")
-                .add("jobId=" + jobId)
-                .add("telephone='" + telephone + "'")
-                .add("permissionId=" + permissionId)
-                .toString();
-    }
+    // @Override
+    // public String toString() {
+    //     return new StringJoiner(", ", UserVo.class.getSimpleName() + "[", "]")
+    //             .add("id=" + id)
+    //             .add("workId=" + workId)
+    //             .add("name='" + name + "'")
+    //             .add("jobId=" + jobId)
+    //             .add("telephone='" + telephone + "'")
+    //             .add("permissionId=" + permissionId)
+    //             .toString();
+    // }
 
 }

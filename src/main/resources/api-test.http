@@ -39,4 +39,14 @@ Content-Type: application/json
 ### delete user
 DELETE {{host}}/api/v1/users/1
 
+### list warehouses
+GET {{host}}/api/v1/warehouses?name=dad&page=2&count=1
+
+
+### test
+GET {{host}}/api/v1/tests?workId=123&password=abcdef
+
+###
+GET http://127.0.0.1:8081/
+
 ###

@@ -70,21 +70,21 @@ public class User implements Serializable {
     @TableField(exist = false)
     private List<Permission> permissions;
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("workId=" + workId)
-                .add("name='" + name + "'")
-                .add("password='" + password + "'")
-                .add("salt='" + salt + "'")
-                .add("jobId=" + jobId)
-                .add("telephone='" + telephone + "'")
-                .add("createTime=" + createTime)
-                .add("updateTime=" + updateTime)
-                .add("deleteTime=" + deleteTime)
-                .add("permissions=" + permissions)
-                .toString();
-    }
+    // @Override
+    // public String toString() {
+    //     return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
+    //             .add("id=" + id)
+    //             .add("workId=" + workId)
+    //             .add("name='" + name + "'")
+    //             .add("password='" + password + "'")
+    //             .add("salt='" + salt + "'")
+    //             .add("jobId=" + jobId)
+    //             .add("telephone='" + telephone + "'")
+    //             .add("createTime=" + createTime)
+    //             .add("updateTime=" + updateTime)
+    //             .add("deleteTime=" + deleteTime)
+    //             .add("permissions=" + permissions)
+    //             .toString();
+    // }
 
 }
