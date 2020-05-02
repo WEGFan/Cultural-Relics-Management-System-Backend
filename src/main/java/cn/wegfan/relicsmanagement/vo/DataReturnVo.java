@@ -3,11 +3,11 @@ package cn.wegfan.relicsmanagement.vo;
 import cn.wegfan.relicsmanagement.util.BusinessException;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.StringJoiner;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class DataReturnVo {
 
     private Object data;
@@ -30,7 +30,7 @@ public class DataReturnVo {
         return new DataReturnVo(null, code, msg);
     }
 
-    public static DataReturnVo error(BusinessException exception) {
+    public static DataReturnVo businessError(BusinessException exception) {
         return new DataReturnVo(null, exception.getCode(), exception.getMessage());
     }
 

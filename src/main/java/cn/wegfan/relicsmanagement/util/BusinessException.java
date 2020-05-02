@@ -12,7 +12,7 @@ public class BusinessException extends RuntimeException {
     private Integer code;
 
     private String message;
-    
+
     public BusinessException(BusinessErrorEnum errorEnum) {
         code = errorEnum.getErrorCode();
         message = errorEnum.getErrorMessage();

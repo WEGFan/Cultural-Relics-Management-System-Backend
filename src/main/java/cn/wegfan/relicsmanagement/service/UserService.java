@@ -4,7 +4,6 @@ import cn.wegfan.relicsmanagement.dto.UserInfoDto;
 import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import cn.wegfan.relicsmanagement.vo.UserIdVo;
 import cn.wegfan.relicsmanagement.vo.UserVo;
-import net.bytebuddy.description.field.FieldDescription;
 
 import java.util.List;
 
@@ -17,12 +16,12 @@ public interface UserService {
     UserIdVo addUser(UserInfoDto userInfo);
 
     SuccessVo updateUserInfo(Integer userId, UserInfoDto userInfo);
-    
+
     SuccessVo deleteUserById(Integer userId);
 
     UserVo userLogin(Integer workId, String password);
-    
-    Boolean userLogout();
+
+    SuccessVo userLogout();
 
 }
 

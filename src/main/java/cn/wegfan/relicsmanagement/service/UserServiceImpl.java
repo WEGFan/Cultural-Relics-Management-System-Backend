@@ -7,6 +7,7 @@ import cn.wegfan.relicsmanagement.mapper.PermissionDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
+import cn.wegfan.relicsmanagement.util.PasswordUtil;
 import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import cn.wegfan.relicsmanagement.vo.UserIdVo;
 import cn.wegfan.relicsmanagement.vo.UserVo;
@@ -17,10 +18,13 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.metadata.Type;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Date;
 import java.util.List;
@@ -65,12 +69,10 @@ public class UserServiceImpl implements UserService {
                 .register();
         mapperFacade = mapperFactory.getMapperFacade();
     }
-    
+
     @Override
     public List<UserVo> listAllInWorkUsers() {
-        // MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-
-        List<User> userList = userDao.selectListByNotDeleted();
+        List<User> userList = userDao.selectNotDeletedList();
         for (User user : userList) {
             user.setPermissions(permissionDao.selectListByUserId(user.getId()));
         }
@@ -82,8 +84,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserVo getUserById(Integer userId) {
-        // MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-
         User user = userDao.selectById(userId);
         user.setPermissions(permissionDao.selectListByUserId(user.getId()));
         log.debug(user.toString());
@@ -93,16 +93,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserIdVo addUser(UserInfoDto userInfo) {
-        // MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-
-        // 检查工号是否重复
+        // 从所有员工中检查工号是否重复
         if (userDao.selectByWorkId(userInfo.getWorkId()) != null) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
         }
-        // TODO 密码加盐
+
         User user = mapperFacade.map(userInfo, User.class);
-        user.setSalt(""); // TODO
         user.setCreateTime(new Date());
+        // 密码加盐
+        user.setSalt(PasswordUtil.generateSalt(user.getName() + user.getTelephone()));
+        user.setPassword(PasswordUtil.encryptPassword(user.getPassword(), user.getSalt()));
         log.debug(user.toString());
 
         userDao.insert(user);
@@ -112,14 +112,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SuccessVo updateUserInfo(Integer userId, UserInfoDto userInfo) {
-        // 检查工号是否重复
+        // 从所有员工中检查工号是否重复
         if (userDao.selectByWorkId(userInfo.getWorkId()) != null) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
         }
-        // TODO 密码加盐
+        // TODO: 清除用户的session缓存
         User user = mapperFacade.map(userInfo, User.class);
         user.setId(userId);
+        user.setPassword(PasswordUtil.encryptPassword(user.getPassword(), user.getSalt()));
         user.setUpdateTime(new Date());
+        log.debug(user.toString());
 
         userDao.updateById(user);
         userPermissionService.updateUserPermissions(user.getId(), userInfo.getPermissionId());
@@ -128,24 +130,50 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SuccessVo deleteUserById(Integer userId) {
+        // 获取当前登录的用户编号
+        Integer currentLoginUserId = Integer.parseInt((String)SecurityUtils.getSubject().getPrincipal());
+        // 检测删除的是否为自己的帐号
+        if (currentLoginUserId.equals(userId)) {
+            return new SuccessVo(false);
+        }
+        // TODO: 清除用户的session缓存
         int result = userDao.deleteUserById(userId);
         return new SuccessVo(result > 0);
     }
 
     @Override
     public UserVo userLogin(Integer workId, String password) {
-        // 检查工号和密码是否正确
-        User user = userDao.selectByWorkIdAndPassword(workId, password);
+        // 从在职员工中根据工号查找
+        User user = userDao.selectNotDeletedByWorkId(workId);
         if (user == null) {
             throw new BusinessException(BusinessErrorEnum.WrongAccountOrPassword);
         }
+
+        // 将用户编号作为用户名给shiro
+        String username = String.valueOf(user.getId());
+
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+
+        try {
+            subject.login(token);
+        } catch (AuthenticationException e) {
+            throw new BusinessException(BusinessErrorEnum.WrongAccountOrPassword);
+        }
+
+        // if (!subject.isAuthenticated()) {
+        //     throw new BusinessException(BusinessErrorEnum.WrongAccountOrPassword);
+        // }
+
         UserVo userVo = mapperFacade.map(user, UserVo.class);
         return userVo;
     }
 
     @Override
-    public Boolean userLogout() {
-        throw new NotImplementedException();
+    public SuccessVo userLogout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return new SuccessVo(true);
     }
 
 }

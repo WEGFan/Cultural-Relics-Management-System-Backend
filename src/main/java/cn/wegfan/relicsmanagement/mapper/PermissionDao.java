@@ -13,7 +13,5 @@ public interface PermissionDao extends BaseMapper<Permission> {
     @Select("SELECT * FROM permission, user_permission " +
             "WHERE user_permission.permission_id = permission.id AND user_id = #{userId}")
     List<Permission> selectListByUserId(Integer userId);
-    
-   
 
 }

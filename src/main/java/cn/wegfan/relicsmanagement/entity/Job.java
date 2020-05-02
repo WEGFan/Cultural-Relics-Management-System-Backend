@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.StringJoiner;
 
 @Data
 public class Job implements Serializable {

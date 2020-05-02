@@ -2,21 +2,16 @@ package cn.wegfan.relicsmanagement.config.shiro;
 
 import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
-import cn.wegfan.relicsmanagement.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
-import java.security.Permissions;
 
 public class CustomRealm extends AuthorizingRealm {
 
@@ -59,15 +54,16 @@ public class CustomRealm extends AuthorizingRealm {
         if (principal == null) {
             return null;
         }
-        Integer workId = Integer.parseInt(principal);
+        Integer userId = Integer.parseInt(principal);
 
-        User user = userDao.selectByWorkId(workId);
+        // 从未离职的员工中查找
+        User user = userDao.selectNotDeletedById(userId);
         if (user == null) {
             return null;
         }
-        String password = user.getPassword();
+        String correctPassword = user.getPassword();
         String salt = user.getSalt();
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, password,
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, correctPassword,
                 ByteSource.Util.bytes(salt), getName());
         return authenticationInfo;
     }

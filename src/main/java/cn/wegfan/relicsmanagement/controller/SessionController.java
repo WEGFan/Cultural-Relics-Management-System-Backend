@@ -1,14 +1,11 @@
 package cn.wegfan.relicsmanagement.controller;
 
-import cn.wegfan.relicsmanagement.service.SessionService;
+import cn.wegfan.relicsmanagement.dto.UserLoginDto;
+import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -16,14 +13,14 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class SessionController {
 
     @Autowired
-    private SessionService sessionService;
+    private UserService userService;
 
     /**
      * 用户登录
      */
     @PostMapping("")
-    public DataReturnVo userLogin() {
-        throw new NotImplementedException();
+    public DataReturnVo userLogin(@RequestBody UserLoginDto loginInfo) {
+        return DataReturnVo.success(userService.userLogin(loginInfo.getWorkId(), loginInfo.getPassword()));
     }
 
     /**
@@ -31,7 +28,7 @@ public class SessionController {
      */
     @DeleteMapping("")
     public DataReturnVo userLogout() {
-        throw new NotImplementedException();
+        return DataReturnVo.success(userService.userLogout());
     }
 
 }

@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.StringJoiner;
 
 @Data
 public class UserInfoDto implements Serializable {
@@ -41,17 +40,4 @@ public class UserInfoDto implements Serializable {
      */
     private List<Integer> permissionId;
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", UserInfoDto.class.getSimpleName() + "[", "]")
-                .add("workId=" + workId)
-                .add("name='" + name + "'")
-                .add("password='" + password + "'")
-                .add("jobId=" + jobId)
-                .add("telephone='" + telephone + "'")
-                .add("permissionId=" + permissionId)
-                .toString();
-    }
-
 }
-

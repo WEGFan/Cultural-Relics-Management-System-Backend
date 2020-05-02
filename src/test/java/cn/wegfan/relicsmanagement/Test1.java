@@ -7,6 +7,7 @@ import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.service.UserPermissionService;
 import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.service.WarehouseService;
+import cn.wegfan.relicsmanagement.util.PasswordUtil;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -96,6 +97,14 @@ public class Test1 {
         long a = (long)Integer.MAX_VALUE + 1;
         int b = (int)a;
         System.out.println(b);
+    }
+
+    @Test
+    void testPasswordUtil() {
+        String salt = PasswordUtil.generateSalt("aaaa");
+        log.debug(salt);
+        String password = PasswordUtil.encryptPassword("123456", salt);
+        log.debug(password);
     }
 
 }

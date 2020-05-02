@@ -17,7 +17,11 @@ Content-Type: application/json
     "name": "aaa",
     "password": "abc",
     "jobId": 1,
-    "permissionId": [1, 2, 3],
+    "permissionId": [
+        1,
+        2,
+        3
+    ],
     "telephone": "13800138440"
 }
 
@@ -43,10 +47,32 @@ DELETE {{host}}/api/v1/users/1
 GET {{host}}/api/v1/warehouses?name=dad&page=2&count=1
 
 
-### test
+### login test
 GET {{host}}/api/v1/tests?workId=123&password=abcdef
 
 ###
-GET http://127.0.0.1:8081/
+GET {{host}}/api/v1/backups
+
+### login
+POST {{host}}/api/v1/sessions
+Content-Type: application/json
+
+{
+    "workId": 10000,
+    "password": "admin"
+}
+
+### login fail
+POST {{host}}/api/v1/sessions
+Content-Type: application/json
+
+{
+    "workId": 10000,
+    "password": "admin11111"
+}
+
+### logout
+DELETE {{host}}/api/v1/sessions
+Content-Type: application/json
 
 ###

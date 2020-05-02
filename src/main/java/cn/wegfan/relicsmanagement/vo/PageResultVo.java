@@ -3,13 +3,13 @@ package cn.wegfan.relicsmanagement.vo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-import javax.validation.constraints.Max;
 import java.util.List;
-import java.util.StringJoiner;
 
 @Getter
 @Setter
+@ToString
 public class PageResultVo<T> {
 
     /**
