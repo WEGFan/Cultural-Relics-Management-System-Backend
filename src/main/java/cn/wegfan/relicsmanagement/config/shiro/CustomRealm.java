@@ -63,7 +63,7 @@ public class CustomRealm extends AuthorizingRealm {
         }
         String correctPassword = user.getPassword();
         String salt = user.getSalt();
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, correctPassword,
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userId, correctPassword,
                 ByteSource.Util.bytes(salt), getName());
         return authenticationInfo;
     }

@@ -67,7 +67,6 @@ public class ShiroConfig {
     //权限管理，配置主要是Realm的管理认证
     @Bean
     public SecurityManager securityManager() {
-
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm());
         return securityManager;
