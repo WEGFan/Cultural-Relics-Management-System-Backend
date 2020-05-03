@@ -73,9 +73,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserVo> listAllInWorkUsers() {
         List<User> userList = userDao.selectNotDeletedList();
-        for (User user : userList) {
-            user.setPermissions(permissionDao.selectListByUserId(user.getId()));
-        }
+        // for (User user : userList) {
+        //     user.setPermissions(permissionDao.selectListByUserId(user.getId()));
+        // }
 
         log.debug(userList.toString());
         List<UserVo> userVoList = mapperFacade.mapAsList(userList, UserVo.class);
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserVo getUserById(Integer userId) {
         User user = userDao.selectById(userId);
-        user.setPermissions(permissionDao.selectListByUserId(user.getId()));
+        // user.setPermissions(permissionDao.selectListByUserId(user.getId()));
         log.debug(user.toString());
         UserVo userVo = mapperFacade.map(user, UserVo.class);
         return userVo;
@@ -112,8 +112,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SuccessVo updateUserInfo(Integer userId, UserInfoDto userInfo) {
-        // 从所有员工中检查工号是否重复
-        if (userDao.selectByWorkId(userInfo.getWorkId()) != null) {
+        // 从所有员工中查找工号是否被其他人占用
+        User sameWorkIdUser = userDao.selectByWorkId(userInfo.getWorkId());
+        // 如果存在且用户编号不是被修改用户的
+        if (sameWorkIdUser != null && !sameWorkIdUser.getId().equals(userId)) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
         }
         // TODO: 清除用户的session缓存
@@ -131,7 +133,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public SuccessVo deleteUserById(Integer userId) {
         // 获取当前登录的用户编号
-        Integer currentLoginUserId = Integer.parseInt((String)SecurityUtils.getSubject().getPrincipal());
+        Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
         // 检测删除的是否为自己的帐号
         if (currentLoginUserId.equals(userId)) {
             return new SuccessVo(false);
@@ -149,7 +151,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(BusinessErrorEnum.WrongAccountOrPassword);
         }
 
-        // 将用户编号作为用户名给shiro
+        // 将用户编号作为用户名生成token
         String username = String.valueOf(user.getId());
 
         Subject subject = SecurityUtils.getSubject();
@@ -164,7 +166,7 @@ public class UserServiceImpl implements UserService {
         // if (!subject.isAuthenticated()) {
         //     throw new BusinessException(BusinessErrorEnum.WrongAccountOrPassword);
         // }
-
+        log.debug(user.toString());
         UserVo userVo = mapperFacade.map(user, UserVo.class);
         return userVo;
     }
@@ -172,7 +174,44 @@ public class UserServiceImpl implements UserService {
     @Override
     public SuccessVo userLogout() {
         Subject subject = SecurityUtils.getSubject();
+        // TODO: 清除缓存
         subject.logout();
+        return new SuccessVo(true);
+    }
+
+    @Override
+    public SuccessVo changeUserPassword(String oldPassword, String newPassword) {
+        Subject subject = SecurityUtils.getSubject();
+
+        // 获取当前登录的用户编号
+        Integer currentLoginUserId = (Integer)subject.getPrincipal();
+
+        User user = userDao.selectNotDeletedById(currentLoginUserId);
+        log.debug(user.toString());
+        String encryptedOldPassword = PasswordUtil.encryptPassword(oldPassword, user.getSalt());
+        String encryptedNewPassword = PasswordUtil.encryptPassword(newPassword, user.getSalt());
+
+        log.debug("{} {}", user.getPassword(), encryptedOldPassword);
+
+        // 如果旧密码不正确
+        if (!encryptedOldPassword.equals(user.getPassword())) {
+            throw new BusinessException(BusinessErrorEnum.WrongAccountOrPassword);
+        }
+
+        user.setPassword(encryptedNewPassword);
+        user.setUpdateTime(new Date());
+
+        userDao.updateById(user);
+
+        // 用新的密码重新登录
+        UsernamePasswordToken token = new UsernamePasswordToken(String.valueOf(user.getId()), newPassword);
+        try {
+            subject.login(token);
+        } catch (AuthenticationException e) {
+            // 按理来说不应该会发生
+            log.error("", e);
+        }
+
         return new SuccessVo(true);
     }
 

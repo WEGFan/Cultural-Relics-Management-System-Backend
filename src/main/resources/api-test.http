@@ -13,24 +13,24 @@ POST {{host}}/api/v1/users
 Content-Type: application/json
 
 {
-    "workId": 123446,
-    "name": "aaa",
-    "password": "abc",
-    "jobId": 1,
+    "workId": 6666,
+    "name": "eeeee",
+    "password": "111",
+    "jobId": 4,
     "permissionId": [
         1,
         2,
         3
     ],
-    "telephone": "13800138440"
+    "telephone": "13801138440"
 }
 
 ### update user
-PUT {{host}}/api/v1/users/0x22
+PUT {{host}}/api/v1/users/13
 Content-Type: application/json
 
 {
-    "workId": 122,
+    "workId": 6666,
     "name": "aaddda",
     "password": "aaaaabc",
     "jobId": 1,
@@ -41,17 +41,10 @@ Content-Type: application/json
 }
 
 ### delete user
-DELETE {{host}}/api/v1/users/1
+DELETE {{host}}/api/v1/users/13
 
 ### list warehouses
 GET {{host}}/api/v1/warehouses?name=dad&page=2&count=1
-
-
-### login test
-GET {{host}}/api/v1/tests?workId=123&password=abcdef
-
-###
-GET {{host}}/api/v1/backups
 
 ### login
 POST {{host}}/api/v1/sessions
@@ -59,7 +52,7 @@ Content-Type: application/json
 
 {
     "workId": 10000,
-    "password": "admin"
+    "password": "admin111"
 }
 
 ### login fail
@@ -74,5 +67,17 @@ Content-Type: application/json
 ### logout
 DELETE {{host}}/api/v1/sessions
 Content-Type: application/json
+
+### list users
+GET {{host}}/api/v1/users
+
+### change password
+PUT {{host}}/api/v1/users/password
+Content-Type: application/json
+
+{
+    "oldPassword": "admin111",
+    "newPassword": "admin"
+}
 
 ###

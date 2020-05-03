@@ -1,9 +1,9 @@
 spring:
   profiles:
-    active: dev
+    active: 'dev'
   jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
+    date-format: 'yyyy-MM-dd HH:mm:ss'
+    time-zone: 'GMT+8'
 
 mybatis-plus:
   configuration:
@@ -12,4 +12,8 @@ mybatis-plus:
 
 logging:
   level:
-    cn.wegfan.relicsmanagement: info
+    cn.wegfan.relicsmanagement: 'info'
+  pattern:
+    console: '%yellow(%date{${LOG_DATEFORMAT_PATTERN}}) %clr(${LOG_LEVEL_PATTERN}) - [%magenta(%logger)] [%cyan(%file:%line)] : %message%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
+    file: '%date{${LOG_DATEFORMAT_PATTERN}} ${LOG_LEVEL_PATTERN} - [%logger] [%file:%line] : %message%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
+    dateformat: 'yyyy-MM-dd HH:mm:ss.SSS'

@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.controller;
 
+import cn.wegfan.relicsmanagement.dto.UserChangePasswordDto;
 import cn.wegfan.relicsmanagement.dto.UserInfoDto;
 import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
@@ -47,8 +48,8 @@ public class UserController {
      * 修改用户密码
      */
     @PutMapping("password")
-    public DataReturnVo updateUserPassword() {
-        throw new NotImplementedException();
+    public DataReturnVo updateUserPassword(@RequestBody UserChangePasswordDto passwordDto) {
+        return DataReturnVo.success(userService.changeUserPassword(passwordDto.getOldPassword(), passwordDto.getNewPassword()));
     }
 
     /**
