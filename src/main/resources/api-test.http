@@ -6,7 +6,7 @@ Accept: application/json
 GET {{host}}/api/v1/users
 
 ### list relics
-GET {{host}}/api/v1/relics?name=1111&page=1&count=4
+GET {{host}}/api/v1/relics?name=1111&page=1&count=4&from=2020-05-04%2001:22:11&type=fix
 
 ### add new user
 POST {{host}}/api/v1/users
@@ -52,7 +52,7 @@ Content-Type: application/json
 
 {
     "workId": 10000,
-    "password": "admin111"
+    "password": "admin"
 }
 
 ### login fail

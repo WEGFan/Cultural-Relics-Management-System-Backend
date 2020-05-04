@@ -4,6 +4,7 @@ import cn.wegfan.relicsmanagement.service.RelicService;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -32,13 +33,20 @@ public class RelicController {
      * @param status 按状态筛选
      * @param page   页码
      * @param count  获取个数
+     * @param from   开始时间
+     * @param to     结束时间
+     * @param type   时间类型 enter入馆时间 leave离馆时间 lend外借时间 fix送修时间
      */
     @GetMapping("")
     public DataReturnVo listRelics(@RequestParam(required = false) String name,
                                    @RequestParam(required = false) Integer status,
                                    @RequestParam Integer page,
-                                   @RequestParam Integer count) {
+                                   @RequestParam Integer count,
+                                   @RequestParam(required = false) Date from,
+                                   @RequestParam(required = false) Date to,
+                                   @RequestParam(required = false) String type) {
         log.debug("{} {} {} {}", name, status, page, count);
+        log.debug("{} {} {}", from, to, type);
         throw new NotImplementedException();
     }
 

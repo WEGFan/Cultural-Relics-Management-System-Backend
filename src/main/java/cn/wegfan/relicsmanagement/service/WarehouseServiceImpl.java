@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
+import cn.wegfan.relicsmanagement.dto.WarehouseNameDto;
 import cn.wegfan.relicsmanagement.entity.Warehouse;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
@@ -37,6 +38,9 @@ public class WarehouseServiceImpl implements WarehouseService {
         mapperFactory.classMap(Warehouse.class, WarehouseVo.class)
                 .byDefault()
                 .register();
+        mapperFactory.classMap(WarehouseNameDto.class, Warehouse.class)
+                .byDefault()
+                .register();
         mapperFacade = mapperFactory.getMapperFacade();
     }
 
@@ -58,6 +62,11 @@ public class WarehouseServiceImpl implements WarehouseService {
         List<WarehouseVo> warehouseVoList = mapperFacade.mapAsList(warehouseList, WarehouseVo.class);
 
         return new PageResultVo<WarehouseVo>(warehouseVoList, pageResult);
+    }
+
+    @Override
+    public WarehouseVo createWarehouse(String name) {
+        return null;
     }
 
 }

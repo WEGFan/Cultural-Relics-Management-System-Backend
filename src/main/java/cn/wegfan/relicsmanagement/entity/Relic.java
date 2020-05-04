@@ -115,7 +115,12 @@ public class Relic implements Serializable {
     private Date lendTime;
 
     /**
-     * text       null comment 备注
+     * 送修时间
+     */
+    private Date fixTime;
+
+    /**
+     * 备注
      */
     private String comment;
 

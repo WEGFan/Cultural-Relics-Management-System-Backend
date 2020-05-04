@@ -40,16 +40,16 @@ public class UserController {
      */
     @PutMapping("{userId}")
     public DataReturnVo updateUserInfo(@PathVariable Integer userId,
-                                       @RequestBody UserInfoDto userInfo) {
-        return DataReturnVo.success(userService.updateUserInfo(userId, userInfo));
+                                       @RequestBody UserInfoDto dto) {
+        return DataReturnVo.success(userService.updateUserInfo(userId, dto));
     }
 
     /**
      * 修改用户密码
      */
     @PutMapping("password")
-    public DataReturnVo updateUserPassword(@RequestBody UserChangePasswordDto passwordDto) {
-        return DataReturnVo.success(userService.changeUserPassword(passwordDto.getOldPassword(), passwordDto.getNewPassword()));
+    public DataReturnVo updateUserPassword(@RequestBody UserChangePasswordDto dto) {
+        return DataReturnVo.success(userService.changeUserPassword(dto.getOldPassword(), dto.getNewPassword()));
     }
 
     /**

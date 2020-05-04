@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.controller;
 
+import cn.wegfan.relicsmanagement.dto.WarehouseNameDto;
 import cn.wegfan.relicsmanagement.service.WarehouseService;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
@@ -33,8 +34,8 @@ public class WarehouseController {
      * 创建仓库【仓库管理员】
      */
     @PostMapping("")
-    public DataReturnVo addWarehouse() {
-        throw new NotImplementedException();
+    public DataReturnVo addWarehouse(@RequestBody WarehouseNameDto dto) {
+        return DataReturnVo.success(warehouseService.createWarehouse(dto.getName()));
     }
 
     /**
