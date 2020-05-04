@@ -390,19 +390,19 @@ TODO: 盘点记录 盘点异常
 
 ### 获取所有文物信息
 
-`GET /api/v1/relics?name={string}&status={int}&page={int}&count={int}&from={datestring}&to={datestring}&type={string}`
+`GET /api/v1/relics?name={string}&status={int}&page={int}&count={int}&from={date}&to={date}&type={string}`
 
 #### 参数
 
-| 字段名 | 字段类型   | 必填               | 含义                                                                          | 样例       |
-| ------ | ---------- | ------------------ | ----------------------------------------------------------------------------- | ---------- |
-| name   | string     |                    | 按名字搜索                                                                    | aaa        |
-| status | int        |                    | 按照文物状态id搜索（待录入就是待评估）                                        | 1          |
-| page   | int        | Y                  | 页码                                                                          | 1          |
-| count  | int        | Y                  | 一次获取的个数（上限20）                                                      | 20         |
-| from   | datestring |                    | 开始时间                                                                      | 2020-04-25 |
-| to     | datestring |                    | 结束时间                                                                      | 2020-04-25 |
-| type   | string     | 有时间查询的话必填 | 时间类型，`enter` 入馆时间，`leave` 离馆时间，`lend` 外借时间，`fix` 送修时间 | enter      |
+| 字段名 | 字段类型 | 必填               | 含义                                                                          | 样例                |
+| ------ | -------- | ------------------ | ----------------------------------------------------------------------------- | ------------------- |
+| name   | string   |                    | 按名字搜索                                                                    | aaa                 |
+| status | int      |                    | 按照文物状态id搜索（待录入就是待评估）                                        | 1                   |
+| page   | int      | Y                  | 页码                                                                          | 1                   |
+| count  | int      | Y                  | 一次获取的个数（上限20）                                                      | 20                  |
+| from   | date     |                    | 开始时间                                                                      | 2020-04-25 00:00:00 |
+| to     | date     |                    | 结束时间                                                                      | 2020-04-25 23:59:59 |
+| type   | string   | 有时间查询的话必填 | 时间类型，`enter` 入馆时间，`leave` 离馆时间，`lend` 外借时间，`fix` 送修时间 | enter               |
 
 #### 返回值
 
@@ -673,15 +673,15 @@ TODO: 分离文物盘点接口
 
 ### 导出文物流水 Excel 表【管理员】 <3.2.3 (4)>
 
-`GET /api/v1/relics/changes?excel={boolean}&from={datestring}&to={datestring}`
+`GET /api/v1/relics/changes?excel={boolean}&from={date}&to={date}`
 
 #### 参数
 
-| 字段名 | 字段类型   | 必填 | 含义                | 样例       |
-| ------ | ---------- | ---- | ------------------- | ---------- |
-| excel  | boolean    |      | 是否导出成 Excel 表 | true       |
-| from   | datestring |      | 开始时间            | 2020-04-25 |
-| to     | datestring |      | 结束时间            | 2020-04-25 |
+| 字段名 | 字段类型 | 必填 | 含义                | 样例                |
+| ------ | -------- | ---- | ------------------- | ------------------- |
+| excel  | boolean  |      | 是否导出成 Excel 表 | true                |
+| from   | date     |      | 开始时间            | 2020-04-25 00:00:00 |
+| to     | date     |      | 结束时间            | 2020-04-25 23:59:59 |
 
 #### 返回值
 
@@ -866,15 +866,15 @@ TODO: 数据库操作大概需要验证一下密码？
 
 ### 导出操作动态 Excel 表【管理员】 <3.2.3 (5)>
 
-`GET /api/v1/operations?excel={boolean}&from={datestring}&to={datestring}`
+`GET /api/v1/operations?excel={boolean}&from={date}&to={date}`
 
 #### 参数
 
-| 字段名 | 字段类型   | 必填 | 含义                | 样例       |
-| ------ | ---------- | ---- | ------------------- | ---------- |
-| excel  | boolean    |      | 是否导出成 Excel 表 | true       |
-| from   | datestring |      | 开始时间            | 2020-04-25 |
-| to     | datestring |      | 结束时间            | 2020-04-25 |
+| 字段名 | 字段类型 | 必填 | 含义                | 样例                |
+| ------ | -------- | ---- | ------------------- | ------------------- |
+| excel  | boolean  |      | 是否导出成 Excel 表 | true                |
+| from   | date     |      | 开始时间            | 2020-04-25 00:00:00 |
+| to     | date     |      | 结束时间            | 2020-04-25 23:59:59 |
 
 #### 返回值
 
