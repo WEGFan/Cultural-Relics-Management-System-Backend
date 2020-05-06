@@ -6,7 +6,6 @@ import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Slf4j
 @RestController
@@ -27,7 +26,7 @@ public class WarehouseController {
     public DataReturnVo listWarehouses(@RequestParam(required = false) String name,
                                        @RequestParam Integer page,
                                        @RequestParam Integer count) {
-        return DataReturnVo.success(warehouseService.listWarehousesByNameAndPage(name, page, count));
+        return DataReturnVo.success(warehouseService.listNotDeletedWarehousesByNameAndPage(name, page, count));
     }
 
     /**
@@ -44,8 +43,9 @@ public class WarehouseController {
      * @param warehouseId 仓库编号
      */
     @PutMapping("{warehouseId}")
-    public DataReturnVo updateWarehouseInfo(@PathVariable Integer warehouseId) {
-        throw new NotImplementedException();
+    public DataReturnVo updateWarehouseInfo(@PathVariable Integer warehouseId,
+                                            @RequestBody WarehouseNameDto dto) {
+        return DataReturnVo.success(warehouseService.updateWarehouse(warehouseId, dto.getName()));
     }
 
     /**
@@ -55,7 +55,7 @@ public class WarehouseController {
      */
     @DeleteMapping("{warehouseId}")
     public DataReturnVo deleteWarehouse(@PathVariable Integer warehouseId) {
-        throw new NotImplementedException();
+        return DataReturnVo.success(warehouseService.deleteWarehouse(warehouseId));
     }
 
 }

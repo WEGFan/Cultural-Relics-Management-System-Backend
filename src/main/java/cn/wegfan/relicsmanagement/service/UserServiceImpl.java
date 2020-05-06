@@ -112,6 +112,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SuccessVo updateUserInfo(Integer userId, UserInfoDto userInfo) {
+        // 检测在职员工中是否存在该用户编号对应的用户
+        if (userDao.selectNotDeletedById(userId) == null) {
+            throw new BusinessException(BusinessErrorEnum.UserNotExists);
+        }
         // 从所有员工中查找工号是否被其他人占用
         User sameWorkIdUser = userDao.selectByWorkId(userInfo.getWorkId());
         // 如果存在且用户编号不是被修改用户的
@@ -132,6 +136,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SuccessVo deleteUserById(Integer userId) {
+        // 检测在职员工中是否存在该用户编号对应的用户
+        if (userDao.selectNotDeletedById(userId) == null) {
+            throw new BusinessException(BusinessErrorEnum.UserNotExists);
+        }
         // 获取当前登录的用户编号
         Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
         // 检测删除的是否为自己的帐号
@@ -174,6 +182,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public SuccessVo userLogout() {
         Subject subject = SecurityUtils.getSubject();
+        // 如果用户本身未登录
+        if (subject.getPrincipal() == null) {
+            throw new BusinessException(BusinessErrorEnum.UserNotLogin);
+        }
         // TODO: 清除缓存
         subject.logout();
         return new SuccessVo(true);

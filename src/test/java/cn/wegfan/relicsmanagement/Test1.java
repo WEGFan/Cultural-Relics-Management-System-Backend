@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -90,7 +89,7 @@ public class Test1 {
 
     @Test
     void test7() {
-        PageResultVo result = warehouseService.listWarehousesByNameAndPage(null, 1, 8);
+        PageResultVo result = warehouseService.listNotDeletedWarehousesByNameAndPage(null, 1, 8);
         log.debug(result.toString());
     }
 
