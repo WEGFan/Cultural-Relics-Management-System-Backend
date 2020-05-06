@@ -16,12 +16,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({UnauthorizedException.class, AuthorizationException.class})
     public DataReturnVo UnauthorizedException(Exception e) {
         // throw new BusinessException(BusinessErrorEnum.Unauthorized);
-        log.error("", e);
+        log.warn("", e);
         return DataReturnVo.businessError(new BusinessException(BusinessErrorEnum.Unauthorized));
     }
 
     @ExceptionHandler(BusinessException.class)
     public DataReturnVo handleBusinessException(BusinessException e) {
+        log.warn("", e);
         return DataReturnVo.businessError(e);
     }
 
