@@ -36,6 +36,7 @@ public class ShiroConfig {
         // realm 实例的创建加密设置
         CustomRealm customRealm = new CustomRealm();
         customRealm.setCredentialsMatcher(matcher);
+        customRealm.setCachingEnabled(false);
         return customRealm;
     }
 
