@@ -4,11 +4,14 @@ import cn.wegfan.relicsmanagement.entity.Job;
 import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.JobDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
-import cn.wegfan.relicsmanagement.service.UserPermissionService;
+import cn.wegfan.relicsmanagement.service.UserExtraPermissionService;
 import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.service.WarehouseService;
 import cn.wegfan.relicsmanagement.util.PasswordUtil;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +34,7 @@ public class Test1 {
     private UserService userService;
 
     @Autowired
-    private UserPermissionService userPermissionService;
+    private UserExtraPermissionService userExtraPermissionService;
 
     @Test
     void test1() {
@@ -64,15 +67,31 @@ public class Test1 {
 
     @Test
     void test5() {
-        try {
-            userPermissionService.updateUserPermissions(1,
-                    Arrays.asList(3, 5));
-            userPermissionService.updateUserPermissions(2,
-                    Arrays.asList(1));
-        } catch (Exception e) {
-            log.error("", e);
-            // e.printStackTrace();
+     
+        class aaa {
+
+            public aaa() {
+
+            }
+
+            @SneakyThrows
+            @Override
+            public String toString() {
+                throw new Exception();
+            }
+
         }
+        aaa d = new aaa();
+        log.debug("{}", d);
+        // try {
+        //     userPermissionService.updateUserPermissions(1,
+        //             Arrays.asList(3, 5));
+        //     userPermissionService.updateUserPermissions(2,
+        //             Arrays.asList(1));
+        // } catch (Exception e) {
+        //     log.error("", e);
+        //     // e.printStackTrace();
+        // }
 
     }
 
@@ -106,6 +125,15 @@ public class Test1 {
         log.debug(salt);
         String password = PasswordUtil.encryptPassword("123456", salt);
         log.debug(password);
+    }
+
+    @Test
+    void test9() throws JsonProcessingException {
+        Set<Integer> set = new HashSet<>(Arrays.asList(1, 2, 2));
+        set.addAll(Arrays.asList(1, 3, 4, 5));
+        set.forEach(System.out::println);
+        set.removeAll(Arrays.asList(3));
+        log.debug(new ObjectMapper().writeValueAsString(set));
     }
 
 }

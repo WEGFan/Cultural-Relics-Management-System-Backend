@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class UserInfoDto implements Serializable {
@@ -38,6 +39,6 @@ public class UserInfoDto implements Serializable {
     /**
      * 权限id列表
      */
-    private List<Integer> permissionId;
+    private Set<Integer> extraPermissionsId;
 
 }

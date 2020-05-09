@@ -3,6 +3,7 @@ package cn.wegfan.relicsmanagement.vo;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class UserVo {
@@ -35,7 +36,7 @@ public class UserVo {
     /**
      * 权限id列表
      */
-    private List<Integer> permissionId;
+    private Set<Integer> extraPermissionsId;
 
     // @Override
     // public String toString() {

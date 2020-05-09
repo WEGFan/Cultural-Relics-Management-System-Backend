@@ -2,6 +2,10 @@
 GET {{host}}/api/v1/jobs
 Accept: application/json
 
+### get all permissions
+GET {{host}}/api/v1/permissions
+Accept: application/json
+
 ### list all users
 GET {{host}}/api/v1/users
 
@@ -13,20 +17,18 @@ POST {{host}}/api/v1/users
 Content-Type: application/json
 
 {
-    "workId": 6666,
-    "name": "eeeee",
-    "password": "111",
-    "jobId": 4,
-    "permissionId": [
-        1,
-        2,
+    "workId": 123456,
+    "name": "normal user",
+    "password": "123456",
+    "jobId": 1,
+    "extraPermissionsId": [
         3
     ],
     "telephone": "13801138440"
 }
 
 ### update user
-PUT {{host}}/api/v1/users/13775
+PUT {{host}}/api/v1/users/14
 Content-Type: application/json
 
 {
@@ -34,8 +36,8 @@ Content-Type: application/json
     "name": "aaddda",
     "password": "aaaaabc",
     "jobId": 1,
-    "permissionId": [
-        1
+    "extraPermissionsId": [
+        1,2,3,4,5,6,7,8,9,10
     ],
     "telephone": "231312"
 }
@@ -46,13 +48,22 @@ DELETE {{host}}/api/v1/users/13
 ### list warehouses
 GET {{host}}/api/v1/warehouses?page=1&count=50
 
-### login
+### login admin
 POST {{host}}/api/v1/sessions
 Content-Type: application/json
 
 {
     "workId": 10000,
     "password": "admin"
+}
+
+### login normal user
+POST {{host}}/api/v1/sessions
+Content-Type: application/json
+
+{
+    "workId": 123456,
+    "password": "123456"
 }
 
 ### login fail

@@ -15,8 +15,8 @@ logging:
   level:
     cn.wegfan.relicsmanagement: 'info'
   pattern:
-    console: '%yellow(%date{${LOG_DATEFORMAT_PATTERN}}) %clr(${LOG_LEVEL_PATTERN}) - [%magenta(%logger)] [%cyan(%file:%method:%line)]: %message%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
-    file: '%date{${LOG_DATEFORMAT_PATTERN}} ${LOG_LEVEL_PATTERN} - [%logger] [%file:%line] : %message%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
+    console: '%yellow(%date{${LOG_DATEFORMAT_PATTERN}}) %clr(${LOG_LEVEL_PATTERN}) - [%magenta(%logger)] [%cyan(%file:%line \(%method\))]: %message%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
+    file: '%date{${LOG_DATEFORMAT_PATTERN}} ${LOG_LEVEL_PATTERN} - [%logger] [%file:%line \(%method\)] : %message%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
     dateformat: 'yyyy-MM-dd HH:mm:ss.SSS'
   file:
     name: 'data/app.log'

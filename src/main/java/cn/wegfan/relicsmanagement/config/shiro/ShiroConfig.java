@@ -81,10 +81,7 @@ public class ShiroConfig {
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("authc", new CustomLoginFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
-        // shiroFilterFactoryBean.setLoginUrl("");
-        // shiroFilterFactoryBean.setSuccessUrl("");
-        // shiroFilterFactoryBean.setUnauthorizedUrl("");
-        // shiroFilterFactoryBean.setUnauthorizedUrl("/notRole"); // TODO
+
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         // TODO

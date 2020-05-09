@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 public class Job implements Serializable {
@@ -22,6 +23,10 @@ public class Job implements Serializable {
      */
     private String name;
 
+    /**
+     * 职务默认权限
+     */
+    private Set<Permission> permissions;
     // @Override
     // public String toString() {
     //     return new StringJoiner(", ", Job.class.getSimpleName() + "[", "]")

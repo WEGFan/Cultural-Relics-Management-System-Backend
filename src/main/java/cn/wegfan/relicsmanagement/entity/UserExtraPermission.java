@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
-public class UserPermission implements Serializable {
+public class UserExtraPermission implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

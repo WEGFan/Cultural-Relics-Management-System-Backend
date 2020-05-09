@@ -20,6 +20,11 @@ public class Permission implements Serializable {
     private Integer id;
 
     /**
+     * 权限代码
+     */
+    private String code;
+
+    /**
      * 权限名称
      */
     private String name;

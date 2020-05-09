@@ -11,6 +11,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @Slf4j
 @Component
@@ -34,7 +35,7 @@ public class InitApp implements ApplicationRunner {
             userInfo.setWorkId(workId);
             userInfo.setJobId(5);
             userInfo.setTelephone("0");
-            userInfo.setPermissionId(new ArrayList<>());
+            userInfo.setExtraPermissionsId(new HashSet<>());
 
             try {
                 userService.addUser(userInfo);

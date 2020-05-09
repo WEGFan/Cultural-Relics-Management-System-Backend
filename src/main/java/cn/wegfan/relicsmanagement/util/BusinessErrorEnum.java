@@ -1,6 +1,7 @@
 package cn.wegfan.relicsmanagement.util;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public enum BusinessErrorEnum {
@@ -14,9 +15,9 @@ public enum BusinessErrorEnum {
     UserNotExists(10004, "用户不存在"),
     WarehouseNotExists(10005, "仓库不存在");
 
-    private Integer errorCode;
+    private final Integer errorCode;
 
-    private String errorMessage;
+    private final String errorMessage;
 
     BusinessErrorEnum(Integer errorCode, String errorMessage) {
         this.errorCode = errorCode;

@@ -1,9 +1,13 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.dto.WarehouseNameDto;
+import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.service.WarehouseService;
+import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +37,10 @@ public class WarehouseController {
      * 创建仓库【仓库管理员】
      */
     @PostMapping("")
+    @RequiresPermissions(
+            value = {PermissionCodeEnum.ADMIN, PermissionCodeEnum.WAREHOUSE},
+            logical = Logical.OR
+    )
     public DataReturnVo addWarehouse(@RequestBody WarehouseNameDto dto) {
         return DataReturnVo.success(warehouseService.createWarehouse(dto.getName()));
     }
@@ -43,6 +51,10 @@ public class WarehouseController {
      * @param warehouseId 仓库编号
      */
     @PutMapping("{warehouseId}")
+    @RequiresPermissions(
+            value = {PermissionCodeEnum.ADMIN, PermissionCodeEnum.WAREHOUSE},
+            logical = Logical.OR
+    )
     public DataReturnVo updateWarehouseInfo(@PathVariable Integer warehouseId,
                                             @RequestBody WarehouseNameDto dto) {
         return DataReturnVo.success(warehouseService.updateWarehouse(warehouseId, dto.getName()));
@@ -54,6 +66,10 @@ public class WarehouseController {
      * @param warehouseId 仓库编号
      */
     @DeleteMapping("{warehouseId}")
+    @RequiresPermissions(
+            value = {PermissionCodeEnum.ADMIN, PermissionCodeEnum.WAREHOUSE},
+            logical = Logical.OR
+    )
     public DataReturnVo deleteWarehouse(@PathVariable Integer warehouseId) {
         return DataReturnVo.success(warehouseService.deleteWarehouse(warehouseId));
     }

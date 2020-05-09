@@ -8,6 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class User implements Serializable {
@@ -66,10 +67,10 @@ public class User implements Serializable {
     private Date deleteTime;
 
     /**
-     * 权限列表
+     * 额外权限列表
      */
     @TableField(exist = false)
-    private List<Permission> permissions;
+    private Set<Permission> extraPermissions;
 
     // @Override
     // public String toString() {

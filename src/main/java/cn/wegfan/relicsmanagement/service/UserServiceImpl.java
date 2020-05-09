@@ -21,6 +21,7 @@ import ma.glasnost.orika.metadata.Type;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
     private PermissionDao permissionDao;
 
     @Autowired
-    private UserPermissionService userPermissionService;
+    private UserExtraPermissionService userExtraPermissionService;
 
     private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
 
@@ -51,17 +53,17 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl() {
         mapperFactory
                 .getConverterFactory()
-                .registerConverter("permissionConvert", new CustomConverter<List<Permission>, List<Integer>>() {
+                .registerConverter("permissionIdConvert", new CustomConverter<Set<Permission>, Set<Integer>>() {
                     @Override
-                    public List<Integer> convert(List<Permission> permissions, Type<? extends List<Integer>> type, MappingContext mappingContext) {
+                    public Set<Integer> convert(Set<Permission> extraPermissions, Type<? extends Set<Integer>> type, MappingContext mappingContext) {
                         // 把权限的id提取成列表
-                        return permissions.stream()
+                        return extraPermissions.stream()
                                 .map(Permission::getId)
-                                .collect(Collectors.toList());
+                                .collect(Collectors.toSet());
                     }
                 });
         mapperFactory.classMap(User.class, UserVo.class)
-                .fieldMap("permissions", "permissionId").converter("permissionConvert").add()
+                .fieldMap("extraPermissions", "extraPermissionsId").converter("permissionIdConvert").add()
                 .byDefault()
                 .register();
         mapperFactory.classMap(UserInfoDto.class, User.class)
@@ -76,7 +78,6 @@ public class UserServiceImpl implements UserService {
         // for (User user : userList) {
         //     user.setPermissions(permissionDao.selectListByUserId(user.getId()));
         // }
-
         log.debug(userList.toString());
         List<UserVo> userVoList = mapperFacade.mapAsList(userList, UserVo.class);
         return userVoList;
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService {
         log.debug(user.toString());
 
         userDao.insert(user);
-        userPermissionService.updateUserPermissions(user.getId(), userInfo.getPermissionId());
+        userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
         return new UserIdVo(user.getId());
     }
 
@@ -130,7 +131,7 @@ public class UserServiceImpl implements UserService {
         log.debug(user.toString());
 
         userDao.updateById(user);
-        userPermissionService.updateUserPermissions(user.getId(), userInfo.getPermissionId());
+        userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
         return new SuccessVo(true);
     }
 
@@ -223,7 +224,7 @@ public class UserServiceImpl implements UserService {
             // 按理来说不应该会发生
             log.error("", e);
         }
-        
+
         return new SuccessVo(true);
     }
 
