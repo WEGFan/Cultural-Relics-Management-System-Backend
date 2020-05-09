@@ -103,7 +103,7 @@ TODO: 忘记密码
     "workId": 1, // 工号
     "name": "aaa", // 姓名
     "jobId": 1, // 职务ID
-    "permissionId": [1, 2, 3] // 权限ID
+    "extraPermissionsId": [1, 2, 3] // 额外权限ID
 }
 ```
 
@@ -177,7 +177,7 @@ TODO: 忘记密码
         "workId": 1, // 工号
         "name": "aaa", // 姓名
         "jobId": 1, // 职务ID
-        "permissionId": [1, 2, 3], // 权限ID
+        "extraPermissionsId": [1, 2, 3], // 额外权限ID
         "telephone": "13800138000" // 手机号
     }
 ]
@@ -201,7 +201,8 @@ TODO: 忘记密码
 [
     {
         "id": 1, // 编号
-        "name": "job" // 职务名称
+        "name": "job", // 职务名称
+        "permissionsId": [1, 2, 3] // 职务基础权限id
     }
 ]
 ```
@@ -232,14 +233,27 @@ TODO: 忘记密码
 [
     {
         "id": 1, // 编号
-        "name": "job" // 职务名称
+        "code": "relic:xxx:xxx", // 代号，后端用的玩意，不用管他
+        "name": "permission" // 权限名称
     }
 ]
 ```
 
-| 权限编号 | 权限名称 |
-| -------- | -------- |
-| *TODO*   | *TODO*   |
+| 权限编号 | 权限代号               | 权限名称                   |
+| -------- | ---------------------- | -------------------------- |
+| 1        | admin                  | 管理员                     |
+| 2        | warehouse              | 创建、修改、删除仓库       |
+| 3        | relic:add              | 拍照创建文物               |
+| 4        | relic:info:view        | 查看文物详细信息           |
+| 5        | relic:info:edit        | 修改文物详细信息           |
+| 6        | relic:status:edit      | 文物入库、外借、送修、离馆 |
+| 7        | relic:price            | 查看、修改文物价值信息     |
+| 8        | relic:check            | 盘点文物                   |
+| 9        | relic:move             | 移动文物                   |
+| 10       | relic:export:check     | 查询文物盘点记录           |
+| 11       | relic:export:relics    | 查询、导出文物一览表       |
+| 12       | relic:export:warehouse | 查询、导出某仓库文物一览表 |
+| 13       | relic:export:changes   | 查询、导出文物流水表       |
 
 #### 错误状态码
 
@@ -257,7 +271,7 @@ TODO: 忘记密码
     "name": "aaa", // 姓名
     "password": "abc", // 密码
     "jobId": 1, // 职务ID
-    "permissionId": [1, 2, 3], // 权限ID
+    "extraPermissionsId": [1, 2, 3], // 额外权限ID
     "telephone": "13800138000" // 手机号
 }
 ```
@@ -288,7 +302,7 @@ TODO: 忘记密码
     "name": "aaa", // 姓名
     "password": "abc", // 密码
     "jobId": 1, // 职务ID
-    "permissionId": [1, 2, 3], // 权限ID
+    "extraPermissionsId": [1, 2, 3], // 额外权限ID
     "telephone": "13800138000" // 手机号
 }
 ```
