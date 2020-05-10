@@ -11,7 +11,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 26/04/2020 21:37:27
+ Date: 11/05/2020 00:18:02
 */
 
 SET NAMES utf8mb4;
@@ -47,6 +47,50 @@ INSERT INTO `job` VALUES (4, '文职人员');
 INSERT INTO `job` VALUES (5, '管理员');
 
 -- ----------------------------
+-- Table structure for job_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `job_permission`;
+CREATE TABLE `job_permission`  (
+  `job_id` int(10) UNSIGNED NOT NULL COMMENT '职务编号',
+  `permission_id` int(10) UNSIGNED NOT NULL COMMENT '权限编号',
+  INDEX `job_permission_ibfk_job_id`(`job_id`) USING BTREE,
+  INDEX `job_permission_ibfk_permission_id`(`permission_id`) USING BTREE,
+  CONSTRAINT `job_permission_ibfk_job_id` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `job_permission_ibfk_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of job_permission
+-- ----------------------------
+INSERT INTO `job_permission` VALUES (1, 3);
+INSERT INTO `job_permission` VALUES (2, 7);
+INSERT INTO `job_permission` VALUES (2, 4);
+INSERT INTO `job_permission` VALUES (3, 2);
+INSERT INTO `job_permission` VALUES (3, 6);
+INSERT INTO `job_permission` VALUES (3, 8);
+INSERT INTO `job_permission` VALUES (3, 9);
+INSERT INTO `job_permission` VALUES (3, 10);
+INSERT INTO `job_permission` VALUES (3, 12);
+INSERT INTO `job_permission` VALUES (3, 4);
+INSERT INTO `job_permission` VALUES (4, 4);
+INSERT INTO `job_permission` VALUES (4, 5);
+INSERT INTO `job_permission` VALUES (4, 6);
+INSERT INTO `job_permission` VALUES (4, 11);
+INSERT INTO `job_permission` VALUES (5, 1);
+INSERT INTO `job_permission` VALUES (5, 2);
+INSERT INTO `job_permission` VALUES (5, 3);
+INSERT INTO `job_permission` VALUES (5, 4);
+INSERT INTO `job_permission` VALUES (5, 5);
+INSERT INTO `job_permission` VALUES (5, 6);
+INSERT INTO `job_permission` VALUES (5, 7);
+INSERT INTO `job_permission` VALUES (5, 8);
+INSERT INTO `job_permission` VALUES (5, 9);
+INSERT INTO `job_permission` VALUES (5, 10);
+INSERT INTO `job_permission` VALUES (5, 11);
+INSERT INTO `job_permission` VALUES (5, 12);
+INSERT INTO `job_permission` VALUES (5, 13);
+
+-- ----------------------------
 -- Table structure for operation
 -- ----------------------------
 DROP TABLE IF EXISTS `operation`;
@@ -68,9 +112,27 @@ CREATE TABLE `operation`  (
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '权限编号',
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '内部使用的代码',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限名称',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of permission
+-- ----------------------------
+INSERT INTO `permission` VALUES (1, 'admin', '管理员');
+INSERT INTO `permission` VALUES (2, 'warehouse', '创建、修改、删除仓库');
+INSERT INTO `permission` VALUES (3, 'relic:add', '拍照创建文物');
+INSERT INTO `permission` VALUES (4, 'relic:info:view', '查看文物详细信息');
+INSERT INTO `permission` VALUES (5, 'relic:info:edit', '修改文物详细信息');
+INSERT INTO `permission` VALUES (6, 'relic:status:edit', '文物入库、外借、送修、离馆');
+INSERT INTO `permission` VALUES (7, 'relic:price', '查看、修改文物价值信息');
+INSERT INTO `permission` VALUES (8, 'relic:check', '盘点文物');
+INSERT INTO `permission` VALUES (9, 'relic:move', '移动文物');
+INSERT INTO `permission` VALUES (10, 'relic:export:check', '查询文物盘点记录');
+INSERT INTO `permission` VALUES (11, 'relic:export:relics', '查询、导出文物一览表');
+INSERT INTO `permission` VALUES (12, 'relic:export:warehouse', '查询、导出某仓库文物一览表');
+INSERT INTO `permission` VALUES (13, 'relic:export:changes', '查询、导出文物流水表');
 
 -- ----------------------------
 -- Table structure for relic
@@ -97,23 +159,24 @@ CREATE TABLE `relic`  (
   `leave_time` datetime(0) NULL DEFAULT NULL COMMENT '离馆时间',
   `move_time` datetime(0) NULL DEFAULT NULL COMMENT '移入仓库时间',
   `lend_time` datetime(0) NULL DEFAULT NULL COMMENT '出借时间',
+  `fix_time` datetime(0) NULL DEFAULT NULL COMMENT '送修时间',
   `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '备注',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间/录入时间',
   `delete_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `relic_ibfk_warehouse_id`(`warehouse_id`) USING BTREE,
   INDEX `relic_ibfk_status`(`status_id`) USING BTREE,
   CONSTRAINT `relic_ibfk_status` FOREIGN KEY (`status_id`) REFERENCES `relic_status` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `relic_ibfk_warehouse_id` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouse` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for relic_status
 -- ----------------------------
 DROP TABLE IF EXISTS `relic_status`;
 CREATE TABLE `relic_status`  (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文物状态编号',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '状态名称',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -145,19 +208,24 @@ CREATE TABLE `user`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_ibfk_job`(`job_id`) USING BTREE,
   CONSTRAINT `user_ibfk_job` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for user_permission
+-- Records of user
 -- ----------------------------
-DROP TABLE IF EXISTS `user_permission`;
-CREATE TABLE `user_permission`  (
+INSERT INTO `user` VALUES (1, 10000, 'admin', 'dc5dfe3e5060d49fbaca8300ccc2c7b31631563d0670cf2ae30f6354c52e0791', '7c3af7a5f4c23009054b261c8635ccc6fb0852a6a0ca7504109510019c5388c5', 5, '0', '2020-05-03 17:32:59', '2020-05-03 23:30:37', NULL);
+
+-- ----------------------------
+-- Table structure for user_extra_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `user_extra_permission`;
+CREATE TABLE `user_extra_permission`  (
   `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户编号',
   `permission_id` int(11) UNSIGNED NOT NULL COMMENT '权限编号',
   INDEX `user_permission_ibfk_user_id`(`user_id`) USING BTREE,
   INDEX `user_permission_ibfk_permission_id`(`permission_id`) USING BTREE,
-  CONSTRAINT `user_permission_ibfk_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `user_permission_ibfk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `user_extra_permission_ibfk_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_extra_permission_ibfk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -171,6 +239,18 @@ CREATE TABLE `warehouse`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `delete_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- View structure for job_permission_view
+-- ----------------------------
+DROP VIEW IF EXISTS `job_permission_view`;
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `job_permission_view` AS select `job`.`id` AS `job_id`,`job`.`name` AS `job_name`,`permission`.`id` AS `permission_id`,`permission`.`code` AS `code`,`permission`.`name` AS `permission_name` from ((`job` join `job_permission`) join `permission`) where ((`job`.`id` = `job_permission`.`job_id`) and (`job_permission`.`permission_id` = `permission`.`id`)) order by `job`.`id`,`permission`.`id`;
+
+-- ----------------------------
+-- View structure for user_extra_permission_view
+-- ----------------------------
+DROP VIEW IF EXISTS `user_extra_permission_view`;
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `user_extra_permission_view` AS select `user`.`id` AS `user_id`,`user`.`work_id` AS `work_id`,`user`.`name` AS `user_name`,`job`.`id` AS `job_id`,`job`.`name` AS `job_name`,`permission`.`id` AS `permission_id`,`permission`.`code` AS `code`,`permission`.`name` AS `permission_name` from (((`job` join `permission`) join `user_extra_permission`) join `user`) where ((`user`.`id` = `user_extra_permission`.`user_id`) and (`user_extra_permission`.`permission_id` = `permission`.`id`) and (`job`.`id` = `user`.`job_id`)) order by `user`.`id`,`permission`.`id`;
 
 SET FOREIGN_KEY_CHECKS = 1;
