@@ -27,6 +27,7 @@ public class WarehouseController {
      * @param count 获取个数
      */
     @GetMapping("")
+    @RequiresUser
     public DataReturnVo listWarehouses(@RequestParam(required = false) String name,
                                        @RequestParam Integer page,
                                        @RequestParam Integer count) {
@@ -37,10 +38,7 @@ public class WarehouseController {
      * 创建仓库【仓库管理员】
      */
     @PostMapping("")
-    @RequiresPermissions(
-            value = {PermissionCodeEnum.ADMIN, PermissionCodeEnum.WAREHOUSE},
-            logical = Logical.OR
-    )
+    @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
     public DataReturnVo addWarehouse(@RequestBody WarehouseNameDto dto) {
         return DataReturnVo.success(warehouseService.createWarehouse(dto.getName()));
     }
@@ -51,10 +49,7 @@ public class WarehouseController {
      * @param warehouseId 仓库编号
      */
     @PutMapping("{warehouseId}")
-    @RequiresPermissions(
-            value = {PermissionCodeEnum.ADMIN, PermissionCodeEnum.WAREHOUSE},
-            logical = Logical.OR
-    )
+    @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
     public DataReturnVo updateWarehouseInfo(@PathVariable Integer warehouseId,
                                             @RequestBody WarehouseNameDto dto) {
         return DataReturnVo.success(warehouseService.updateWarehouse(warehouseId, dto.getName()));
@@ -66,10 +61,7 @@ public class WarehouseController {
      * @param warehouseId 仓库编号
      */
     @DeleteMapping("{warehouseId}")
-    @RequiresPermissions(
-            value = {PermissionCodeEnum.ADMIN, PermissionCodeEnum.WAREHOUSE},
-            logical = Logical.OR
-    )
+    @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
     public DataReturnVo deleteWarehouse(@PathVariable Integer warehouseId) {
         return DataReturnVo.success(warehouseService.deleteWarehouse(warehouseId));
     }

@@ -3,6 +3,7 @@ package cn.wegfan.relicsmanagement.controller;
 import cn.wegfan.relicsmanagement.service.PermissionService;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class PermissionController {
      * 获取所有权限
      */
     @GetMapping("")
+    @RequiresUser
     public DataReturnVo listAllPermissions() {
         return DataReturnVo.success(permissionService.listAllPermissions());
     }

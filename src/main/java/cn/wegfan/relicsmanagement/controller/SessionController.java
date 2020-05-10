@@ -4,6 +4,7 @@ import cn.wegfan.relicsmanagement.dto.UserLoginDto;
 import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class SessionController {
      * 用户退出登录
      */
     @DeleteMapping("")
+    @RequiresUser
     public DataReturnVo userLogout() {
         return DataReturnVo.success(userService.userLogout());
     }

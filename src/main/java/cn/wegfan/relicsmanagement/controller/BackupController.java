@@ -1,8 +1,10 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.service.BackupService;
+import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -19,6 +21,7 @@ public class BackupController {
      * 获取所有数据库备份信息【管理员】
      */
     @GetMapping("")
+    @RequiresPermissions(PermissionCodeEnum.ADMIN)
     public DataReturnVo listAllDatabaseBackups() {
         throw new NotImplementedException();
     }
@@ -27,6 +30,7 @@ public class BackupController {
      * 数据库备份【管理员】
      */
     @PostMapping("")
+    @RequiresPermissions(PermissionCodeEnum.ADMIN)
     public DataReturnVo createDatabaseBackup() {
         throw new NotImplementedException();
     }
@@ -37,6 +41,7 @@ public class BackupController {
      * @param backupId 备份编号
      */
     @GetMapping("{backupId}")
+    @RequiresPermissions(PermissionCodeEnum.ADMIN)
     public DataReturnVo restoreDatabase(@PathVariable Integer backupId) {
         throw new NotImplementedException();
     }

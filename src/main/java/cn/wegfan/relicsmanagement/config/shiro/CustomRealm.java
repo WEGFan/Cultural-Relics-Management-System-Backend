@@ -5,6 +5,7 @@ import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.JobDao;
 import cn.wegfan.relicsmanagement.mapper.PermissionDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
+import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -64,7 +65,7 @@ public class CustomRealm extends AuthorizingRealm {
                 .stream()
                 .map(Permission::getCode)
                 .collect(Collectors.toSet());
-
+        
         permissionCode.addAll(extraPermissionCode);
         // if (user.getJobId().equals(ADMIN_JOB_ID)) {
         //     permissionCode.add(PermissionCodeEnum.ADMIN);

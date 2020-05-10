@@ -29,7 +29,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public DataReturnVo handleException(Exception e) {
         log.error("", e);
-        return DataReturnVo.error(500, e.getMessage());
+        // TODO: 删除返回错误信息
+        return DataReturnVo.error(500, e.toString());
     }
 
 }

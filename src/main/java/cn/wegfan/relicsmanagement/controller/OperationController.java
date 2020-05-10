@@ -1,8 +1,10 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.service.OperationService;
+import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,7 @@ public class OperationController {
      * @param to    结束时间
      */
     @GetMapping(value = "", params = "excel=true")
+    @RequiresPermissions(PermissionCodeEnum.ADMIN)
     public DataReturnVo exportOperationsToExcel(@RequestParam Boolean excel,
                                                 @RequestParam(required = false) Date from,
                                                 @RequestParam(required = false) Date to) {
