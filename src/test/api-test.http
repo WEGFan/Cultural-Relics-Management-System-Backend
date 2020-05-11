@@ -17,27 +17,27 @@ POST {{host}}/api/v1/users
 Content-Type: application/json
 
 {
-    "workId": 123456,
-    "name": "normal user",
+    "workId": 10004,
+    "name": "wenzhi",
     "password": "123456",
     "jobId": 1,
     "extraPermissionsId": [
-        3
+        
     ],
-    "telephone": "13801138440"
+    "telephone": "4"
 }
 
 ### update user
-PUT {{host}}/api/v1/users/14
+PUT {{host}}/api/v1/users/12
 Content-Type: application/json
 
 {
-    "workId": 66566,
-    "name": "aaddda",
-    "password": "aaaaabc",
-    "jobId": 1,
+    "workId": 10000,
+    "name": "admin",
+    "password": "admin",
+    "jobId": 5,
     "extraPermissionsId": [
-        1,2,3,4,5,6,7,8,9,10
+     
     ],
     "telephone": "231312"
 }
@@ -62,7 +62,7 @@ POST {{host}}/api/v1/sessions
 Content-Type: application/json
 
 {
-    "workId": 123456,
+    "workId": 10001,
     "password": "123456"
 }
 
