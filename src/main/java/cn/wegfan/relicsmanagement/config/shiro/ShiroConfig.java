@@ -2,12 +2,19 @@ package cn.wegfan.relicsmanagement.config.shiro;
 
 import cn.wegfan.relicsmanagement.util.PasswordUtil;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,6 +32,22 @@ public class ShiroConfig {
         return defaultAAP;
     }
 
+    @Bean(name = "shiroSessionManager")
+    public SessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        // 设置自定义sessionDao操作类
+        sessionManager.setSessionDAO(new EnterpriseCacheSessionDAO());
+        // 设置session一天后过期
+        sessionManager.setGlobalSessionTimeout(24 * 60 * 60 * 1000);
+        // 删除过期缓存
+        sessionManager.setDeleteInvalidSessions(true);
+        // 设置定期扫描缓存
+        sessionManager.setSessionValidationSchedulerEnabled(true);
+        // 设置url不暴露sessionID
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
+        return sessionManager;
+    }
+
     // 自定义 realm
     @Bean
     public Realm realm() {
@@ -40,36 +63,19 @@ public class ShiroConfig {
         return customRealm;
     }
 
-    // 自定义权限资源过滤器
     // @Bean
-    // public ShiroFilterChainDefinition shiroFilterChainDefinition() {
-    //     DefaultShiroFilterChainDefinition chain = new DefaultShiroFilterChainDefinition();
-    //
-    //     // 无需验证的路径
-    //     chain.addPathDefinition("/test/**", "anon");
-    //     chain.addPathDefinition("/api/v1/**", "anon");
-    //     // swagger资源
-    //     chain.addPathDefinition("/swagger-ui.html/**", "anon");
-    //     chain.addPathDefinition("/webjars/**", "anon");
-    //     chain.addPathDefinition("/swagger-resources/**", "anon");
-    //     chain.addPathDefinition("/v2/api-docs/**", "anon");
-    //
-    //     // 需要登入的请求
-    //     chain.addPathDefinition("/**", "user");
-    //     return chain;
+    // public CacheManager cacheManager() {
+    //     EhCacheManager cacheManager = new EhCacheManager();
+    //     cacheManager.setCacheManagerConfigFile("classpath:ehcache-config.xml");
+    //     return cacheManager;
     // }
-    //将自己的验证方式加入容器
-    // @Bean
-    // public CustomRealm myShiroRealm() {
-    //     CustomRealm customRealm = new CustomRealm();
-    //     return customRealm;
-    // }
-
     //权限管理，配置主要是Realm的管理认证
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm());
+        // securityManager.setCacheManager(cacheManager());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 

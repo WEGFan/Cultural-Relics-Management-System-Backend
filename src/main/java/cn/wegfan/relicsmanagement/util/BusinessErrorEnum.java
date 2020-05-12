@@ -13,7 +13,8 @@ public enum BusinessErrorEnum {
     WarehouseNotEmpty(10002, "仓库内还有文物"),
     DuplicateWarehouseName(10003, "仓库名重复"),
     UserNotExists(10004, "用户不存在"),
-    WarehouseNotExists(10005, "仓库不存在");
+    WarehouseNotExists(10005, "仓库不存在"),
+    RelicNotExists(10006, "文物不存在");
 
     private final Integer errorCode;
 

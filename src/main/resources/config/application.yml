@@ -22,3 +22,4 @@ logging:
     name: 'data/app.log'
     max-history: 31
     max-size: '1GB'
+    

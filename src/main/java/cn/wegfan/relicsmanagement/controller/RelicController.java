@@ -28,7 +28,7 @@ public class RelicController {
     @GetMapping("status")
     @RequiresUser
     public DataReturnVo listAllRelicStatuses() {
-        throw new NotImplementedException();
+        return DataReturnVo.success(relicService.listAllRelicStatus());
     }
 
     /**
@@ -64,7 +64,7 @@ public class RelicController {
     @GetMapping("{relicId}")
     @RequiresPermissions(PermissionCodeEnum.VIEW_RELIC_INFO)
     public DataReturnVo getRelicInfo(@PathVariable Integer relicId) {
-        throw new NotImplementedException();
+        return DataReturnVo.success(relicService.getRelicById(relicId));
     }
 
     /**

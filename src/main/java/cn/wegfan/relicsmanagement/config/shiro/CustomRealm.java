@@ -5,6 +5,8 @@ import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.JobDao;
 import cn.wegfan.relicsmanagement.mapper.PermissionDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
+import cn.wegfan.relicsmanagement.service.PermissionService;
+import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -18,6 +20,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 import java.util.Set;
@@ -33,6 +36,9 @@ public class CustomRealm extends AuthorizingRealm {
     private JobDao jobDao;
 
     @Resource
+    private PermissionService permissionService;
+
+    @Resource
     private PermissionDao permissionDao;
 
     @Override
@@ -43,7 +49,7 @@ public class CustomRealm extends AuthorizingRealm {
     // private final Integer ADMIN_JOB_ID = 5;
 
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+    public AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Subject subject = SecurityUtils.getSubject();
         Integer userId = (Integer)subject.getPrincipal();
 
@@ -55,23 +61,10 @@ public class CustomRealm extends AuthorizingRealm {
 
         log.debug(user.toString());
 
-        // 获取职位基础权限
-        Set<String> permissionCode = permissionDao.selectListByJobId(user.getJobId())
-                .stream()
-                .map(Permission::getCode)
-                .collect(Collectors.toSet());
-        // 获取用户额外权限
-        Set<String> extraPermissionCode = user.getExtraPermissions()
-                .stream()
-                .map(Permission::getCode)
-                .collect(Collectors.toSet());
-        
-        permissionCode.addAll(extraPermissionCode);
-        // if (user.getJobId().equals(ADMIN_JOB_ID)) {
-        //     permissionCode.add(PermissionCodeEnum.ADMIN);
-        // }
-        log.debug("{}={}", user, permissionCode);
-        info.setStringPermissions(permissionCode);
+        Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByUserId(user.getId());
+
+        log.debug("{}={}", user, permissionCodeSet);
+        info.setStringPermissions(permissionCodeSet);
 
         // List<Permission> permissionsByUserName = permissionDao.getPermissionsByUserName(userName);
         // for (Permission permission : permissionsByUserName) {
@@ -82,7 +75,7 @@ public class CustomRealm extends AuthorizingRealm {
     }
 
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    public AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String principal = (String)token.getPrincipal();
         if (principal == null) {
             return null;

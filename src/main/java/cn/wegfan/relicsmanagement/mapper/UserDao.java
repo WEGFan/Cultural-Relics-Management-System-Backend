@@ -19,16 +19,11 @@ public interface UserDao extends BaseMapper<User> {
                     many = @Many(select = "cn.wegfan.relicsmanagement.mapper.PermissionDao.selectListByUserId",
                             fetchType = FetchType.EAGER))
     })
-        // @Override
     List<User> selectNotDeletedList();
 
-    // @Select("SELECT * FROM user WHERE id = #{userId}")
-    // @ResultMap("userResultMap")
-    // @Override
-    // User selectById(Serializable userId);
-
-    // @Select("SELECT * FROM user WHERE delete_time IS NULL")
-    // List<User> selectNotDeletedList();
+    @Select("SELECT * FROM user WHERE id = #{userId}")
+    @ResultMap("userExtraPermissionsResultMap")
+    User selectByUserId(Integer userId);
 
     @Select("SELECT * FROM user WHERE work_id = #{workId}")
     @ResultMap("userExtraPermissionsResultMap")

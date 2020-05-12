@@ -28,7 +28,7 @@ public class WarehouseController {
     * @param count 获取个数
      */
     @GetMapping("")
-    @RequiresUser()
+    @RequiresUser
     public DataReturnVo listWarehouses(@RequestParam(required = false) String name,
                                        @RequestParam Integer page,
                                        @RequestParam Integer count) {

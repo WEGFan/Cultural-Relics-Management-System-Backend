@@ -13,4 +13,7 @@ public interface RelicDao extends BaseMapper<Relic> {
     @Select("SELECT * FROM relic WHERE warehouse_id = #{warehouseId} AND delete_time IS NULL")
     List<Relic> selectNotDeletedByWarehouseId(Integer warehouseId);
 
+    @Select("SELECT * FROM relic WHERE id = #{relicId} AND delete_time IS NULL")
+    Relic selectNotDeletedByRelicId(Integer relicId);
+    
 }
