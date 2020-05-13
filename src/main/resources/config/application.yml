@@ -6,6 +6,10 @@ spring:
     time-zone: 'GMT+8'
   mvc:
     date-format: 'yyyy-MM-dd HH:mm:ss'
+  servlet:
+    multipart:
+      max-file-size: '5MB'
+      max-request-size: '10MB'
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -22,4 +26,5 @@ logging:
     name: 'data/app.log'
     max-history: 31
     max-size: '1GB'
+
     
