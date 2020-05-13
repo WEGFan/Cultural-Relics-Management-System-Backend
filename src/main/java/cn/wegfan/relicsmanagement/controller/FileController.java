@@ -1,6 +1,9 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.hutool.core.img.ImgUtil;
+import cn.hutool.core.io.FileUtil;
+import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
+import cn.wegfan.relicsmanagement.util.BusinessException;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.Logical;
@@ -30,6 +33,9 @@ public class FileController {
                 .toString();
         String filePath = dir + "/" + fileName;
         log.debug(filePath);
+        if (!FileUtil.exist(filePath)) {
+            throw new BusinessException(BusinessErrorEnum.FileNotFound);
+        }
         return ImgUtil.toBytes(ImgUtil.read(filePath), "jpg");
     }
 
