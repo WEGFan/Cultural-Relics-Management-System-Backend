@@ -2,19 +2,18 @@ package cn.wegfan.relicsmanagement.config.shiro;
 
 import cn.wegfan.relicsmanagement.util.PasswordUtil;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
-import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.Cookie;
+import org.apache.shiro.web.servlet.ShiroHttpSession;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -45,6 +44,11 @@ public class ShiroConfig {
         sessionManager.setSessionValidationSchedulerEnabled(true);
         // 设置url不暴露sessionID
         sessionManager.setSessionIdUrlRewritingEnabled(false);
+        Cookie cookie = new SimpleCookie(ShiroHttpSession.DEFAULT_SESSION_ID_NAME);
+        cookie.setHttpOnly(true);
+        cookie.setSameSite(null);
+        sessionManager.setSessionIdCookie(cookie);
+        sessionManager.setSessionIdCookieEnabled(true);
         return sessionManager;
     }
 

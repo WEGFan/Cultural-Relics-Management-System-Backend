@@ -51,8 +51,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public PageResultVo<WarehouseVo> listNotDeletedWarehousesByNameAndPage(String name, long currentPage, long pageSize) {
-        Page<Warehouse> page = new Page<>(currentPage, pageSize);
+    public PageResultVo<WarehouseVo> listNotDeletedWarehousesByNameAndPage(String name, long pageIndex, long pageSize) {
+        Page<Warehouse> page = new Page<>(pageIndex, pageSize);
 
         Page<Warehouse> pageResult = warehouseDao.selectPageNotDeletedByName(page, name);
         // log.debug(String.valueOf(result.getRecords()));

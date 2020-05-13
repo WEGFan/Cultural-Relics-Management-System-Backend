@@ -6,7 +6,7 @@ import cn.wegfan.relicsmanagement.vo.WarehouseVo;
 
 public interface WarehouseService {
 
-    PageResultVo<WarehouseVo> listNotDeletedWarehousesByNameAndPage(String name, long currentPage, long pageSize);
+    PageResultVo<WarehouseVo> listNotDeletedWarehousesByNameAndPage(String name, long pageIndex, long pageSize);
 
     WarehouseVo createWarehouse(String name);
 

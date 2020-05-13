@@ -118,7 +118,13 @@
             <artifactId>shiro-ehcache</artifactId>
             <version>1.5.3</version>
         </dependency>
-
+        
+        <!-- hutool -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.3.4</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,12 +1,10 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.dto.WarehouseNameDto;
-import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.service.WarehouseService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ public class WarehouseController {
      *
      * @param name  按名称筛选
      * @param page  页码
-    * @param count 获取个数
+     * @param count 获取个数
      */
     @GetMapping("")
     @RequiresUser

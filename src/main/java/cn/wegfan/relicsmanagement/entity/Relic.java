@@ -139,34 +139,4 @@ public class Relic implements Serializable {
      */
     private Date deleteTime;
 
-    // @Override
-    // public String toString() {
-    //     return new StringJoiner(", ", Relic.class.getSimpleName() + "[", "]")
-    //             .add("id=" + id)
-    //             .add("name='" + name + "'")
-    //             .add("count=" + count)
-    //             .add("picturePath='" + picturePath + "'")
-    //             .add("year='" + year + "'")
-    //             .add("reign='" + reign + "'")
-    //             .add("type='" + type + "'")
-    //             .add("source='" + source + "'")
-    //             .add("size='" + size + "'")
-    //             .add("weight=" + weight)
-    //             .add("warehouseId=" + warehouseId)
-    //             .add("place='" + place + "'")
-    //             .add("enterPrice=" + enterPrice)
-    //             .add("leavePrice=" + leavePrice)
-    //             .add("statusId=" + statusId)
-    //             .add("lastCheckTime=" + lastCheckTime)
-    //             .add("enterTime=" + enterTime)
-    //             .add("leaveTime=" + leaveTime)
-    //             .add("moveTime=" + moveTime)
-    //             .add("lendTime=" + lendTime)
-    //             .add("comment='" + comment + "'")
-    //             .add("createTime=" + createTime)
-    //             .add("updateTime=" + updateTime)
-    //             .add("deleteTime=" + deleteTime)
-    //             .toString();
-    // }
-
 }

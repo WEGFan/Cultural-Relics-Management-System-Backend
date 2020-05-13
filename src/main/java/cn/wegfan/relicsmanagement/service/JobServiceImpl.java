@@ -1,12 +1,9 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.dto.UserInfoDto;
 import cn.wegfan.relicsmanagement.entity.Job;
 import cn.wegfan.relicsmanagement.entity.Permission;
-import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.JobDao;
 import cn.wegfan.relicsmanagement.vo.JobVo;
-import cn.wegfan.relicsmanagement.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.CustomConverter;
 import ma.glasnost.orika.MapperFacade;

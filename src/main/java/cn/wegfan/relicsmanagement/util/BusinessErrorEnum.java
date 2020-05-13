@@ -1,7 +1,6 @@
 package cn.wegfan.relicsmanagement.util;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public enum BusinessErrorEnum {
@@ -14,7 +13,8 @@ public enum BusinessErrorEnum {
     DuplicateWarehouseName(10003, "仓库名重复"),
     UserNotExists(10004, "用户不存在"),
     WarehouseNotExists(10005, "仓库不存在"),
-    RelicNotExists(10006, "文物不存在");
+    RelicNotExists(10006, "文物不存在"),
+    FileNotJpgOrPng(10007, "图片格式不是jpg/png");
 
     private final Integer errorCode;
 

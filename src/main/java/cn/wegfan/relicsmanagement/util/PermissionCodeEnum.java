@@ -1,7 +1,5 @@
 package cn.wegfan.relicsmanagement.util;
 
-import lombok.Getter;
-
 public class PermissionCodeEnum {
 
     /**

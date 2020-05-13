@@ -1,13 +1,10 @@
 package cn.wegfan.relicsmanagement.config.shiro;
 
-import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.JobDao;
 import cn.wegfan.relicsmanagement.mapper.PermissionDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.service.PermissionService;
-import cn.wegfan.relicsmanagement.service.UserService;
-import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -20,11 +17,9 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class CustomRealm extends AuthorizingRealm {

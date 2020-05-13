@@ -1,6 +1,5 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.entity.JobPermission;
 import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.entity.UserExtraPermission;
 import cn.wegfan.relicsmanagement.mapper.JobDao;

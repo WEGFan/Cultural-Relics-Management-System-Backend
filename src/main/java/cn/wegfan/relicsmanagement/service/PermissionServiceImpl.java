@@ -5,7 +5,6 @@ import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.PermissionDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

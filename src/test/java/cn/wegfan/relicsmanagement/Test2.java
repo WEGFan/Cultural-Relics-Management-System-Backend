@@ -1,11 +1,10 @@
 package cn.wegfan.relicsmanagement;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import cn.hutool.core.img.ImgUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -140,8 +139,8 @@ public class Test2 {
         public void clearFieldsByPermission(String permissionCode) {
 
         }
-        
-        public void  test() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        public void test() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
             Method[] methods = getClass().getDeclaredMethods();
             Method method = getClass().getDeclaredMethod("setName", String.class);
@@ -153,10 +152,15 @@ public class Test2 {
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Set<Integer> set = new HashSet<>();
         set.stream();
-        
+        // File file = FileUtil.touch("data/images/1.txt");
+        // log.debug(file.getAbsolutePath());
+        // FileUtil.writeBytes(new byte[] {47, 52, 53, 56}, file);
         RelicVo relicVo = new RelicVo();
-      relicVo.test();
-      log.debug(relicVo.toString());
+        relicVo.test();
+        log.debug(relicVo.toString());
+
+        ImgUtil.convert(new File("D:\\My Documents\\Idea\\Cultural-Relics-Management-System-Backend\\data\\images\\4.png"),
+                new File("444.jpg"));
         // try {
         //     int a = 1 / 0;
         //     throw new NotImplementedException();

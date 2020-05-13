@@ -1,17 +1,22 @@
 package cn.wegfan.relicsmanagement.controller;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.UUID;
 import cn.wegfan.relicsmanagement.service.RelicService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Date;
 
 @Slf4j
@@ -72,8 +77,16 @@ public class RelicController {
      */
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADD_RELIC)
-    public DataReturnVo addRelic() {
-        throw new NotImplementedException();
+    public DataReturnVo addRelic(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        String dir = Paths.get("data", "images")
+                .toAbsolutePath()
+                .toString();
+        log.debug(dir);
+        File file = FileUtil.touch(dir, "tmp/" + UUID.fastUUID().toString(true));
+        multipartFile.transferTo(file);
+        String tempPath = file.getAbsolutePath();
+        log.debug(tempPath);
+        return DataReturnVo.success(relicService.addRelicByPicturePath(tempPath));
     }
 
     /**

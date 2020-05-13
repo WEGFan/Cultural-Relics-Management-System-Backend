@@ -1,8 +1,6 @@
 package cn.wegfan.relicsmanagement.vo;
 
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -15,7 +13,6 @@ public class RelicVo {
     /**
      * 文物编号
      */
-    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
