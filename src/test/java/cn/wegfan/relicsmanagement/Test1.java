@@ -173,7 +173,7 @@ public class Test1 {
                 default:
                     break;
             }
-            relic.setPicturePath("/files/relics/images/3.jpg");
+            relic.setPicturePath("/api/files/relics/images/3.jpg");
             relic.setSize(String.format("%d x %d x %d", i,i,i));
             relic.setPlace("relic place " + i);
             relic.setYear(String.valueOf(1500 + i));
