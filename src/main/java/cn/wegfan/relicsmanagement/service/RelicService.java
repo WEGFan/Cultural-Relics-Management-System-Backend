@@ -4,6 +4,7 @@ import cn.wegfan.relicsmanagement.entity.RelicStatus;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.RelicIdPicturePathVo;
 import cn.wegfan.relicsmanagement.vo.RelicVo;
+import cn.wegfan.relicsmanagement.vo.SuccessVo;
 
 import java.util.Date;
 import java.util.List;
@@ -19,5 +20,7 @@ public interface RelicService {
     RelicVo getRelicById(Integer relicId);
 
     RelicIdPicturePathVo addRelicByPicturePath(String tempPath);
+
+    SuccessVo deleteRelicById(Integer relicId);
 
 }

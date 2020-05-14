@@ -1,7 +1,5 @@
 package cn.wegfan.relicsmanagement;
 
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.wegfan.relicsmanagement.entity.Job;
 import cn.wegfan.relicsmanagement.entity.Relic;
@@ -9,7 +7,6 @@ import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.JobDao;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
-import cn.wegfan.relicsmanagement.service.RelicService;
 import cn.wegfan.relicsmanagement.service.UserExtraPermissionService;
 import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.service.WarehouseService;
@@ -157,7 +154,7 @@ public class Test1 {
             relic.setCreateTime(new Date(baseTime - RandomUtil.randomLong(2 * millisecondsPerHour)));
             relic.setUpdateTime(new Date(baseTime + RandomUtil.randomLong(7 * millisecondsPerHour, 9 * millisecondsPerHour)));
             relic.setComment("relic comment " + i);
-            relic.setCount(i);
+            relic.setQuantity(i);
             relic.setStatusId(RandomUtil.randomInt(2, 5 + 1));
             switch (relic.getStatusId()) {
                 case 2:

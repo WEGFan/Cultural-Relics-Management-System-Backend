@@ -4,6 +4,7 @@ import cn.wegfan.relicsmanagement.entity.Relic;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -44,5 +45,8 @@ public interface RelicDao extends BaseMapper<Relic> {
             "</script>")
     Page<Relic> selectPageNotDeletedByCondition(Page<?> page, String name, Integer status,
                                                 String dateType, Date startTime, Date endTime);
+
+    @Update("UPDATE relic SET delete_time = now(), warehouse_id = NULL WHERE id = #{relicId}")
+    int deleteRelicById(Integer relicId);
 
 }

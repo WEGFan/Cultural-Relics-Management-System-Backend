@@ -39,13 +39,13 @@ public class RelicController {
     /**
      * 获取所有文物信息
      *
-     * @param name   按名称筛选
-     * @param status 按状态筛选
-     * @param page   页码
-     * @param count  获取个数
-     * @param from   开始时间
-     * @param to     结束时间
-     * @param type   时间类型 enter入馆时间 leave离馆时间 lend外借时间 fix送修时间
+     * @param name     按名称筛选
+     * @param status   按状态筛选
+     * @param page     页码
+     * @param count    获取个数
+     * @param from     开始时间
+     * @param to       结束时间
+     * @param dateType 时间类型 enter入馆时间 leave离馆时间 lend外借时间 fix送修时间
      */
     @GetMapping("")
     @RequiresPermissions(PermissionCodeEnum.VIEW_RELIC_INFO)
@@ -55,11 +55,11 @@ public class RelicController {
                                    @RequestParam Integer count,
                                    @RequestParam(required = false) Date from,
                                    @RequestParam(required = false) Date to,
-                                   @RequestParam(required = false) String type) {
+                                   @RequestParam(required = false) String dateType) {
         log.debug("{} {} {} {}", name, status, page, count);
-        log.debug("{} {} {}", from, to, type);
-        return DataReturnVo.success(relicService.searchNotDeletedRelicsByPage(name,status,type,
-                from,to,page,count));
+        log.debug("{} {} {}", from, to, dateType);
+        return DataReturnVo.success(relicService.searchNotDeletedRelicsByPage(name, status, dateType,
+                from, to, page, count));
     }
 
     /**
@@ -173,7 +173,7 @@ public class RelicController {
     @DeleteMapping("{relicId}")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
     public DataReturnVo deleteRelic(@PathVariable Integer relicId) {
-        throw new NotImplementedException();
+        return DataReturnVo.success(relicService.deleteRelicById(relicId));
     }
 
 }

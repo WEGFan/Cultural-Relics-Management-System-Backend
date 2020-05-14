@@ -10,10 +10,7 @@ import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.RelicStatusDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
-import cn.wegfan.relicsmanagement.vo.PageResultVo;
-import cn.wegfan.relicsmanagement.vo.RelicIdPicturePathVo;
-import cn.wegfan.relicsmanagement.vo.RelicVo;
-import cn.wegfan.relicsmanagement.vo.WarehouseVo;
+import cn.wegfan.relicsmanagement.vo.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -66,7 +63,8 @@ public class RelicServiceImpl implements RelicService {
                                                               long pageIndex, long pageSize) {
         Page<Relic> page = new Page<>(pageIndex, pageSize);
 
-        if (dateType.matches("^(enter|leave|lend|fix)$")) {
+        // 检测字符串是否符合格式
+        if (dateType != null && dateType.matches("^(enter|leave|lend|fix)$")) {
             dateType += "_time";
         } else {
             dateType = null;
@@ -139,6 +137,12 @@ public class RelicServiceImpl implements RelicService {
         relicDao.updateById(relic);
 
         return new RelicIdPicturePathVo(relic.getId(), relic.getPicturePath());
+    }
+
+    @Override
+    public SuccessVo deleteRelicById(Integer relicId) {
+        int result = relicDao.deleteRelicById(relicId);
+        return new SuccessVo(result > 0);
     }
 
 }

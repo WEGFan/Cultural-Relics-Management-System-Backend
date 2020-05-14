@@ -23,7 +23,7 @@ public class RelicVo {
     /**
      * 数量
      */
-    private Integer count;
+    private Integer quantity;
 
     /**
      * 照片地址
