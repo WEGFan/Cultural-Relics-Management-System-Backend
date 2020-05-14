@@ -487,7 +487,7 @@ TODO: 去掉一些不必要的
     {
         "id": 1, // 文物编号
         "name": "wdnmd", // 文物名称
-        "count": 2, // 数量
+        "quantity": 2, // 数量
         "picturePath": "//files/relics/images/1.jpg", // 照片地址
         "year": "南北朝", // 年代
         "reign": "xxx", // 年号
@@ -536,7 +536,7 @@ TODO: 去掉一些不必要的
 {
     "id": 1, // 文物编号
     "name": "wdnmd", // 文物名称
-    "count": 2, // 数量
+    "quantity": 2, // 数量
     "picturePath": "//files/relics/images/1.jpg", // 照片地址
     "year": "南北朝", // 年代
     "reign": "xxx", // 年号
@@ -608,7 +608,7 @@ TODO: 去掉一些不必要的
 ```json
 {
     "name": "wdnmd", // 文物名称
-    "count": 2, // 数量
+    "quantity": 2, // 数量
     "year": "南北朝", // 年代
     "reign": "xxx", // 年号
     "type": "沙雕", // 器型
@@ -628,7 +628,7 @@ TODO: 去掉一些不必要的
 {
     "id": 1, // 文物编号
     "name": "wdnmd", // 文物名称
-    "count": 2, // 数量
+    "quantity": 2, // 数量
     "picturePath": "//files/relics/images/1.jpg", // 照片地址
     "year": "南北朝", // 年代
     "reign": "xxx", // 年号
@@ -674,7 +674,7 @@ TODO: 分离文物盘点接口
 ```json
 {
     "name": "wdnmd", // 文物名称
-    "count": 2, // 数量
+    "quantity": 2, // 数量
     "year": "南北朝", // 年代
     "reign": "xxx", // 年号
     "type": "沙雕", // 器型
@@ -694,7 +694,7 @@ TODO: 分离文物盘点接口
 {
     "id": 1, // 文物编号
     "name": "wdnmd", // 文物名称
-    "count": 2, // 数量
+    "quantity": 2, // 数量
     "picturePath": "//files/relics/images/1.jpg", // 照片地址
     "year": "南北朝", // 年代
     "reign": "xxx", // 年号
@@ -747,7 +747,7 @@ TODO: 分离文物盘点接口
 {
     "id": 1, // 文物编号
     "name": "wdnmd", // 文物名称
-    "count": 2, // 数量
+    "quantity": 2, // 数量
     "picturePath": "//files/relics/images/1.jpg", // 照片地址
     "year": "南北朝", // 年代
     "reign": "xxx", // 年号
