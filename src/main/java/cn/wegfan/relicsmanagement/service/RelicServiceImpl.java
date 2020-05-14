@@ -133,7 +133,7 @@ public class RelicServiceImpl implements RelicService {
         // 转换成jpg格式
         ImgUtil.convert(tempFileWithExtension, file);
 
-        relic.setPicturePath("/files/relics/images/" + fileName);
+        relic.setPicturePath("/api/files/relics/images/" + fileName);
         relicDao.updateById(relic);
 
         return new RelicIdPicturePathVo(relic.getId(), relic.getPicturePath());

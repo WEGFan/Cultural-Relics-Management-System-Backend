@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 
 @Slf4j
 @Controller
-@RequestMapping("/files")
+@RequestMapping("/api/files")
 public class FileController {
 
     /**
