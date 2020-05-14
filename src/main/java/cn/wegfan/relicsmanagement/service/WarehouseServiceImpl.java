@@ -74,7 +74,8 @@ public class WarehouseServiceImpl implements WarehouseService {
         Warehouse warehouse = new Warehouse();
         warehouse.setName(name);
         warehouse.setCreateTime(new Date());
-
+        warehouse.setUpdateTime(new Date());
+        
         warehouseDao.insert(warehouse);
 
         WarehouseVo warehouseVo = mapperFacade.map(warehouse, WarehouseVo.class);

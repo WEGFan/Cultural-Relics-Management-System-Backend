@@ -15,7 +15,7 @@ public interface WarehouseDao extends BaseMapper<Warehouse> {
             "SELECT * FROM warehouse" +
             "<where>" +
             "<if test='name != null'>" +
-            "AND NAME LIKE concat(\"%\", #{name}, \"%\")" +
+            "AND name LIKE concat('%', #{name}, '%')" +
             "</if>" +
             "AND delete_time IS NULL" +
             "</where>" +

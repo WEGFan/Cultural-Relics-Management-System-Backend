@@ -36,7 +36,7 @@ public class DataReturnVo {
     public static DataReturnVo businessError(BusinessException exception) {
         return new DataReturnVo(null, exception.getCode(), exception.getMessage());
     }
-
+    
     // @Override
     // public String toString() {
     //     return new StringJoiner(", ", DataReturnVo.class.getSimpleName() + "[", "]")

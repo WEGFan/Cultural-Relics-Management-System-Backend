@@ -50,7 +50,7 @@ public class InitApp implements ApplicationRunner {
 
             userInfo.setName("admin");
             userInfo.setPassword("admin");
-            userInfo.setWorkId(workId);
+            userInfo.setWorkId(workId.toString());
             userInfo.setJobId(5);
             userInfo.setTelephone("0");
             userInfo.setExtraPermissionsId(new HashSet<>());

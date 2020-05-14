@@ -6,18 +6,31 @@ import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
+import java.util.StringJoiner;
 
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({UnauthorizedException.class, AuthorizationException.class})
-    public DataReturnVo UnauthorizedException(Exception e) {
+    public DataReturnVo handleUnauthorizedException(Exception e) {
         // throw new BusinessException(BusinessErrorEnum.Unauthorized);
         log.warn("", e);
         return DataReturnVo.businessError(new BusinessException(BusinessErrorEnum.Unauthorized));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public DataReturnVo handleInvalidArgumentException(MethodArgumentNotValidException e) {
+        List<ObjectError> errors = e.getBindingResult().getAllErrors();
+        StringJoiner stringJoiner = new StringJoiner("；");
+        errors.forEach(error -> stringJoiner.add(error.getDefaultMessage()));
+        return DataReturnVo.error(400, stringJoiner.toString());
     }
 
     @ExceptionHandler(BusinessException.class)

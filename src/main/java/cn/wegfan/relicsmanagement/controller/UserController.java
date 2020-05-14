@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/users")
@@ -34,7 +36,7 @@ public class UserController {
      */
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
-    public DataReturnVo addUser(@RequestBody UserInfoDto userInfo) {
+    public DataReturnVo addUser(@RequestBody @Valid UserInfoDto userInfo) {
         return DataReturnVo.success(userService.addUser(userInfo));
     }
 
@@ -46,7 +48,7 @@ public class UserController {
     @PutMapping("{userId}")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
     public DataReturnVo updateUserInfo(@PathVariable Integer userId,
-                                       @RequestBody UserInfoDto dto) {
+                                       @RequestBody @Valid UserInfoDto dto) {
         return DataReturnVo.success(userService.updateUserInfo(userId, dto));
     }
 
@@ -55,7 +57,7 @@ public class UserController {
      */
     @PutMapping("password")
     @RequiresUser
-    public DataReturnVo updateUserPassword(@RequestBody UserChangePasswordDto dto) {
+    public DataReturnVo updateUserPassword(@RequestBody @Valid UserChangePasswordDto dto) {
         return DataReturnVo.success(userService.changeUserPassword(dto.getOldPassword(), dto.getNewPassword()));
     }
 

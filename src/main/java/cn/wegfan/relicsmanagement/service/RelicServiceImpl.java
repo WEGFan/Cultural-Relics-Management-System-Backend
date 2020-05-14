@@ -5,6 +5,7 @@ import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
+import cn.wegfan.relicsmanagement.entity.Warehouse;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.RelicStatusDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
@@ -12,6 +13,8 @@ import cn.wegfan.relicsmanagement.util.BusinessException;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.RelicIdPicturePathVo;
 import cn.wegfan.relicsmanagement.vo.RelicVo;
+import cn.wegfan.relicsmanagement.vo.WarehouseVo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
@@ -61,7 +64,29 @@ public class RelicServiceImpl implements RelicService {
     public PageResultVo<RelicVo> searchNotDeletedRelicsByPage(String name, Integer status, String dateType,
                                                               Date startTime, Date endTime,
                                                               long pageIndex, long pageSize) {
-        return null;
+        Page<Relic> page = new Page<>(pageIndex, pageSize);
+
+        if (dateType.matches("^(enter|leave|lend|fix)$")) {
+            dateType += "_time";
+        } else {
+            dateType = null;
+        }
+
+        Page<Relic> pageResult = relicDao.selectPageNotDeletedByCondition(page, name, status, dateType,
+                startTime, endTime);
+        // log.debug(String.valueOf(result.getRecords()));
+        // log.debug("current={} size={} total={} pages={}", result.getCurrent(), result.getSize(), result.getTotal(), result.getPages());
+        // log.debug("{} {}", result.hasPrevious(), result.hasNext());
+        List<Relic> relicList = pageResult.getRecords();
+        log.debug(relicList.toString());
+        List<RelicVo> relicVoList = mapperFacade.mapAsList(relicList, RelicVo.class);
+
+        // 获取当前登录的用户编号
+        Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
+        Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByUserId(currentLoginUserId);
+
+        relicVoList.forEach(i -> i.clearFieldsByPermissionCode(permissionCodeSet));
+        return new PageResultVo<RelicVo>(relicVoList, pageResult);
     }
 
     @Override
@@ -76,8 +101,8 @@ public class RelicServiceImpl implements RelicService {
 
         // 获取当前登录的用户编号
         Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
-
         Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByUserId(currentLoginUserId);
+
         relicVo.clearFieldsByPermissionCode(permissionCodeSet);
         return relicVo;
     }
@@ -88,7 +113,7 @@ public class RelicServiceImpl implements RelicService {
         // 获取文件真实类型
         String fileType = FileTypeUtil.getType(tempFile);
         log.debug(fileType);
-        if (!fileType.equals("jpg") && !fileType.equals("png")) {
+        if (!"jpg".equals(fileType) && !"png".equals(fileType)) {
             throw new BusinessException(BusinessErrorEnum.FileNotJpgOrPng);
         }
         String fileExtension = "." + fileType;
@@ -97,8 +122,11 @@ public class RelicServiceImpl implements RelicService {
         FileUtil.move(tempFile, tempFileWithExtension, true);
 
         Relic relic = new Relic();
+        // 设置为待评估
+        relic.setStatusId(1);
         relic.setCreateTime(new Date());
-        relic.setStatusId(1); // 设置为待评估
+        relic.setUpdateTime(new Date());
+
         // 先插入到数据库并获取id
         relicDao.insert(relic);
 

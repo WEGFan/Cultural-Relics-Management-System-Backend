@@ -22,11 +22,25 @@ public interface RelicDao extends BaseMapper<Relic> {
     @Select("<script>" +
             "SELECT * FROM relic" +
             "<where>" +
-            "<if test='name != null'>" +
-            "AND NAME LIKE concat(\"%\", #{name}, \"%\")" +
-            "</if>" +
-            "AND delete_time IS NULL" +
+            "  <if test='name != null'>" +
+            "    AND name LIKE concat('%', #{name}, '%')" +
+            "  </if>" +
+            "  <if test='status != null'>" +
+            "    AND status_id = #{status}" +
+            "  </if>" +
+            "  <if test='dateType != null'>" +
+            "    <if test='startTime != null'>" +
+            "      AND ${dateType} &gt;= #{startTime}" +
+            "    </if>" +
+            "    <if test='endTime != null'>" +
+            "      AND ${dateType} &lt;= #{endTime}" +
+            "    </if>" +
+            "  </if>" +
+            "  AND delete_time IS NULL" +
             "</where>" +
+            "<if test='dateType != null'>" +
+            "  ORDER BY ${dateType} DESC" +
+            "</if>" +
             "</script>")
     Page<Relic> selectPageNotDeletedByCondition(Page<?> page, String name, Integer status,
                                                 String dateType, Date startTime, Date endTime);

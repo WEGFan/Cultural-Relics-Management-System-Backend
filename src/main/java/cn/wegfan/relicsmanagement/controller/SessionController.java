@@ -8,6 +8,8 @@ import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/sessions")
@@ -20,8 +22,8 @@ public class SessionController {
      * 用户登录
      */
     @PostMapping("")
-    public DataReturnVo userLogin(@RequestBody UserLoginDto loginInfo) {
-        return DataReturnVo.success(userService.userLogin(loginInfo.getWorkId(), loginInfo.getPassword()));
+    public DataReturnVo userLogin(@RequestBody @Valid UserLoginDto loginInfo) {
+        return DataReturnVo.success(userService.userLogin(Integer.parseInt(loginInfo.getWorkId()), loginInfo.getPassword()));
     }
 
     /**

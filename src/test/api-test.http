@@ -10,20 +10,20 @@ Accept: application/json
 GET {{host}}/api/v1/users
 
 ### list relics
-GET {{host}}/api/v1/relics?name=1111&page=1&count=4&from=2020-05-04%2001:22:11&type=fix
+GET {{host}}/api/v1/relics?name=relic name&page=1&count=4&from=2020-05-04 01:22:11&type=fix
 
 ### add new user
 POST {{host}}/api/v1/users
 Content-Type: application/json
 
 {
-    "workId": 10004,
-    "name": "wenzhi",
-    "password": "123456",
-    "jobId": 1,
+    "workId": 10005,    
+    "name": "admin",    
+    "password": "123456",    
+    "jobId": 5,
     "extraPermissionsId": [
     ],
-    "telephone": "4"
+    "telephone": "5"
 }
 
 ### update user
@@ -51,7 +51,7 @@ POST {{host}}/api/v1/sessions
 Content-Type: application/json
 
 {
-    "workId": 10000,
+    "workId": "10000",
     "password": "admin"
 }
 

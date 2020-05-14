@@ -2,6 +2,9 @@ package cn.wegfan.relicsmanagement.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -13,7 +16,8 @@ public class UserInfoDto implements Serializable {
     /**
      * 工号
      */
-    private Integer workId;
+    @Pattern(regexp = "^\\d{1,10}$", message = "工号需为 10 位以内数字")
+    private String workId;
 
     /**
      * 姓名
@@ -23,6 +27,8 @@ public class UserInfoDto implements Serializable {
     /**
      * 密码
      */
+    @NotBlank(message = "新密码不能为空")
+    @Size(min = 8, max = 24, message = "密码长度需在 8 到 24 个字符之间")
     private String password;
 
     /**

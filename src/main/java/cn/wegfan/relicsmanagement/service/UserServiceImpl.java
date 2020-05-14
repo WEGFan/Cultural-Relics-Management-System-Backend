@@ -94,12 +94,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserIdVo addUser(UserInfoDto userInfo) {
         // 从所有员工中检查工号是否重复
-        if (userDao.selectByWorkId(userInfo.getWorkId()) != null) {
+        if (userDao.selectByWorkId(Integer.parseInt(userInfo.getWorkId())) != null) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
         }
 
         User user = mapperFacade.map(userInfo, User.class);
         user.setCreateTime(new Date());
+        user.setUpdateTime(new Date());
         // 密码加盐
         user.setSalt(PasswordUtil.generateSalt(user.getName() + user.getTelephone()));
         user.setPassword(PasswordUtil.encryptPassword(user.getPassword(), user.getSalt()));
@@ -117,7 +118,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(BusinessErrorEnum.UserNotExists);
         }
         // 从所有员工中查找工号是否被其他人占用
-        User sameWorkIdUser = userDao.selectByWorkId(userInfo.getWorkId());
+        User sameWorkIdUser = userDao.selectByWorkId(Integer.parseInt(userInfo.getWorkId()));
         // 如果存在且用户编号不是被修改用户的
         if (sameWorkIdUser != null && !sameWorkIdUser.getId().equals(userId)) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);

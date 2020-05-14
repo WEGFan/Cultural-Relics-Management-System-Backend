@@ -58,7 +58,8 @@ public class RelicController {
                                    @RequestParam(required = false) String type) {
         log.debug("{} {} {} {}", name, status, page, count);
         log.debug("{} {} {}", from, to, type);
-        throw new NotImplementedException();
+        return DataReturnVo.success(relicService.searchNotDeletedRelicsByPage(name,status,type,
+                from,to,page,count));
     }
 
     /**

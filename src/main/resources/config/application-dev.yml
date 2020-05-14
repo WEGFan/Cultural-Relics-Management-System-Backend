@@ -6,4 +6,4 @@ spring:
 logging:
   level:
     cn.wegfan.relicsmanagement: 'debug'
-    org.apache.shiro: 'trace'
+    org.apache.shiro: 'debug'
