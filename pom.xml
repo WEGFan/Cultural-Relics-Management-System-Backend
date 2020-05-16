@@ -14,6 +14,13 @@
     <name>Cultural Relics Management System Backend</name>
     <description>Cultural Relics Management System Backend</description>
 
+    <repositories>
+        <repository>
+            <id>com.e-iceblue</id>
+            <url>http://repo.e-iceblue.cn/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -118,20 +125,31 @@
             <artifactId>shiro-ehcache</artifactId>
             <version>1.5.3</version>
         </dependency>
-        
+
         <!-- hutool -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>5.3.4</version>
         </dependency>
-        
+
         <!-- guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>29.0-jre</version>
         </dependency>
+
+        <dependency>
+            <groupId>e-iceblue</groupId>
+            <artifactId>spire.xls</artifactId>
+            <version>3.4.8</version>
+        </dependency>
+        <!--<dependency>-->
+        <!--    <groupId>e-iceblue</groupId>-->
+        <!--    <artifactId>spire.xls.free</artifactId>-->
+        <!--    <version>2.2.0</version>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>

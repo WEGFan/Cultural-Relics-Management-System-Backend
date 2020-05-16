@@ -15,7 +15,8 @@ public enum BusinessErrorEnum {
     WarehouseNotExists(10005, "仓库不存在"),
     RelicNotExists(10006, "文物不存在"),
     FileNotJpgOrPng(10007, "图片格式不是jpg/png"),
-    FileNotFound(10008, "找不到文件");
+    FileNotFound(10008, "找不到文件"),
+    NoDateType(10009, "缺少时间类型");
 
     private final Integer errorCode;
 

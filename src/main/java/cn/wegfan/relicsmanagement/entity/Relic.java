@@ -120,9 +120,14 @@ public class Relic implements Serializable {
     private Date fixTime;
 
     /**
-     * 备注
+     * 备注1
      */
-    private String comment;
+    private String comment1;
+
+    /**
+     * 备注2
+     */
+    private String comment2;
 
     /**
      * 创建时间

@@ -5,6 +5,7 @@ import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.PermissionDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +48,14 @@ public class PermissionServiceImpl implements PermissionService {
                 .map(Permission::getCode)
                 .collect(Collectors.toSet());
         permissionCodeSet.addAll(extraPermissionCodeSet);
+        return permissionCodeSet;
+    }
+
+    @Override
+    public Set<String> listAllPermissionCodeByCurrentLoginUser() {
+        // 获取当前登录的用户编号
+        Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
+        Set<String> permissionCodeSet = listAllPermissionCodeByUserId(currentLoginUserId);
         return permissionCodeSet;
     }
 

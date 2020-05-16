@@ -1,5 +1,7 @@
 package cn.wegfan.relicsmanagement.service;
 
+import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
+import cn.wegfan.relicsmanagement.dto.RelicPriceDto;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.RelicIdPicturePathVo;
@@ -22,5 +24,7 @@ public interface RelicService {
     RelicIdPicturePathVo addRelicByPicturePath(String tempPath);
 
     SuccessVo deleteRelicById(Integer relicId);
+    
+    RelicVo updateRelicInfo(Integer relicId, RelicInfoDto relicInfo);
 
 }

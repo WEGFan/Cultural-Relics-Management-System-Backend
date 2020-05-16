@@ -1,6 +1,10 @@
 package cn.wegfan.relicsmanagement.vo;
 
+import cn.wegfan.relicsmanagement.config.jackson.BigDecimalDeserializer;
+import cn.wegfan.relicsmanagement.config.jackson.BigDecimalSerializer;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -73,11 +77,15 @@ public class RelicVo {
     /**
      * 入馆价值【资产科】
      */
+    @JsonSerialize(using = BigDecimalSerializer.class)
+    @JsonDeserialize(using = BigDecimalDeserializer.class)
     private BigDecimal enterPrice;
 
     /**
      * 离馆价值【资产科】
      */
+    @JsonSerialize(using = BigDecimalSerializer.class)
+    @JsonDeserialize(using = BigDecimalDeserializer.class)
     private BigDecimal leavePrice;
 
     /**
@@ -116,9 +124,14 @@ public class RelicVo {
     private Date fixTime;
 
     /**
-     * 备注
+     * 备注1
      */
-    private String comment;
+    private String comment1;
+
+    /**
+     * 备注2
+     */
+    private String comment2;
 
     /**
      * 录入时间

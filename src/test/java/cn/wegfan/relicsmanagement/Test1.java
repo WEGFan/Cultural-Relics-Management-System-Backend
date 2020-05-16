@@ -153,7 +153,7 @@ public class Test1 {
             long baseTime = new Date().getTime() - 10 * millisecondsPerHour;
             relic.setCreateTime(new Date(baseTime - RandomUtil.randomLong(2 * millisecondsPerHour)));
             relic.setUpdateTime(new Date(baseTime + RandomUtil.randomLong(7 * millisecondsPerHour, 9 * millisecondsPerHour)));
-            relic.setComment("relic comment " + i);
+            relic.setComment1("relic comment1 " + i);
             relic.setQuantity(i);
             relic.setStatusId(RandomUtil.randomInt(2, 5 + 1));
             switch (relic.getStatusId()) {
@@ -174,14 +174,14 @@ public class Test1 {
                     break;
             }
             relic.setPicturePath("/api/files/relics/images/3.jpg");
-            relic.setSize(String.format("%d x %d x %d", i,i,i));
+            relic.setSize(String.format("%d x %d x %d", i, i, i));
             relic.setPlace("relic place " + i);
             relic.setYear(String.valueOf(1500 + i));
             relic.setReign("relic reign " + i);
             relic.setType("relic type " + i);
-            relic.setSource("relic source " +i);
+            relic.setSource("relic source " + i);
             relic.setWeight(RandomUtil.randomDouble(100000));
-            
+
             relic.setEnterPrice(new BigDecimal(i * 1000));
             relic.setWarehouseId(RandomUtil.randomInt(1, 3));
             if (RandomUtil.randomBoolean()) {

@@ -17,9 +17,9 @@ POST {{host}}/api/v1/users
 Content-Type: application/json
 
 {
-    "workId": 10005,    
-    "name": "admin",    
-    "password": "123456",    
+    "workId": 10005,
+    "name": "admin",
+    "password": "123456",
     "jobId": 5,
     "extraPermissionsId": [
     ],
@@ -52,7 +52,7 @@ Content-Type: application/json
 
 {
     "workId": "10000",
-    "password": "admin123"
+    "password": "admin"
 }
 
 ### login normal user
@@ -60,7 +60,7 @@ POST {{host}}/api/v1/sessions
 Content-Type: application/json
 
 {
-    "workId": 10004,
+    "workId": 10003,
     "password": "123456"
 }
 
@@ -114,5 +114,27 @@ GET {{host}}/api/v1/relics/status
 
 ### get relic by id
 GET {{host}}/api/v1/relics/1
+
+### change relic info
+PUT {{host}}/api/v1/relics/1
+Content-Type: application/json
+
+{
+    "name": "wdnmd",
+    "quantity": 2,
+    "year": "南北朝",
+    "reign": "xxx",
+    "type": "沙雕",
+    "source": "xxx捐赠",
+    "size": "11cm x 45cm x 14cm",
+    "weight": 19198.10,
+    "warehouseId": 1,
+    "place": "aaa",
+    "statusId": 1,
+    "enterPrice": "0.00",
+    "leavePrice": "0.00",
+    "comment1": "a",
+    "comment2": "b"
+}
 
 ###

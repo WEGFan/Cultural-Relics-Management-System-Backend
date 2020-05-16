@@ -2,6 +2,9 @@ package cn.wegfan.relicsmanagement.controller;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
+import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
+import cn.wegfan.relicsmanagement.dto.RelicPriceDto;
+import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.service.RelicService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
@@ -93,16 +96,19 @@ public class RelicController {
     /**
      * 修改文物详细信息【文职员工】
      * 入馆后修改文物状态信息/盘点/移动【仓库管理员】
+     * 修改文物价值【资产科】
      *
      * @param relicId 文物编号
      */
     @PutMapping("{relicId}")
     @RequiresPermissions(
-            value = {PermissionCodeEnum.EDIT_RELIC_INFO, PermissionCodeEnum.EDIT_RELIC_STATUS},
+            value = {PermissionCodeEnum.EDIT_RELIC_INFO, PermissionCodeEnum.EDIT_RELIC_STATUS,
+                    PermissionCodeEnum.VIEW_EDIT_RELIC_PRICE, PermissionCodeEnum.WAREHOUSE},
             logical = Logical.OR
     )
-    public DataReturnVo updateRelicInfo(@PathVariable Integer relicId) {
-        throw new NotImplementedException();
+    public DataReturnVo updateRelicInfo(@PathVariable Integer relicId,
+                                        @RequestBody RelicInfoDto dto) {
+       return DataReturnVo.success(relicService.updateRelicInfo(relicId, dto));
     }
 
     /**
@@ -110,11 +116,13 @@ public class RelicController {
      *
      * @param relicId 文物编号
      */
-    @PutMapping("{relicId}/price")
-    @RequiresPermissions(PermissionCodeEnum.VIEW_EDIT_RELIC_PRICE)
-    public DataReturnVo updateRelicPrice(@PathVariable Integer relicId) {
-        throw new NotImplementedException();
-    }
+    // @PutMapping("{relicId}/price")
+    // @RequiresPermissions(PermissionCodeEnum.VIEW_EDIT_RELIC_PRICE)
+    // public DataReturnVo updateRelicPrice(@PathVariable Integer relicId,
+    //                                      @RequestBody RelicPriceDto dto) {
+    //     log.debug("{} {}", dto.getEnterPrice(), dto.getLeavePrice());
+    //     return DataReturnVo.success(relicService.updateRelicPrice(relicId, dto));
+    // }
 
     /**
      * 导出文物一览 Excel 表【文职人员（无价值）、管理员】

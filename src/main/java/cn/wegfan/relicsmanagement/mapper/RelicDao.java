@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public interface RelicDao extends BaseMapper<Relic> {
     Page<Relic> selectPageNotDeletedByCondition(Page<?> page, String name, Integer status,
                                                 String dateType, Date startTime, Date endTime);
 
-    @Update("UPDATE relic SET delete_time = now(), warehouse_id = NULL WHERE id = #{relicId}")
+    @Update("UPDATE relic SET warehouse_id = NULL, delete_time = now() WHERE id = #{relicId}")
     int deleteRelicById(Integer relicId);
-
+    
 }

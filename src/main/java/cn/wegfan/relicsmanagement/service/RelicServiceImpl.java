@@ -3,13 +3,18 @@ package cn.wegfan.relicsmanagement.service;
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
+import cn.wegfan.relicsmanagement.dto.RelicPriceDto;
+import cn.wegfan.relicsmanagement.dto.UserInfoDto;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
+import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.entity.Warehouse;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.RelicStatusDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
+import cn.wegfan.relicsmanagement.util.RelicStatusEnum;
 import cn.wegfan.relicsmanagement.vo.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +53,10 @@ public class RelicServiceImpl implements RelicService {
         mapperFactory.classMap(Relic.class, RelicVo.class)
                 .byDefault()
                 .register();
+        mapperFactory.classMap(RelicInfoDto.class, Relic.class)
+                .mapNulls(false)
+                .byDefault()
+                .register();
         mapperFacade = mapperFactory.getMapperFacade();
     }
 
@@ -62,6 +71,11 @@ public class RelicServiceImpl implements RelicService {
                                                               Date startTime, Date endTime,
                                                               long pageIndex, long pageSize) {
         Page<Relic> page = new Page<>(pageIndex, pageSize);
+
+        // 检测是否填写了开始或结束时间，但是没填写时间类型
+        if (dateType == null && (startTime != null || endTime != null)) {
+            throw new BusinessException(BusinessErrorEnum.NoDateType);
+        }
 
         // 检测字符串是否符合格式
         if (dateType != null && dateType.matches("^(enter|leave|lend|fix)$")) {
@@ -79,9 +93,8 @@ public class RelicServiceImpl implements RelicService {
         log.debug(relicList.toString());
         List<RelicVo> relicVoList = mapperFacade.mapAsList(relicList, RelicVo.class);
 
-        // 获取当前登录的用户编号
-        Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
-        Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByUserId(currentLoginUserId);
+        // 获取当前登录的用户权限
+        Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByCurrentLoginUser();
 
         relicVoList.forEach(i -> i.clearFieldsByPermissionCode(permissionCodeSet));
         return new PageResultVo<RelicVo>(relicVoList, pageResult);
@@ -89,6 +102,7 @@ public class RelicServiceImpl implements RelicService {
 
     @Override
     public RelicVo getRelicById(Integer relicId) {
+        // 根据文物编号查找未删除的文物中是否存在该文物
         Relic relic = relicDao.selectNotDeletedByRelicId(relicId);
         if (relic == null) {
             throw new BusinessException(BusinessErrorEnum.RelicNotExists);
@@ -97,9 +111,8 @@ public class RelicServiceImpl implements RelicService {
         RelicVo relicVo = mapperFacade.map(relic, RelicVo.class);
         log.debug(relicVo.toString());
 
-        // 获取当前登录的用户编号
-        Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
-        Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByUserId(currentLoginUserId);
+        // 获取当前登录的用户权限
+        Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByCurrentLoginUser();
 
         relicVo.clearFieldsByPermissionCode(permissionCodeSet);
         return relicVo;
@@ -143,6 +156,40 @@ public class RelicServiceImpl implements RelicService {
     public SuccessVo deleteRelicById(Integer relicId) {
         int result = relicDao.deleteRelicById(relicId);
         return new SuccessVo(result > 0);
+    }
+
+    @Override
+    public RelicVo updateRelicInfo(Integer relicId, RelicInfoDto relicInfo) {
+        // 根据文物编号查找未删除的文物中是否存在该文物
+        Relic relic = relicDao.selectNotDeletedByRelicId(relicId);
+        if (relic == null) {
+            throw new BusinessException(BusinessErrorEnum.RelicNotExists);
+        }
+
+        // 获取当前登录的用户权限
+        Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByCurrentLoginUser();
+        // 根据权限检查是否存在不能修改的字段
+        boolean fieldAllValid = relicInfo.checkAndClearFieldsByPermissionCode(permissionCodeSet);
+        if (!fieldAllValid) {
+            throw new BusinessException(BusinessErrorEnum.Unauthorized);
+        }
+
+        // TODO: 时间修改
+        mapperFacade.map(relicInfo, relic);
+        relic.setUpdateTime(new Date());
+        if (relic.getStatusId().equals(RelicStatusEnum.Lend.getStatusId())) {
+            relic.setLendTime(new Date());
+        } else if (relic.getStatusId().equals(RelicStatusEnum.Fix.getStatusId())) {
+            relic.setFixTime(new Date());
+        } else if (relic.getStatusId().equals(RelicStatusEnum.LeaveMuseum.getStatusId())) {
+            relic.setLeaveTime(new Date());
+        }
+
+        log.debug("{}", relic);
+        relicDao.updateById(relic);
+
+        RelicVo relicVo = mapperFacade.map(relic, RelicVo.class);
+        return relicVo;
     }
 
 }

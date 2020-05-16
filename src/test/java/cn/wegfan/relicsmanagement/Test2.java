@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -140,16 +141,22 @@ public class Test2 {
 
         }
 
-        public void test() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-
-            Method[] methods = getClass().getDeclaredMethods();
-            Method method = getClass().getDeclaredMethod("setName", String.class);
-            method.invoke(this, "1111");
+        public void test() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+            name = "!11";
+            Field field = getClass().getDeclaredField("name");
+            field.setAccessible(true);
+            log.debug("{}", field.get(this));
+            field.set(this, null);
+            log.debug("{}", field.get(this));
+            // Method method = getClass().getDeclaredMethod("setName", String.class);
+            // method.invoke(this, "1111");
         }
 
     }
 
-    public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+        BigDecimal a = new BigDecimal("1.2222").setScale(2, BigDecimal.ROUND_HALF_UP);
+        log.debug(a.toPlainString());
         Set<Integer> set = new HashSet<>();
         set.stream();
         // File file = FileUtil.touch("data/images/1.txt");
