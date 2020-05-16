@@ -22,6 +22,7 @@ public class UserInfoDto implements Serializable {
     /**
      * 姓名
      */
+    @NotBlank(message = "姓名不能为空")
     private String name;
 
     /**
@@ -39,6 +40,7 @@ public class UserInfoDto implements Serializable {
     /**
      * 手机号
      */
+    @Pattern(regexp = "^1[3456789]\\d{9}$", message = "手机号格式不正确")
     private String telephone;
 
     /**

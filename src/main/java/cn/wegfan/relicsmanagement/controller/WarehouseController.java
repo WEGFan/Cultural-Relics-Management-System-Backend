@@ -10,6 +10,8 @@ import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/warehouses")
@@ -38,7 +40,7 @@ public class WarehouseController {
      */
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
-    public DataReturnVo addWarehouse(@RequestBody WarehouseNameDto dto) {
+    public DataReturnVo addWarehouse(@RequestBody @Valid WarehouseNameDto dto) {
         return DataReturnVo.success(warehouseService.createWarehouse(dto.getName()));
     }
 
@@ -50,7 +52,7 @@ public class WarehouseController {
     @PutMapping("{warehouseId}")
     @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
     public DataReturnVo updateWarehouseInfo(@PathVariable Integer warehouseId,
-                                            @RequestBody WarehouseNameDto dto) {
+                                            @RequestBody @Valid WarehouseNameDto dto) {
         return DataReturnVo.success(warehouseService.updateWarehouse(warehouseId, dto.getName()));
     }
 

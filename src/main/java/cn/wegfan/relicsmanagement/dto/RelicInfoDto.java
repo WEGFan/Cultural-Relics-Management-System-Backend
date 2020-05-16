@@ -29,6 +29,7 @@ public class RelicInfoDto implements Serializable {
     /**
      * 名称
      */
+   
     private String name;
 
     /**

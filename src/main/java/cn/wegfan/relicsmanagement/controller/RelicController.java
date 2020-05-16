@@ -3,8 +3,6 @@ package cn.wegfan.relicsmanagement.controller;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
-import cn.wegfan.relicsmanagement.dto.RelicPriceDto;
-import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.service.RelicService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -107,22 +106,9 @@ public class RelicController {
             logical = Logical.OR
     )
     public DataReturnVo updateRelicInfo(@PathVariable Integer relicId,
-                                        @RequestBody RelicInfoDto dto) {
-       return DataReturnVo.success(relicService.updateRelicInfo(relicId, dto));
+                                        @RequestBody @Valid RelicInfoDto dto) {
+        return DataReturnVo.success(relicService.updateRelicInfo(relicId, dto));
     }
-
-    /**
-     * 修改文物价值【资产科】
-     *
-     * @param relicId 文物编号
-     */
-    // @PutMapping("{relicId}/price")
-    // @RequiresPermissions(PermissionCodeEnum.VIEW_EDIT_RELIC_PRICE)
-    // public DataReturnVo updateRelicPrice(@PathVariable Integer relicId,
-    //                                      @RequestBody RelicPriceDto dto) {
-    //     log.debug("{} {}", dto.getEnterPrice(), dto.getLeavePrice());
-    //     return DataReturnVo.success(relicService.updateRelicPrice(relicId, dto));
-    // }
 
     /**
      * 导出文物一览 Excel 表【文职人员（无价值）、管理员】
