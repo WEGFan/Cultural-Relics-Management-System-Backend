@@ -730,7 +730,7 @@ TODO: 分离文物盘点接口
 
 ### 修改文物价值【资产科】 <3.2.9>
 
-`PUT /api/v1/relics/{relicId:int:文物编号}/price`
+`PUT /api/v1/relics/{relicId:int:文物编号}`
 
 #### 权限
 
