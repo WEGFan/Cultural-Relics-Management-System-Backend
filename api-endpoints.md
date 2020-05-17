@@ -508,7 +508,7 @@ TODO: 去掉一些不必要的
         "size": "11cm x 45cm x 14cm", // 尺寸
         "weight": 19198.10, // 重量 kg
         "warehouseId": 1, // 收储仓库id
-        "place": "aaa", // 收储地点
+        "shelfId": 1, // 收储货架id
         "enterPrice": "12345678.90", // 入馆价值【资产科】
         "leavePrice": "12345678.90", // 离馆价值【资产科】
         "statusId": 1, // 状态id
@@ -558,7 +558,7 @@ TODO: 去掉一些不必要的
     "size": "11cm x 45cm x 14cm", // 尺寸
     "weight": 19198.10, // 重量 kg
     "warehouseId": 1, // 收储仓库id
-    "place": "aaa", // 收储地点
+    "shelfId": 1, // 收储货架id
     "enterPrice": "12345678.90", // 入馆价值【资产科】
     "leavePrice": "12345678.90", // 离馆价值【资产科】
     "statusId": 1, // 状态id
@@ -630,7 +630,7 @@ TODO: 去掉一些不必要的
     "size": "11cm x 45cm x 14cm", // 尺寸
     "weight": 19198.10, // 重量 kg
     "warehouseId": 1, // 收储仓库id
-    "place": "aaa", // 收储地点
+    "shelfId": 1, // 收储货架id
     "statusId": 1, // 状态id
     "comment1": "a", // 备注1
     "comment2": "b" // 备注2
@@ -652,7 +652,7 @@ TODO: 去掉一些不必要的
     "size": "11cm x 45cm x 14cm", // 尺寸
     "weight": 19198.10, // 重量 kg
     "warehouseId": 1, // 收储仓库id
-    "place": "aaa", // 收储地点
+    "shelfId": 1, // 收储货架id
     "enterPrice": "12345678.90", // 入馆价值【资产科】
     "leavePrice": "12345678.90", // 离馆价值【资产科】
     "statusId": 1, // 状态id
@@ -696,7 +696,7 @@ TODO: 去掉一些不必要的
     "size": "11cm x 45cm x 14cm", // 尺寸
     "weight": 19198.10, // 重量 kg
     "warehouseId": 1, // 收储仓库id
-    "place": "aaa", // 收储地点
+    "shelfId": 1, // 收储货架id
     "statusId": 1, // 状态id
     "comment1": "a", // 备注1
     "comment2": "b" // 备注2
@@ -718,7 +718,7 @@ TODO: 去掉一些不必要的
     "size": "11cm x 45cm x 14cm", // 尺寸
     "weight": 19198.10, // 重量 kg
     "warehouseId": 1, // 收储仓库id
-    "place": "aaa", // 收储地点
+    "shelfId": 1, // 收储货架id
     "enterPrice": "12345678.90", // 入馆价值【资产科】
     "leavePrice": "12345678.90", // 离馆价值【资产科】
     "statusId": 1, // 状态id
@@ -772,7 +772,7 @@ TODO: 去掉一些不必要的
     "size": "11cm x 45cm x 14cm", // 尺寸
     "weight": 19198.10, // 重量 kg
     "warehouseId": 1, // 收储仓库id
-    "place": "aaa", // 收储地点
+    "shelfId": 1, // 收储货架id
     "enterPrice": "12345678.90", // 入馆价值【资产科】
     "leavePrice": "12345678.90", // 离馆价值【资产科】
     "statusId": 1, // 状态id
