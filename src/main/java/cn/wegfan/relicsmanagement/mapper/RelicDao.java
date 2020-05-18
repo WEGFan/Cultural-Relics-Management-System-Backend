@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,10 @@ public interface RelicDao extends BaseMapper<Relic> {
     @Select("SELECT * FROM relic WHERE warehouse_id = #{warehouseId} AND delete_time IS NULL")
     List<Relic> selectNotDeletedByWarehouseId(Integer warehouseId);
 
-    @Select("SELECT * FROM relic WHERE id = #{relicId} AND delete_time IS NULL")
+    @Select("SELECT * FROM relic WHERE shelf_id = #{shelfId} AND delete_time IS NULL")
+    List<Relic> selectNotDeletedByShelfId(Integer shelfId);
+    
+    @Select("SELECT * FROM relic WHERE id = #{relicId} AND delete_time IS NULL LIMIT 1")
     Relic selectNotDeletedByRelicId(Integer relicId);
 
     // language=xml

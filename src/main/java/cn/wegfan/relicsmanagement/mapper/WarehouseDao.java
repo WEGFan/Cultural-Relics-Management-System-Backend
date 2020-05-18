@@ -13,12 +13,12 @@ public interface WarehouseDao extends BaseMapper<Warehouse> {
     // language=xml
     @Select("<script>" +
             "SELECT * FROM warehouse" +
-            "<where>" +
-            "<if test='name != null'>" +
-            "AND name LIKE concat('%', #{name}, '%')" +
-            "</if>" +
-            "AND delete_time IS NULL" +
-            "</where>" +
+            "  <where>" +
+            "    <if test='name != null'>" +
+            "      AND name LIKE concat('%', #{name}, '%')" +
+            "    </if>" +
+            "    AND delete_time IS NULL" +
+            "  </where>" +
             "</script>")
     Page<Warehouse> selectPageNotDeletedByName(Page<?> page, String name);
 

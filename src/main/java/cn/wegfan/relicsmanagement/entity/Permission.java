@@ -29,12 +29,4 @@ public class Permission implements Serializable {
      */
     private String name;
 
-    // @Override
-    // public String toString() {
-    //     return new StringJoiner(", ", Permission.class.getSimpleName() + "[", "]")
-    //             .add("id=" + id)
-    //             .add("name='" + name + "'")
-    //             .toString();
-    // }
-
 }

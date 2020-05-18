@@ -70,9 +70,9 @@ public class RelicVo {
     private Integer warehouseId;
 
     /**
-     * 收储地点
+     * 货架id
      */
-    private String place;
+    private Integer shelfId;
 
     /**
      * 入馆价值【资产科】

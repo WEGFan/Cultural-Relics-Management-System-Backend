@@ -28,7 +28,12 @@ public class PermissionCodeEnum {
     public static final String EDIT_RELIC_INFO = "relic:info:edit";
 
     /**
-     * 文物入库、外借、送修、离馆
+     * 文物入馆
+     */
+    public static final String RELIC_ENTER_MUSEUM = "relic:status:enter";
+
+    /**
+     * 文物入馆、外借、送修、离馆
      */
     public static final String EDIT_RELIC_STATUS = "relic:status:edit";
 

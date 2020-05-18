@@ -21,11 +21,11 @@ public interface UserDao extends BaseMapper<User> {
     })
     List<User> selectNotDeletedList();
 
-    @Select("SELECT * FROM user WHERE id = #{userId}")
+    @Select("SELECT * FROM user WHERE id = #{userId} LIMIT 1")
     @ResultMap("userExtraPermissionsResultMap")
     User selectByUserId(Integer userId);
 
-    @Select("SELECT * FROM user WHERE work_id = #{workId}")
+    @Select("SELECT * FROM user WHERE work_id = #{workId} LIMIT 1")
     @ResultMap("userExtraPermissionsResultMap")
     User selectByWorkId(Integer workId);
 

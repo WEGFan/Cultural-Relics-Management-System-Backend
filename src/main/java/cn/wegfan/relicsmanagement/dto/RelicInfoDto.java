@@ -1,27 +1,21 @@
 package cn.wegfan.relicsmanagement.dto;
 
-import cn.wegfan.relicsmanagement.entity.Permission;
-import cn.wegfan.relicsmanagement.util.BusinessException;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Slf4j
 @Data
+
 public class RelicInfoDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,7 +23,7 @@ public class RelicInfoDto implements Serializable {
     /**
      * 名称
      */
-   
+
     private String name;
 
     /**
@@ -70,21 +64,25 @@ public class RelicInfoDto implements Serializable {
     /**
      * 收储仓库id
      */
+    @Nullable
     private Integer warehouseId;
 
     /**
-     * 收储地点
+     * 货架id
      */
-    private String place;
+    @Nullable
+    private Integer shelfId;
 
     /**
      * 入馆价值
      */
+    @Nullable
     private BigDecimal enterPrice;
 
     /**
      * 离馆价值
      */
+    @Nullable
     private BigDecimal leavePrice;
 
     /**
@@ -117,14 +115,15 @@ public class RelicInfoDto implements Serializable {
         if (!permissionCodeSet.contains(PermissionCodeEnum.VIEW_EDIT_RELIC_PRICE)) {
             checkFields.addAll(Lists.newArrayList("enterPrice", "leavePrice"));
         }
-        if (!permissionCodeSet.contains(PermissionCodeEnum.WAREHOUSE)) {
-            checkFields.addAll(Lists.newArrayList("warehouseId", "place"));
+        if (!permissionCodeSet.contains(PermissionCodeEnum.MOVE_RELIC)) {
+            checkFields.addAll(Lists.newArrayList("warehouseId", "shelfId"));
         }
         if (!permissionCodeSet.contains(PermissionCodeEnum.EDIT_RELIC_INFO)) {
             checkFields.addAll(Lists.newArrayList("name", "quantity", "year", "reign",
                     "type", "source", "size", "weight", "comment1", "comment2"));
         }
-        if (!permissionCodeSet.contains(PermissionCodeEnum.EDIT_RELIC_STATUS)) {
+        if (!permissionCodeSet.contains(PermissionCodeEnum.EDIT_RELIC_STATUS) &&
+                !permissionCodeSet.contains(PermissionCodeEnum.RELIC_ENTER_MUSEUM)) {
             checkFields.addAll(Lists.newArrayList("statusId"));
         }
 

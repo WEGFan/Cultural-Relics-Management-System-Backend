@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -31,22 +32,13 @@ public class Warehouse implements Serializable {
     /**
      * 更新时间
      */
+    @Nullable
     private Date updateTime;
 
     /**
      * 删除时间
      */
+    @Nullable
     private Date deleteTime;
-
-    // @Override
-    // public String toString() {
-    //     return new StringJoiner(", ", Warehouse.class.getSimpleName() + "[", "]")
-    //             .add("id=" + id)
-    //             .add("name='" + name + "'")
-    //             .add("createTime=" + createTime)
-    //             .add("updateTime=" + updateTime)
-    //             .add("deleteTime=" + deleteTime)
-    //             .toString();
-    // }
 
 }

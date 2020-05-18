@@ -16,7 +16,10 @@ public enum BusinessErrorEnum {
     RelicNotExists(10006, "文物不存在"),
     FileNotJpgOrPng(10007, "图片格式不是jpg/png"),
     FileNotFound(10008, "找不到文件"),
-    NoDateType(10009, "缺少时间类型");
+    NoDateType(10009, "缺少时间类型"),
+    ShelfNotEmpty(10010, "货架上还有文物"),
+    ShelfNotExists(10011, "货架不存在"),
+    DuplicateShelfName(10012, "货架名重复");
 
     private final Integer errorCode;
 

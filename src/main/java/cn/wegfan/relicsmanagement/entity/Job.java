@@ -27,12 +27,5 @@ public class Job implements Serializable {
      * 职务默认权限
      */
     private Set<Permission> permissions;
-    // @Override
-    // public String toString() {
-    //     return new StringJoiner(", ", Job.class.getSimpleName() + "[", "]")
-    //             .add("id=" + id)
-    //             .add("name='" + name + "'")
-    //             .toString();
-    // }
 
 }

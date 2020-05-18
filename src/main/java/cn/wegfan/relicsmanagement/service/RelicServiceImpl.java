@@ -8,10 +8,16 @@ import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.RelicStatusDao;
+import cn.wegfan.relicsmanagement.mapper.ShelfDao;
+import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
+import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.util.RelicStatusEnum;
-import cn.wegfan.relicsmanagement.vo.*;
+import cn.wegfan.relicsmanagement.vo.PageResultVo;
+import cn.wegfan.relicsmanagement.vo.RelicIdPicturePathVo;
+import cn.wegfan.relicsmanagement.vo.RelicVo;
+import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -24,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
@@ -39,6 +46,12 @@ public class RelicServiceImpl implements RelicService {
 
     @Autowired
     private PermissionService permissionService;
+
+    @Autowired
+    private WarehouseDao warehouseDao;
+
+    @Autowired
+    private ShelfDao shelfDao;
 
     private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
 
@@ -161,6 +174,12 @@ public class RelicServiceImpl implements RelicService {
             throw new BusinessException(BusinessErrorEnum.RelicNotExists);
         }
 
+        Integer oldRelicStatusId = relic.getStatusId();
+        Integer newRelicStatusId = relicInfo.getStatusId();
+
+        boolean relicMoved = !Objects.equals(relic.getWarehouseId(), relicInfo.getWarehouseId()) ||
+                !Objects.equals(relic.getShelfId(), relicInfo.getShelfId());
+
         // 获取当前登录的用户权限
         Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByCurrentLoginUser();
         // 根据权限检查是否存在不能修改的字段
@@ -169,15 +188,53 @@ public class RelicServiceImpl implements RelicService {
             throw new BusinessException(BusinessErrorEnum.Unauthorized);
         }
 
-        // TODO: 时间修改
+        // 如果用户只有修改文物状态为入馆的权限
+        if (permissionCodeSet.contains(PermissionCodeEnum.RELIC_ENTER_MUSEUM)) {
+            // 判断修改前和修改后的权限是否为待评估或入馆
+            if (oldRelicStatusId > RelicStatusEnum.InMuseum.getStatusId() ||
+                    newRelicStatusId > RelicStatusEnum.InMuseum.getStatusId()) {
+                throw new BusinessException(BusinessErrorEnum.Unauthorized);
+            }
+        }
+
+        // 如果文物的仓库和货架不为空，检测货架是否存在
+        if ((relicInfo.getWarehouseId() != null || relicInfo.getShelfId() != null) &&
+                shelfDao.selectNotDeletedByWarehouseIdAndShelfId(relicInfo.getWarehouseId(), relicInfo.getShelfId()) == null) {
+            throw new BusinessException(BusinessErrorEnum.ShelfNotExists);
+        }
+
         mapperFacade.map(relicInfo, relic);
+
         relic.setUpdateTime(new Date());
-        if (relic.getStatusId().equals(RelicStatusEnum.Lend.getStatusId())) {
-            relic.setLendTime(new Date());
-        } else if (relic.getStatusId().equals(RelicStatusEnum.Fix.getStatusId())) {
-            relic.setFixTime(new Date());
-        } else if (relic.getStatusId().equals(RelicStatusEnum.LeaveMuseum.getStatusId())) {
-            relic.setLeaveTime(new Date());
+        // 如果修改了文物状态
+        if (!newRelicStatusId.equals(oldRelicStatusId)) {
+            // 入馆 设置入馆时间
+            if (newRelicStatusId.equals(RelicStatusEnum.InMuseum.getStatusId())) {
+                relic.setEnterTime(new Date());
+            } else if (newRelicStatusId > RelicStatusEnum.InMuseum.getStatusId()) {
+                // 清除时间
+                relic.setFixTime(null);
+                relic.setLendTime(null);
+                relic.setLeaveTime(null);
+                relic.setMoveTime(null);
+                // 清除仓库和货架信息
+                relic.setWarehouseId(null);
+                relic.setShelfId(null);
+                // 根据状态设置时间
+                if (newRelicStatusId.equals(RelicStatusEnum.Lend.getStatusId())) {
+                    relic.setLendTime(new Date());
+                } else if (newRelicStatusId.equals(RelicStatusEnum.Fix.getStatusId())) {
+                    relic.setFixTime(new Date());
+                } else if (newRelicStatusId.equals(RelicStatusEnum.LeaveMuseum.getStatusId())) {
+                    relic.setLeaveTime(new Date());
+                }
+            }
+
+        }
+
+        // 如果移动了文物则设置移动时间
+        if (relicMoved) {
+            relic.setMoveTime(new Date());
         }
 
         log.debug("{}", relic);

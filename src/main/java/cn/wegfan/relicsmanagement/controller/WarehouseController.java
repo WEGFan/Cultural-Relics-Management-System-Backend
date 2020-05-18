@@ -9,6 +9,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 
@@ -30,9 +31,13 @@ public class WarehouseController {
     @GetMapping("")
     @RequiresUser
     public DataReturnVo listWarehouses(@RequestParam(required = false) String name,
-                                       @RequestParam Integer page,
-                                       @RequestParam Integer count) {
-        return DataReturnVo.success(warehouseService.listNotDeletedWarehousesByNameAndPage(name, page, count));
+                                       @RequestParam(required = false)Integer page,
+                                       @RequestParam(required = false)Integer count) {
+        if (page != null && count != null) {
+            return DataReturnVo.success(warehouseService.listNotDeletedWarehousesByNameAndPage(name, page, count));
+        }
+        // TODO
+        throw new NotImplementedException();
     }
 
     /**

@@ -94,7 +94,7 @@ public class RelicController {
 
     /**
      * 修改文物详细信息【文职员工】
-     * 入馆后修改文物状态信息/盘点/移动【仓库管理员】
+     * 入馆后修改文物状态信息/移动【仓库管理员】
      * 修改文物价值【资产科】
      *
      * @param relicId 文物编号
@@ -102,7 +102,8 @@ public class RelicController {
     @PutMapping("{relicId}")
     @RequiresPermissions(
             value = {PermissionCodeEnum.EDIT_RELIC_INFO, PermissionCodeEnum.EDIT_RELIC_STATUS,
-                    PermissionCodeEnum.VIEW_EDIT_RELIC_PRICE, PermissionCodeEnum.WAREHOUSE},
+                    PermissionCodeEnum.VIEW_EDIT_RELIC_PRICE, PermissionCodeEnum.WAREHOUSE,
+                    PermissionCodeEnum.MOVE_RELIC},
             logical = Logical.OR
     )
     public DataReturnVo updateRelicInfo(@PathVariable Integer relicId,
