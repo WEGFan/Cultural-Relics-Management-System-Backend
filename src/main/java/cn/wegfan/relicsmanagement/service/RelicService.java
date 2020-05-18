@@ -1,16 +1,18 @@
 package cn.wegfan.relicsmanagement.service;
 
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
+import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.RelicIdPicturePathVo;
 import cn.wegfan.relicsmanagement.vo.RelicVo;
 import cn.wegfan.relicsmanagement.vo.SuccessVo;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Date;
 import java.util.List;
 
-public interface RelicService {
+public interface RelicService extends IService<Relic> {
 
     List<RelicStatus> listAllRelicStatus();
 

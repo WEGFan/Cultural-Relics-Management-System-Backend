@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface WarehouseDao extends BaseMapper<Warehouse> {
 
@@ -21,6 +23,9 @@ public interface WarehouseDao extends BaseMapper<Warehouse> {
             "  </where>" +
             "</script>")
     Page<Warehouse> selectPageNotDeletedByName(Page<?> page, String name);
+
+    @Select("SELECT * FROM warehouse WHERE delete_time IS NULL")
+    List<Warehouse> selectNotDeletedList();
 
     @Select("SELECT * FROM warehouse WHERE name = #{name} AND delete_time IS NULL")
     Warehouse selectNotDeletedByExactName(String name);

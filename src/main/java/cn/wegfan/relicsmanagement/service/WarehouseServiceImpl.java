@@ -65,6 +65,14 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
+    public List<WarehouseVo> listNotDeletedWarehouses() {
+        List<Warehouse> warehouseList = warehouseDao.selectNotDeletedList();
+        List<WarehouseVo> warehouseVoList = mapperFacade.mapAsList(warehouseList, WarehouseVo.class);
+
+        return warehouseVoList;
+    }
+
+    @Override
     public WarehouseVo createWarehouse(String name) {
         // 检测没有被删除的仓库中是否存在相同名字的仓库
         if (warehouseDao.selectNotDeletedByExactName(name) != null) {
@@ -75,7 +83,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         warehouse.setName(name);
         warehouse.setCreateTime(new Date());
         warehouse.setUpdateTime(new Date());
-        
+
         warehouseDao.insert(warehouse);
 
         WarehouseVo warehouseVo = mapperFacade.map(warehouse, WarehouseVo.class);

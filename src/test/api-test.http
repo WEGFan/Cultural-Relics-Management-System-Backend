@@ -10,7 +10,7 @@ Accept: application/json
 GET {{host}}/api/v1/users
 
 ### list relics
-GET {{host}}/api/v1/relics?name=relic name&page=1&count=4&from=2020-05-04 01:22:11&dateType=fix
+GET {{host}}/api/v1/relics?name=&page=1&count=4&from=2020-05-04 01:22:11&dateType=fix
 
 ### add new user
 POST {{host}}/api/v1/users
@@ -131,7 +131,7 @@ Content-Type: application/json
     "warehouseId": 2,
     "shelfId": 11,
     "place": "aaa",
-    "statusId":5,
+    "statusId": 5,
     "enterPrice": "0.00",
     "leavePrice": "0.00",
     "comment1": "a",
@@ -160,5 +160,12 @@ Content-Type: application/json
 
 ### delete shelf
 DELETE {{host}}/api/v1/shelves/10
+
+###
+POST {{host}}/api/test/generate
+Content-Type: application/x-www-form-urlencoded
+
+
+password=wegfan.wegfan&relic=true&shelf=false&warehouse=false
 
 ###

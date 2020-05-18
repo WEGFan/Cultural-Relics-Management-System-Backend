@@ -1,52 +1,46 @@
 package cn.wegfan.relicsmanagement.controller;
 
+import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
+import cn.wegfan.relicsmanagement.util.BusinessException;
+import cn.wegfan.relicsmanagement.util.generator.TestDataGenerator;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.ByteSource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.batik.transcoder.TranscoderException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/tests")
+@RequestMapping("/api/test")
 public class TestController {
 
-    @GetMapping("")
-    public DataReturnVo test(@RequestParam Integer workId, @RequestParam String password) {
-        log.debug("{} {}", workId, password);
-        String hashAlgorithmName = "MD5";//加密方式  
+    @Autowired
+    private TestDataGenerator generator;
 
-        Object crdentials = "abcdef";//密码原值
-        ByteSource salt = ByteSource.Util.bytes("123");//以账号作为盐值
-        int hashIterations = 1;//加密1024次
-        SimpleHash hash = new SimpleHash(hashAlgorithmName, crdentials, salt, hashIterations);
-        log.debug(hash.toHex());
+    @PostMapping("generate")
+    public DataReturnVo test(@RequestParam("password") String password,
+                             @RequestParam("relic") Boolean relic,
+                             @RequestParam("warehouse") Boolean warehouse,
+                             @RequestParam("shelf") Boolean shelf) throws IOException, TranscoderException {
 
-        // 获得shiro的实体
-        Subject subject = SecurityUtils.getSubject();
-        // 封装账号密码
-        UsernamePasswordToken token = new UsernamePasswordToken(String.valueOf(workId), password);
-        // 登陆，验证
-        subject.login(token);
-        log.debug("{}", subject.isAuthenticated());
-
-        // if (!) {
-        //     return Boolean.FALSE;
-        // }
-        // // 更新上次登入时间
-        // try {
-        //     UserUpdateLastLoginTime(account, new Date(System.currentTimeMillis()));
-        // } catch (Exception e) {
-        //     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        //     e.printStackTrace();
-        // }
-        // return Boolean.TRUE;
+        if (!"wegfan.wegfan".equals(password)) {
+            throw new BusinessException(BusinessErrorEnum.Unauthorized);
+        }
+        if (warehouse) {
+            log.debug("generating warehouse");
+            generator.generateWarehouse();
+        }
+        if (shelf) {
+            log.debug("generating shelf");
+            generator.generateShelf();
+        }
+        if (relic) {
+            log.debug("generating relic");
+            generator.generateRelic();
+        }
         return DataReturnVo.success(null);
     }
 

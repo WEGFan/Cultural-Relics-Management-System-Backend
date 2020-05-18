@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -23,7 +24,6 @@ public class RelicInfoDto implements Serializable {
     /**
      * 名称
      */
-
     private String name;
 
     /**

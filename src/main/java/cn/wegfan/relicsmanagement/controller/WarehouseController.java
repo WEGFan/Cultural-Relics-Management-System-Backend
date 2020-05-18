@@ -31,13 +31,12 @@ public class WarehouseController {
     @GetMapping("")
     @RequiresUser
     public DataReturnVo listWarehouses(@RequestParam(required = false) String name,
-                                       @RequestParam(required = false)Integer page,
-                                       @RequestParam(required = false)Integer count) {
+                                       @RequestParam(required = false) Integer page,
+                                       @RequestParam(required = false) Integer count) {
         if (page != null && count != null) {
             return DataReturnVo.success(warehouseService.listNotDeletedWarehousesByNameAndPage(name, page, count));
         }
-        // TODO
-        throw new NotImplementedException();
+        return DataReturnVo.success(warehouseService.listNotDeletedWarehouses());
     }
 
     /**

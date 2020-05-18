@@ -19,6 +19,10 @@
             <id>com.e-iceblue</id>
             <url>http://repo.e-iceblue.cn/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <properties>
@@ -155,6 +159,12 @@
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-annotation</artifactId>
             <version>4.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.atomfrede</groupId>
+            <artifactId>jadenticon</artifactId>
+            <version>2.0.0</version>
         </dependency>
     </dependencies>
 

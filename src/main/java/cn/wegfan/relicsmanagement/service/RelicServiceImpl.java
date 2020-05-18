@@ -19,6 +19,7 @@ import cn.wegfan.relicsmanagement.vo.RelicIdPicturePathVo;
 import cn.wegfan.relicsmanagement.vo.RelicVo;
 import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
@@ -36,7 +37,7 @@ import java.util.Set;
 @Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class RelicServiceImpl implements RelicService {
+public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements RelicService {
 
     @Autowired
     private RelicStatusDao relicStatusDao;
