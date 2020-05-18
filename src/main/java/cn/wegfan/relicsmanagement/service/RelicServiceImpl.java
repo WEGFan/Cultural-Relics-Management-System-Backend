@@ -3,6 +3,7 @@ package cn.wegfan.relicsmanagement.service;
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
@@ -80,6 +81,10 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
                                                               Date startTime, Date endTime,
                                                               long pageIndex, long pageSize) {
         Page<Relic> page = new Page<>(pageIndex, pageSize);
+
+        if (StrUtil.isEmpty(name)) {
+            name = null;
+        }
 
         // 检测是否填写了开始或结束时间，但是没填写时间类型
         if (dateType == null && (startTime != null || endTime != null)) {

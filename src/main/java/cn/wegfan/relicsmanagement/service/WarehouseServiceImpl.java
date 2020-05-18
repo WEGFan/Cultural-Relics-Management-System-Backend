@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
+import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.WarehouseNameDto;
 import cn.wegfan.relicsmanagement.entity.Warehouse;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
@@ -54,10 +55,12 @@ public class WarehouseServiceImpl implements WarehouseService {
     public PageResultVo<WarehouseVo> listNotDeletedWarehousesByNameAndPage(String name, long pageIndex, long pageSize) {
         Page<Warehouse> page = new Page<>(pageIndex, pageSize);
 
+        if (StrUtil.isEmpty(name)) {
+            name = null;
+        }
+
         Page<Warehouse> pageResult = warehouseDao.selectPageNotDeletedByName(page, name);
-        // log.debug(String.valueOf(result.getRecords()));
-        // log.debug("current={} size={} total={} pages={}", result.getCurrent(), result.getSize(), result.getTotal(), result.getPages());
-        // log.debug("{} {}", result.hasPrevious(), result.hasNext());
+
         List<Warehouse> warehouseList = pageResult.getRecords();
         List<WarehouseVo> warehouseVoList = mapperFacade.mapAsList(warehouseList, WarehouseVo.class);
 
@@ -66,6 +69,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseVo> listNotDeletedWarehouses() {
+
         List<Warehouse> warehouseList = warehouseDao.selectNotDeletedList();
         List<WarehouseVo> warehouseVoList = mapperFacade.mapAsList(warehouseList, WarehouseVo.class);
 

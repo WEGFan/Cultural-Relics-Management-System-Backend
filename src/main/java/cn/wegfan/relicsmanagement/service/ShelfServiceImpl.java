@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
+import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.ShelfDto;
 import cn.wegfan.relicsmanagement.dto.ShelfNameDto;
 import cn.wegfan.relicsmanagement.entity.Shelf;
@@ -55,6 +56,10 @@ public class ShelfServiceImpl implements ShelfService {
     public PageResultVo<ShelfVo> listNotDeletedShelvesByWarehouseIdAndNameAndPage(Integer warehouseId, String name, long pageIndex, long pageSize) {
         Page<Shelf> page = new Page<>(pageIndex, pageSize);
 
+        if (StrUtil.isEmpty(name)) {
+            name = null;
+        }
+        
         Page<Shelf> pageResult = shelfDao.selectPageNotDeletedByWarehouseIdAndName(page, warehouseId, name);
         // log.debug(String.valueOf(result.getRecords()));
         // log.debug("current={} size={} total={} pages={}", result.getCurrent(), result.getSize(), result.getTotal(), result.getPages());

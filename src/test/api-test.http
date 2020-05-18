@@ -10,7 +10,7 @@ Accept: application/json
 GET {{host}}/api/v1/users
 
 ### list relics
-GET {{host}}/api/v1/relics?name=&page=1&count=4&from=2020-05-04 01:22:11&dateType=fix
+GET {{host}}/api/v1/relics?name=&page=1&count=20&from=&dateType=&status=1
 
 ### add new user
 POST {{host}}/api/v1/users
