@@ -7,10 +7,10 @@ GET {{host}}/api/v1/permissions
 Accept: application/json
 
 ### list all users
-GET {{host}}/api/v1/users
+GET {{host}}/api/v1/users?page=1&count=1
 
 ### list relics
-GET {{host}}/api/v1/relics?name=&page=1&count=20&from=&dateType=&status=1
+GET {{host}}/api/v1/relics?name=&page=700&count=20&from=&dateType=&status=1
 
 ### add new user
 POST {{host}}/api/v1/users

@@ -27,7 +27,11 @@ public class UserController {
      */
     @GetMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
-    public DataReturnVo listAllUsers() {
+    public DataReturnVo listAllUsers(@RequestParam(required = false) Integer page,
+                                     @RequestParam(required = false) Integer count) {
+        if (page != null && count != null) {
+            return DataReturnVo.success(userService.listAllInWorkUsersByPage(page, count));
+        }
         return DataReturnVo.success(userService.listAllInWorkUsers());
     }
 

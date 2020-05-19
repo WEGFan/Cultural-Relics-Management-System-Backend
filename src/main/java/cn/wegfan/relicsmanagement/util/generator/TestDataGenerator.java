@@ -120,7 +120,7 @@ public class TestDataGenerator {
                 Date createTime = new Date(baseTime - RandomUtil.randomLong(2 * millisecondsPerHour));
                 relic.setCreateTime(createTime);
                 relic.setUpdateTime(createTime);
-                relicDao.insert(relic);
+                relicList.add(relic);
                 continue;
             }
 
@@ -159,7 +159,7 @@ public class TestDataGenerator {
                 default:
                     break;
             }
-            
+
             relicList.add(relic);
         }
         relicService.saveBatch(relicList);

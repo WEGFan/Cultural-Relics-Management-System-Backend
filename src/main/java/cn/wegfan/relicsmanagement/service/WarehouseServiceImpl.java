@@ -69,7 +69,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseVo> listNotDeletedWarehouses() {
-
         List<Warehouse> warehouseList = warehouseDao.selectNotDeletedList();
         List<WarehouseVo> warehouseVoList = mapperFacade.mapAsList(warehouseList, WarehouseVo.class);
 

@@ -2,6 +2,7 @@ package cn.wegfan.relicsmanagement.mapper;
 
 import cn.wegfan.relicsmanagement.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,10 @@ public interface UserDao extends BaseMapper<User> {
                             fetchType = FetchType.EAGER))
     })
     List<User> selectNotDeletedList();
+
+    @Select("SELECT * FROM user WHERE delete_time IS NULL")
+    @ResultMap("userExtraPermissionsResultMap")
+    Page<User> selectPageNotDeleted(Page<?> page);
 
     @Select("SELECT * FROM user WHERE id = #{userId} LIMIT 1")
     @ResultMap("userExtraPermissionsResultMap")

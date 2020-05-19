@@ -3,14 +3,14 @@ package cn.wegfan.relicsmanagement.service;
 import cn.wegfan.relicsmanagement.dto.UserInfoDto;
 import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.entity.User;
+import cn.wegfan.relicsmanagement.entity.Warehouse;
 import cn.wegfan.relicsmanagement.mapper.PermissionDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
 import cn.wegfan.relicsmanagement.util.PasswordUtil;
-import cn.wegfan.relicsmanagement.vo.SuccessVo;
-import cn.wegfan.relicsmanagement.vo.UserIdVo;
-import cn.wegfan.relicsmanagement.vo.UserVo;
+import cn.wegfan.relicsmanagement.vo.*;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.CustomConverter;
 import ma.glasnost.orika.MapperFacade;
@@ -80,6 +80,17 @@ public class UserServiceImpl implements UserService {
         log.debug(userList.toString());
         List<UserVo> userVoList = mapperFacade.mapAsList(userList, UserVo.class);
         return userVoList;
+    }
+
+    @Override
+    public PageResultVo<UserVo> listAllInWorkUsersByPage(long pageIndex, long pageSize) {
+        Page<Warehouse> page = new Page<>(pageIndex, pageSize);
+        Page<User> pageResult = userDao.selectPageNotDeleted(page);
+
+        List<User> userList = pageResult.getRecords();
+        List<UserVo> userVoList = mapperFacade.mapAsList(userList, UserVo.class);
+
+        return new PageResultVo<UserVo>(userVoList, pageResult);
     }
 
     @Override
