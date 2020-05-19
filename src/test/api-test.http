@@ -27,17 +27,17 @@ Content-Type: application/json
 }
 
 ### update user
-PUT {{host}}/api/v1/users/12
+PUT {{host}}/api/v1/users/16
 Content-Type: application/json
 
 {
-    "workId": 10000,
-    "name": "admin",
-    "password": "admin",
-    "jobId": 5,
+    "workId": 10001,
+    "name": "paizhao",
+    "password": "",
+    "jobId": 1,
     "extraPermissionsId": [
     ],
-    "telephone": "231312"
+    "telephone": "13800000001"
 }
 
 ### delete user

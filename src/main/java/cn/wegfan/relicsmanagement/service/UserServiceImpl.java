@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
+import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.UserInfoDto;
 import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.entity.User;
@@ -124,8 +125,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SuccessVo updateUserInfo(Integer userId, UserInfoDto userInfo) {
+        User user = userDao.selectNotDeletedById(userId);
+
         // 检测在职员工中是否存在该用户编号对应的用户
-        if (userDao.selectNotDeletedById(userId) == null) {
+        if (user == null) {
             throw new BusinessException(BusinessErrorEnum.UserNotExists);
         }
         // 从所有员工中查找工号是否被其他人占用
@@ -134,10 +137,15 @@ public class UserServiceImpl implements UserService {
         if (sameWorkIdUser != null && !sameWorkIdUser.getId().equals(userId)) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
         }
+        // 判断是否要修改密码
+        if (!StrUtil.isEmpty(userInfo.getPassword())) {
+            userInfo.setPassword(PasswordUtil.encryptPassword(userInfo.getPassword(), user.getSalt()));
+        } else {
+            userInfo.setPassword(null);
+        }
         // TODO: 清除用户的session缓存
-        User user = mapperFacade.map(userInfo, User.class);
-        user.setId(userId);
-        user.setPassword(PasswordUtil.encryptPassword(user.getPassword(), user.getSalt()));
+        mapperFacade.map(userInfo, user);
+
         user.setUpdateTime(new Date());
         log.debug(user.toString());
 

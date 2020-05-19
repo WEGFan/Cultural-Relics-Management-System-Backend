@@ -28,8 +28,7 @@ public class UserInfoDto implements Serializable {
     /**
      * 密码
      */
-    @NotBlank(message = "新密码不能为空")
-    @Size(min = 8, max = 24, message = "密码长度需在 8 到 24 个字符之间")
+    @Pattern(regexp = "^(.{8,24}|\\s{0})$", message = "密码长度需在 8 到 24 个字符之间")
     private String password;
 
     /**
