@@ -297,6 +297,7 @@ TODO: 忘记密码
 | 11       | relic:export:relics    | 查询、导出文物一览表       |
 | 12       | relic:export:warehouse | 查询、导出某仓库文物一览表 |
 | 13       | relic:export:changes   | 查询、导出文物流水表       |
+| 14       | relic:status:enter     | 文物入馆                   |
 
 #### 错误状态码
 
