@@ -14,7 +14,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     lazy-loading-enabled: false
-    default-executor-type: 'batch'
+    default-executor-type: 'simple'
 
 logging:
   level:

@@ -3,6 +3,7 @@ package cn.wegfan.relicsmanagement.controller;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
+import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.service.RelicService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
@@ -103,7 +104,7 @@ public class RelicController {
     @RequiresPermissions(
             value = {PermissionCodeEnum.EDIT_RELIC_INFO, PermissionCodeEnum.EDIT_RELIC_STATUS,
                     PermissionCodeEnum.VIEW_EDIT_RELIC_PRICE, PermissionCodeEnum.WAREHOUSE,
-                    PermissionCodeEnum.MOVE_RELIC},
+                    PermissionCodeEnum.MOVE_RELIC, PermissionCodeEnum.RELIC_ENTER_MUSEUM},
             logical = Logical.OR
     )
     public DataReturnVo updateRelicInfo(@PathVariable Integer relicId,

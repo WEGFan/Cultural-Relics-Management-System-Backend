@@ -154,7 +154,8 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
         // 先插入到数据库并获取id
         relicDao.insert(relic);
-
+        log.debug(relic.toString());
+        
         String fileName = relic.getId() + ".jpg";
         File file = FileUtil.touch(tempFile.getParentFile().getParentFile(), fileName);
         // 转换成jpg格式

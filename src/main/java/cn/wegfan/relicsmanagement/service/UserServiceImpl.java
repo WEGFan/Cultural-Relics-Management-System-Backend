@@ -97,7 +97,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserVo getUserById(Integer userId) {
         User user = userDao.selectById(userId);
-        // user.setPermissions(permissionDao.selectListByUserId(user.getId()));
         log.debug(user.toString());
         UserVo userVo = mapperFacade.map(user, UserVo.class);
         return userVo;
@@ -105,6 +104,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserIdVo addUser(UserInfoDto userInfo) {
+        // TODO: 判断职务和权限
+
         // 从所有员工中检查工号是否重复
         if (userDao.selectByWorkId(Integer.parseInt(userInfo.getWorkId())) != null) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
@@ -144,6 +145,7 @@ public class UserServiceImpl implements UserService {
             userInfo.setPassword(null);
         }
         // TODO: 清除用户的session缓存
+        // TODO: 判断职务和权限
         mapperFacade.map(userInfo, user);
 
         user.setUpdateTime(new Date());

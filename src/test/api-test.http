@@ -31,12 +31,11 @@ PUT {{host}}/api/v1/users/16
 Content-Type: application/json
 
 {
-    "workId": 10001,
+    "workId": "aaa",
     "name": "paizhao",
     "password": "",
     "jobId": 1,
-    "extraPermissionsId": [
-    ],
+    "extraPermissionsId": null,
     "telephone": "13800000001"
 }
 
