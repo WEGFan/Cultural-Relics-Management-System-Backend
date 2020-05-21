@@ -2,7 +2,6 @@ package cn.wegfan.relicsmanagement.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data

@@ -3,7 +3,6 @@ package cn.wegfan.relicsmanagement.controller;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
-import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.service.RelicService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
@@ -54,15 +53,18 @@ public class RelicController {
     @RequiresPermissions(PermissionCodeEnum.VIEW_RELIC_INFO)
     public DataReturnVo listRelics(@RequestParam(required = false) String name,
                                    @RequestParam(required = false) Integer status,
-                                   @RequestParam Integer page,
-                                   @RequestParam Integer count,
+                                   @RequestParam(required = false) Integer warehouse,
+                                   @RequestParam(required = false) Integer shelf,
                                    @RequestParam(required = false) Date from,
                                    @RequestParam(required = false) Date to,
-                                   @RequestParam(required = false) String dateType) {
+                                   @RequestParam(required = false) String dateType,
+                                   @RequestParam Integer page,
+                                   @RequestParam Integer count) {
         log.debug("{} {} {} {}", name, status, page, count);
         log.debug("{} {} {}", from, to, dateType);
-        return DataReturnVo.success(relicService.searchNotDeletedRelicsByPage(name, status, dateType,
-                from, to, page, count));
+        return DataReturnVo.success(relicService.searchNotDeletedRelicsByPage(name, status,
+                warehouse, shelf, dateType, from, to,
+                page, count));
     }
 
     /**
@@ -109,6 +111,7 @@ public class RelicController {
     )
     public DataReturnVo updateRelicInfo(@PathVariable Integer relicId,
                                         @RequestBody @Valid RelicInfoDto dto) {
+        log.debug(dto.toString());
         return DataReturnVo.success(relicService.updateRelicInfo(relicId, dto));
     }
 

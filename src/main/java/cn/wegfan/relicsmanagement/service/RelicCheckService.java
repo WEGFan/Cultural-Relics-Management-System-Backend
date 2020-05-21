@@ -1,13 +1,9 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
-import cn.wegfan.relicsmanagement.entity.Relic;
-import cn.wegfan.relicsmanagement.entity.RelicStatus;
-import cn.wegfan.relicsmanagement.vo.*;
-import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.Date;
-import java.util.List;
+import cn.wegfan.relicsmanagement.vo.CheckIdVo;
+import cn.wegfan.relicsmanagement.vo.PageResultVo;
+import cn.wegfan.relicsmanagement.vo.RelicCheckVo;
+import cn.wegfan.relicsmanagement.vo.SuccessVo;
 
 public interface RelicCheckService {
     

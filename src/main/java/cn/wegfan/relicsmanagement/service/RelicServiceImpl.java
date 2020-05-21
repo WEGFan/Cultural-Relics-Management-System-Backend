@@ -5,7 +5,6 @@ import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
-import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
@@ -78,8 +77,9 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
     }
 
     @Override
-    public PageResultVo<RelicVo> searchNotDeletedRelicsByPage(String name, Integer status, String dateType,
-                                                              Date startTime, Date endTime,
+    public PageResultVo<RelicVo> searchNotDeletedRelicsByPage(String name, Integer status,
+                                                              Integer warehouseId, Integer shelfId,
+                                                              String dateType, Date startTime, Date endTime,
                                                               long pageIndex, long pageSize) {
         Page<Relic> page = new Page<>(pageIndex, pageSize);
 
@@ -99,8 +99,8 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
             dateType = null;
         }
 
-        Page<Relic> pageResult = relicDao.selectPageNotDeletedByCondition(page, name, status, dateType,
-                startTime, endTime);
+        Page<Relic> pageResult = relicDao.selectPageNotDeletedByCondition(page, name, status,
+                warehouseId, shelfId, dateType, startTime, endTime);
         // log.debug(String.valueOf(result.getRecords()));
         // log.debug("current={} size={} total={} pages={}", result.getCurrent(), result.getSize(), result.getTotal(), result.getPages());
         // log.debug("{} {}", result.hasPrevious(), result.hasNext());

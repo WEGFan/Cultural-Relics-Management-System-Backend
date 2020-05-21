@@ -32,6 +32,12 @@ public interface RelicDao extends BaseMapper<Relic> {
             "  <if test='status != null'>" +
             "    AND status_id = #{status}" +
             "  </if>" +
+            "  <if test='warehouseId != null'>" +
+            "    AND warehouse_id = #{warehouseId}" +
+            "  </if>" +
+            "  <if test='shelfId != null'>" +
+            "    AND shelf_id = #{shelfId}" +
+            "  </if>" +
             "  <if test='dateType != null'>" +
             "    <if test='startTime != null'>" +
             "      AND ${dateType} &gt;= #{startTime}" +
@@ -47,6 +53,7 @@ public interface RelicDao extends BaseMapper<Relic> {
             "</if>" +
             "</script>")
     Page<Relic> selectPageNotDeletedByCondition(Page<?> page, String name, Integer status,
+                                                Integer warehouseId, Integer shelfId,
                                                 String dateType, Date startTime, Date endTime);
 
     @Update("UPDATE relic SET warehouse_id = NULL, shelf_id = NULL, delete_time = now() WHERE id = #{relicId}")

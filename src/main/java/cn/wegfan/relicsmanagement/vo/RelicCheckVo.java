@@ -1,13 +1,7 @@
 package cn.wegfan.relicsmanagement.vo;
 
-import cn.wegfan.relicsmanagement.entity.User;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import javax.annotation.Nullable;
-import java.io.Serializable;
 import java.util.Date;
 
 @Data

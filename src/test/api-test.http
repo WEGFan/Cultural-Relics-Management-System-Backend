@@ -41,7 +41,7 @@ Accept: application/json
 GET {{host}}/api/v1/users?page=1&count=1
 
 ### list relics
-GET {{host}}/api/v1/relics?name=&page=700&count=20&from=&dateType=&status=1
+GET {{host}}/api/v1/relics?name=&page=1&count=20&from=&dateType=&status=2&shelf=100
 
 ### add new user
 POST {{host}}/api/v1/users
@@ -199,5 +199,8 @@ Content-Type: application/json
 {
     "warehouseId": 2
 }
+
+### end relic check
+DELETE {{host}}/api/v1/checks/sessions
 
 ###

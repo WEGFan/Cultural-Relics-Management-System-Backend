@@ -16,8 +16,9 @@ public interface RelicService extends IService<Relic> {
 
     List<RelicStatus> listAllRelicStatus();
 
-    PageResultVo<RelicVo> searchNotDeletedRelicsByPage(String name, Integer status, String dateType,
-                                                       Date startTime, Date endTime,
+    PageResultVo<RelicVo> searchNotDeletedRelicsByPage(String name, Integer status,
+                                                       Integer warehouseId, Integer shelfId,
+                                                       String dateType, Date startTime, Date endTime,
                                                        long pageIndex, long pageSize);
 
     RelicVo getRelicById(Integer relicId);
@@ -25,7 +26,7 @@ public interface RelicService extends IService<Relic> {
     RelicIdPicturePathVo addRelicByPicturePath(String tempPath);
 
     SuccessVo deleteRelicById(Integer relicId);
-    
+
     RelicVo updateRelicInfo(Integer relicId, RelicInfoDto relicInfo);
 
 }

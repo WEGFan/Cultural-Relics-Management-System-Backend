@@ -12,9 +12,7 @@ import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
 import cn.wegfan.relicsmanagement.service.RelicService;
 import com.github.atomfrede.jadenticon.Jadenticon;
-import com.google.j2objc.annotations.AutoreleasePool;
 import org.apache.batik.transcoder.TranscoderException;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +26,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Component
 public class TestDataGenerator {

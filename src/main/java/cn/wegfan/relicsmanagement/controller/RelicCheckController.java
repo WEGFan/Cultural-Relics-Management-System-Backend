@@ -2,16 +2,11 @@ package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.dto.RelicMoveDto;
 import cn.wegfan.relicsmanagement.dto.WarehouseIdDto;
-import cn.wegfan.relicsmanagement.dto.WarehouseNameDto;
-import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.service.RelicCheckService;
-import cn.wegfan.relicsmanagement.service.WarehouseService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -58,7 +53,7 @@ public class RelicCheckController {
     @PostMapping("sessions")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
     public DataReturnVo startCheck(@RequestBody @Valid WarehouseIdDto dto) {
-        throw new NotImplementedException();
+        return DataReturnVo.success(relicCheckService.startRelicCheck(dto.getWarehouseId()));
     }
 
     /**
@@ -67,7 +62,7 @@ public class RelicCheckController {
     @DeleteMapping("sessions")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
     public DataReturnVo endCheck() {
-        throw new NotImplementedException();
+        return DataReturnVo.success(relicCheckService.endRelicCheck());
     }
 
     /**

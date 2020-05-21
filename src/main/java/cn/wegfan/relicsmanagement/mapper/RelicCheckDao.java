@@ -1,6 +1,5 @@
 package cn.wegfan.relicsmanagement.mapper;
 
-import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicCheck;
 import cn.wegfan.relicsmanagement.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -8,10 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface RelicCheckDao extends BaseMapper<RelicCheck> {
@@ -39,5 +34,8 @@ public interface RelicCheckDao extends BaseMapper<RelicCheck> {
 
     @Select("SELECT * FROM relic_check WHERE warehouse_id = #{warehouseId} AND end_time IS NULL LIMIT 1")
     RelicCheck selectNotEndByWarehouseId(Integer warehouseId);
+    
+    @Update("update relic_check set end_time = now() where operator_id = #{userId}")
+    int updateEndTimeByUserId(Integer userId);
 
 }
