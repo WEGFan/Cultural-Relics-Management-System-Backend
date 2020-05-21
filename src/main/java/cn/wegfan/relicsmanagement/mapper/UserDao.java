@@ -34,11 +34,11 @@ public interface UserDao extends BaseMapper<User> {
     @ResultMap("userExtraPermissionsResultMap")
     User selectByWorkId(Integer workId);
 
-    @Select("SELECT * FROM user WHERE work_id = #{workId} AND delete_time IS NULL")
+    @Select("SELECT * FROM user WHERE work_id = #{workId} AND delete_time IS NULL LIMIT 1")
     @ResultMap("userExtraPermissionsResultMap")
     User selectNotDeletedByWorkId(Integer workId);
 
-    @Select("SELECT * FROM user WHERE id = #{userId} AND delete_time IS NULL")
+    @Select("SELECT * FROM user WHERE id = #{userId} AND delete_time IS NULL LIMIT 1")
     @ResultMap("userExtraPermissionsResultMap")
     User selectNotDeletedById(Integer userId);
 

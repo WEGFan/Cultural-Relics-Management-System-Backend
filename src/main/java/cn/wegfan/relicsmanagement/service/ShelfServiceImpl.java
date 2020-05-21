@@ -59,7 +59,7 @@ public class ShelfServiceImpl implements ShelfService {
         if (StrUtil.isEmpty(name)) {
             name = null;
         }
-        
+
         Page<Shelf> pageResult = shelfDao.selectPageNotDeletedByWarehouseIdAndName(page, warehouseId, name);
         // log.debug(String.valueOf(result.getRecords()));
         // log.debug("current={} size={} total={} pages={}", result.getCurrent(), result.getSize(), result.getTotal(), result.getPages());
@@ -100,7 +100,10 @@ public class ShelfServiceImpl implements ShelfService {
     }
 
     @Override
-    public ShelfVo updateShelf(Integer shelfId, String name) {
+    public ShelfVo updateShelf(Integer shelfId, ShelfDto dto) {
+        String name = dto.getName();
+        Integer warehouseId = dto.getWarehouseId();
+
         Shelf shelf = shelfDao.selectNotDeletedById(shelfId);
 
         // 检测没有被删除的货架中是否存在货架编号对应的货架
@@ -108,12 +111,15 @@ public class ShelfServiceImpl implements ShelfService {
             throw new BusinessException(BusinessErrorEnum.ShelfNotExists);
         }
         // 检测相同仓库里没有被删除的其他货架中是否存在相同名字的货架
-        Shelf sameNameShelf = shelfDao.selectNotDeletedByWarehouseIdAndExactName(shelf.getWarehouseId(), name);
+        Shelf sameNameShelf = shelfDao.selectNotDeletedByWarehouseIdAndExactName(warehouseId, name);
         if (sameNameShelf != null && !sameNameShelf.getId().equals(shelfId)) {
             throw new BusinessException(BusinessErrorEnum.DuplicateShelfName);
         }
 
+        relicDao.changeRelicWarehouse(shelf.getWarehouseId(), warehouseId);
+        
         shelf.setName(name);
+        shelf.setWarehouseId(warehouseId);
         shelf.setUpdateTime(new Date());
 
         shelfDao.updateById(shelf);

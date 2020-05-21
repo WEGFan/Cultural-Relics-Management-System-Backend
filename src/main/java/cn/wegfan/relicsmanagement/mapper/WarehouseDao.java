@@ -27,10 +27,10 @@ public interface WarehouseDao extends BaseMapper<Warehouse> {
     @Select("SELECT * FROM warehouse WHERE delete_time IS NULL")
     List<Warehouse> selectNotDeletedList();
 
-    @Select("SELECT * FROM warehouse WHERE name = #{name} AND delete_time IS NULL")
+    @Select("SELECT * FROM warehouse WHERE name = #{name} AND delete_time IS NULL LIMIT 1")
     Warehouse selectNotDeletedByExactName(String name);
 
-    @Select("SELECT * FROM warehouse WHERE id = #{warehouseId} AND delete_time IS NULL")
+    @Select("SELECT * FROM warehouse WHERE id = #{warehouseId} AND delete_time IS NULL LIMIT 1")
     Warehouse selectNotDeletedById(Integer warehouseId);
 
     @Update("UPDATE warehouse SET delete_time = now() WHERE id = #{warehouseId}")

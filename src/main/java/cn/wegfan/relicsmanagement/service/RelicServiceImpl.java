@@ -5,6 +5,7 @@ import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
+import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
@@ -155,7 +156,7 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         // 先插入到数据库并获取id
         relicDao.insert(relic);
         log.debug(relic.toString());
-        
+
         String fileName = relic.getId() + ".jpg";
         File file = FileUtil.touch(tempFile.getParentFile().getParentFile(), fileName);
         // 转换成jpg格式
@@ -183,6 +184,9 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
         Integer oldRelicStatusId = relic.getStatusId();
         Integer newRelicStatusId = relicInfo.getStatusId();
+        if (newRelicStatusId == null) {
+            newRelicStatusId = oldRelicStatusId;
+        }
 
         boolean relicMoved = !Objects.equals(relic.getWarehouseId(), relicInfo.getWarehouseId()) ||
                 !Objects.equals(relic.getShelfId(), relicInfo.getShelfId());
@@ -196,7 +200,8 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         }
 
         // 如果用户只有修改文物状态为入馆的权限
-        if (permissionCodeSet.contains(PermissionCodeEnum.RELIC_ENTER_MUSEUM)) {
+        if (permissionCodeSet.contains(PermissionCodeEnum.RELIC_ENTER_MUSEUM) &&
+                !permissionCodeSet.contains(PermissionCodeEnum.EDIT_RELIC_STATUS)) {
             // 判断修改前和修改后的权限是否为待评估或入馆
             if (oldRelicStatusId > RelicStatusEnum.InMuseum.getStatusId() ||
                     newRelicStatusId > RelicStatusEnum.InMuseum.getStatusId()) {
@@ -248,6 +253,8 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         relicDao.updateById(relic);
 
         RelicVo relicVo = mapperFacade.map(relic, RelicVo.class);
+
+        relicVo.clearFieldsByPermissionCode(permissionCodeSet);
         return relicVo;
     }
 

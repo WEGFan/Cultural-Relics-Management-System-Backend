@@ -32,7 +32,7 @@ public class ShelfController {
      */
     @GetMapping("")
     @RequiresUser
-    public DataReturnVo listShelvesByWarehouse(@RequestParam Integer warehouseId,
+    public DataReturnVo listShelvesByWarehouse(@RequestParam(required = false) Integer warehouseId,
                                                @RequestParam(required = false) String name,
                                                @RequestParam(required = false) Integer page,
                                                @RequestParam(required = false) Integer count) {
@@ -59,8 +59,8 @@ public class ShelfController {
     @PutMapping("{shelfId}")
     @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
     public DataReturnVo updateShelfInfo(@PathVariable Integer shelfId,
-                                        @RequestBody @Valid ShelfNameDto dto) {
-        return DataReturnVo.success(shelfService.updateShelf(shelfId, dto.getName()));
+                                        @RequestBody @Valid ShelfDto dto) {
+        return DataReturnVo.success(shelfService.updateShelf(shelfId, dto));
     }
 
     /**
@@ -71,7 +71,7 @@ public class ShelfController {
     @DeleteMapping("{shelfId}")
     @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
     public DataReturnVo deleteShelf(@PathVariable Integer shelfId) {
-       return DataReturnVo.success(shelfService.deleteShelf(shelfId)); 
+        return DataReturnVo.success(shelfService.deleteShelf(shelfId));
     }
 
 }

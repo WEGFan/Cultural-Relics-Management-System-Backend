@@ -21,6 +21,7 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.metadata.Type;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,6 +87,37 @@ public class RelicCheckServiceImpl implements RelicCheckService {
         // TODO: checkCount
         List<RelicCheckVo> relicCheckVoList = mapperFacade.mapAsList(relicCheckList, RelicCheckVo.class);
         return new PageResultVo<RelicCheckVo>(relicCheckVoList, pageResult);
+    }
+
+    @Override
+    public CheckIdVo startRelicCheck(Integer warehouseId) {
+        // 获取当前登录的用户编号
+        Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
+        
+        // 检查仓库是否存在
+        if (warehouseDao.selectNotDeletedById(warehouseId) == null) {
+            throw new BusinessException(BusinessErrorEnum.WarehouseNotExists);
+        }
+        // 检查当前登录的用户是否有其他未完成的盘点
+        if (relicCheckDao.selectNotEndByUserId(currentLoginUserId) != null) {
+            throw new BusinessException(BusinessErrorEnum.HasNotEndedRelicCheck);
+        }
+        // 检查是否有其他用户在盘点该仓库
+        if (relicCheckDao.selectNotEndByWarehouseId(warehouseId) != null) {
+            throw new BusinessException(BusinessErrorEnum.WarehouseHasBeenChecking);
+        }
+        
+        RelicCheck relicCheck = new RelicCheck();
+        relicCheck.setOperatorId(currentLoginUserId);
+        relicCheck.setWarehouseId(warehouseId);
+        relicCheck.setStartTime(new Date());
+        
+        return null;
+    }
+
+    @Override
+    public SuccessVo endRelicCheck() {
+        return null;
     }
 
     public List<RelicStatus> listAllRelicStatus() {

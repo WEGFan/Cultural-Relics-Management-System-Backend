@@ -15,7 +15,7 @@ public interface ShelfService {
     
     ShelfVo createShelf(ShelfDto dto);
 
-    ShelfVo updateShelf(Integer shelfId, String name);
+    ShelfVo updateShelf(Integer shelfId, ShelfDto dto);
     
     SuccessVo deleteShelf(Integer shelfId);
 }

@@ -1,12 +1,12 @@
 package cn.wegfan.relicsmanagement.dto;
 
+import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -131,8 +131,18 @@ public class RelicInfoDto implements Serializable {
             try {
                 Field field = getClass().getDeclaredField(fieldName);
                 field.setAccessible(true);
-                if (field.get(this) != null) {
-                    return false;
+                Class<?> fieldType = field.getType();
+                Object fieldValue = field.get(this);
+                if (fieldType == String.class) {
+                    // 如果是字符串的话判断字符串是否非空
+                    if (!StrUtil.isEmpty((String)fieldValue)) {
+                        return false;
+                    }
+                } else {
+                    // 否则判断是否为null
+                    if (fieldValue != null) {
+                        return false;
+                    }
                 }
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 log.error("", e);

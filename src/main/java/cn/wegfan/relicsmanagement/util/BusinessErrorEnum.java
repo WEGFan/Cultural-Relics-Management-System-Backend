@@ -19,7 +19,9 @@ public enum BusinessErrorEnum {
     NoDateType(10009, "缺少时间类型"),
     ShelfNotEmpty(10010, "货架上还有文物"),
     ShelfNotExists(10011, "货架不存在"),
-    DuplicateShelfName(10012, "货架名重复");
+    DuplicateShelfName(10012, "货架名重复"),
+    HasNotEndedRelicCheck(10013, "当前用户还有未结束的盘点"),
+    WarehouseHasBeenChecking(10014, "该仓库已经有人在盘点");
 
     private final Integer errorCode;
 

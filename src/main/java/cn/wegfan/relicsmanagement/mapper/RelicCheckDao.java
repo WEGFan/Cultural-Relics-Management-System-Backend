@@ -34,4 +34,10 @@ public interface RelicCheckDao extends BaseMapper<RelicCheck> {
     })
     Page<RelicCheck> selectPageByWarehouseId(Page<?> page, Integer warehouseId);
 
+    @Select("SELECT * FROM relic_check WHERE operator_id = #{userId} AND end_time IS NULL LIMIT 1")
+    RelicCheck selectNotEndByUserId(Integer userId);
+
+    @Select("SELECT * FROM relic_check WHERE warehouse_id = #{warehouseId} AND end_time IS NULL LIMIT 1")
+    RelicCheck selectNotEndByWarehouseId(Integer warehouseId);
+
 }

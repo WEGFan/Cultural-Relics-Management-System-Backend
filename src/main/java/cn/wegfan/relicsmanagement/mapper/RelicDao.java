@@ -18,7 +18,7 @@ public interface RelicDao extends BaseMapper<Relic> {
 
     @Select("SELECT * FROM relic WHERE shelf_id = #{shelfId} AND delete_time IS NULL")
     List<Relic> selectNotDeletedByShelfId(Integer shelfId);
-    
+
     @Select("SELECT * FROM relic WHERE id = #{relicId} AND delete_time IS NULL LIMIT 1")
     Relic selectNotDeletedByRelicId(Integer relicId);
 
@@ -49,7 +49,10 @@ public interface RelicDao extends BaseMapper<Relic> {
     Page<Relic> selectPageNotDeletedByCondition(Page<?> page, String name, Integer status,
                                                 String dateType, Date startTime, Date endTime);
 
-    @Update("UPDATE relic SET warehouse_id = NULL, delete_time = now() WHERE id = #{relicId}")
+    @Update("UPDATE relic SET warehouse_id = NULL, shelf_id = NULL, delete_time = now() WHERE id = #{relicId}")
     int deleteRelicById(Integer relicId);
-    
+
+    @Update("UPDATE relic SET warehouse_id = #{newWarehouseId} WHERE warehouse_id = #{oldWarehouseId}")
+    int changeRelicWarehouse(Integer oldWarehouseId, Integer newWarehouseId);
+
 }

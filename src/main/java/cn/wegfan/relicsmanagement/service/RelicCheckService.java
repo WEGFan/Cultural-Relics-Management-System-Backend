@@ -13,4 +13,7 @@ public interface RelicCheckService {
     
     PageResultVo<RelicCheckVo> listByWarehouseIdAndPage(Integer warehouseId, long pageIndex, long pageSize);
 
+    CheckIdVo startRelicCheck(Integer warehouseId);
+    
+    SuccessVo endRelicCheck();
 }
