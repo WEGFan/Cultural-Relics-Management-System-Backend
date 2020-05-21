@@ -12,7 +12,7 @@ POST {{host}}/api/v1/sessions
 Content-Type: application/json
 
 {
-    "workId": 10002,
+    "workId": 10003,
     "password": "123456"
 }
 
@@ -171,7 +171,7 @@ password=wegfan.wegfan&relic=true&shelf=false&warehouse=false
 GET {{host}}/api/v1/checks?page=1&count=20
 
 ### change relic info
-PUT {{host}}/api/v1/relics/1
+PUT {{host}}/api/v1/relics/1001
 Content-Type: application/json
 
 {
@@ -183,13 +183,21 @@ Content-Type: application/json
     "source": "",
     "size": "",
     "weight": "",
-    "warehouseId": "",
-    "shelfId": "",
+    "warehouseId": "1",
+    "shelfId": "1",
     "statusId": "",
-    "enterPrice": "1.00",
-    "leavePrice": "2.55",
+    "enterPrice": "",
+    "leavePrice": "",
     "comment1": "",
     "comment2": ""
+}
+
+### start relic check
+POST {{host}}/api/v1/checks/sessions
+Content-Type: application/json
+
+{
+    "warehouseId": 2
 }
 
 ###

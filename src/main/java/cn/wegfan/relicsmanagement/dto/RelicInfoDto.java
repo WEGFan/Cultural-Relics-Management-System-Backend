@@ -137,6 +137,8 @@ public class RelicInfoDto implements Serializable {
                     // 如果是字符串的话判断字符串是否非空
                     if (!StrUtil.isEmpty((String)fieldValue)) {
                         return false;
+                    } else {
+                        field.set(this, null);
                     }
                 } else {
                     // 否则判断是否为null
