@@ -862,7 +862,7 @@ TODO: 去掉一些不必要的
 ```json
 [
     {
-        "id": 1, // 文物编号
+        "relicId": 1, // 文物编号
         "name": "wdnmd", // 文物名称
         "picturePath": "//files/relics/images/1.jpg", // 照片地址
         "warehouseId": 1, // 盘点后收储仓库id
