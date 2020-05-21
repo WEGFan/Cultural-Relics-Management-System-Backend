@@ -474,7 +474,7 @@ TODO: 盘点记录 盘点异常
 
 ### 获取所有文物信息
 
-`GET /api/v1/relics?name={string}&status={int}&page={int}&count={int}&from={date}&to={date}&type={string}`
+`GET /api/v1/relics?name={string}&status={int}&warehouse={int}&shelf={int}&page={int}&count={int}&from={date}&to={date}&type={string}`
 
 #### 权限
 
@@ -484,15 +484,17 @@ TODO: 盘点记录 盘点异常
 
 #### 参数
 
-| 字段名   | 字段类型 | 必填               | 含义                                                                          | 样例                |
-| -------- | -------- | ------------------ | ----------------------------------------------------------------------------- | ------------------- |
-| name     | string   |                    | 按名字搜索                                                                    | aaa                 |
-| status   | int      |                    | 按照文物状态id搜索（待录入就是待评估）                                        | 1                   |
-| page     | int      | Y                  | 页码                                                                          | 1                   |
-| count    | int      | Y                  | 一次获取的个数（上限20）                                                      | 20                  |
-| from     | date     |                    | 开始时间                                                                      | 2020-04-25 00:00:00 |
-| to       | date     |                    | 结束时间                                                                      | 2020-04-25 23:59:59 |
-| dateType | string   | 有时间查询的话必填 | 时间类型，`enter` 入馆时间，`leave` 离馆时间，`lend` 外借时间，`fix` 送修时间 | enter               |
+| 字段名    | 字段类型 | 必填               | 含义                                                                          | 样例                |
+| --------- | -------- | ------------------ | ----------------------------------------------------------------------------- | ------------------- |
+| name      | string   |                    | 按名字搜索                                                                    | aaa                 |
+| status    | int      |                    | 按照文物状态id搜索（待录入就是待评估）                                        | 1                   |
+| warehouse | int      |                    | 按仓库id搜索                                                                  | 1                   |
+| shelf     | int      |                    | 按货架id搜索                                                                  | 1                   |
+| page      | int      | Y                  | 页码                                                                          | 1                   |
+| count     | int      | Y                  | 一次获取的个数（上限20）                                                      | 20                  |
+| from      | date     |                    | 开始时间                                                                      | 2020-04-25 00:00:00 |
+| to        | date     |                    | 结束时间                                                                      | 2020-04-25 23:59:59 |
+| dateType  | string   | 有时间查询的话必填 | 时间类型，`enter` 入馆时间，`leave` 离馆时间，`lend` 外借时间，`fix` 送修时间 | enter               |
 
 #### 返回值
 
