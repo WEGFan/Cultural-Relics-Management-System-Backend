@@ -1204,7 +1204,8 @@ TODO: 去掉一些不必要的
 
 ```json
 {
-    "name": "aaa" // 货架名称
+    "name": "aaa", // 货架名称
+    "warehouseId": 1 // 所属仓库编号
 }
 ```
 
