@@ -14,7 +14,11 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     lazy-loading-enabled: false
-    default-executor-type: 'simple'
+    default-executor-type: 'reuse'
+    auto-mapping-unknown-column-behavior: 'warning'
+  global-config:
+    db-config:
+      id-type: 'auto'
 
 logging:
   level:

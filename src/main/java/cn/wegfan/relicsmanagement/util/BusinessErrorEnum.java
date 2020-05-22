@@ -22,7 +22,9 @@ public enum BusinessErrorEnum {
     DuplicateShelfName(10012, "货架名重复"),
     HasNotEndedRelicCheck(10013, "当前用户还有未结束的盘点"),
     WarehouseHasBeenChecking(10014, "该仓库已经有人在盘点"),
-    NoNotEndedRelicCheck(10015, "没有未结束的盘点");
+    NoNotEndedRelicCheck(10015, "没有未结束的盘点"),
+    RelicCheckEnded(10016, "该盘点已经结束"),
+    RelicAlreadyChecked(10017, "文物已经被盘点过");
 
     private final Integer errorCode;
 

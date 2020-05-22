@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
+import cn.wegfan.relicsmanagement.entity.RelicCheck;
 import cn.wegfan.relicsmanagement.vo.CheckIdVo;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.RelicCheckVo;
@@ -11,5 +12,6 @@ public interface RelicCheckService {
 
     CheckIdVo startRelicCheck(Integer warehouseId);
     
-    SuccessVo endRelicCheck();
+    SuccessVo endRelicCheck(Integer checkId);
+
 }

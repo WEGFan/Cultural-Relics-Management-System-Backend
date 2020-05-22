@@ -20,22 +20,15 @@ public interface RelicCheckDao extends BaseMapper<RelicCheck> {
             "  </if>" +
             "</where>" +
             "</script>")
-    // language=none
-    @Results(id = "relicCheckOperatorResultMap", value = {
-            @Result(property = "id", column = "id", id = true),
-            @Result(property = "operator", column = "operator_id", javaType = User.class,
-                    one = @One(select = "cn.wegfan.relicsmanagement.mapper.UserDao.selectByUserId",
-                            fetchType = FetchType.EAGER))
-    })
     Page<RelicCheck> selectPageByWarehouseId(Page<?> page, Integer warehouseId);
 
-    @Select("SELECT * FROM relic_check WHERE operator_id = #{userId} AND end_time IS NULL LIMIT 1")
-    RelicCheck selectNotEndByUserId(Integer userId);
+    @Select("SELECT * FROM relic_check WHERE id = #{checkId} AND end_time IS NULL LIMIT 1")
+    RelicCheck selectNotEndByCheckId(Integer checkId);
 
     @Select("SELECT * FROM relic_check WHERE warehouse_id = #{warehouseId} AND end_time IS NULL LIMIT 1")
     RelicCheck selectNotEndByWarehouseId(Integer warehouseId);
-    
-    @Update("update relic_check set end_time = now() where operator_id = #{userId}")
-    int updateEndTimeByUserId(Integer userId);
+
+    @Update("UPDATE relic_check SET end_time = now() WHERE id = #{checkId}")
+    int updateEndTimeByCheckId(Integer checkId);
 
 }

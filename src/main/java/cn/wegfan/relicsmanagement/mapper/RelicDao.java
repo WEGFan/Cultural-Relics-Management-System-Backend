@@ -60,6 +60,9 @@ public interface RelicDao extends BaseMapper<Relic> {
     int deleteRelicById(Integer relicId);
 
     @Update("UPDATE relic SET warehouse_id = #{newWarehouseId} WHERE warehouse_id = #{oldWarehouseId}")
-    int changeRelicWarehouse(Integer oldWarehouseId, Integer newWarehouseId);
+    int updateRelicWarehouse(Integer oldWarehouseId, Integer newWarehouseId);
+
+    @Update("UPDATE relic SET warehouse_id = #{warehouseId}, shelf_id = #{shelfId}, move_time = now(), update_time = now() WHERE id = #{relicId}")
+    int updateRelicWarehouseAndShelfById(Integer relicId, Integer warehouseId, Integer shelfId);
 
 }

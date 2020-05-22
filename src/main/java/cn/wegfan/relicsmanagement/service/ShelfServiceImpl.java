@@ -116,7 +116,7 @@ public class ShelfServiceImpl implements ShelfService {
             throw new BusinessException(BusinessErrorEnum.DuplicateShelfName);
         }
 
-        relicDao.changeRelicWarehouse(shelf.getWarehouseId(), warehouseId);
+        relicDao.updateRelicWarehouse(shelf.getWarehouseId(), warehouseId);
         
         shelf.setName(name);
         shelf.setWarehouseId(warehouseId);

@@ -2,6 +2,7 @@ package cn.wegfan.relicsmanagement.util.generator;
 
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.WeightRandom;
 import cn.hutool.core.util.RandomUtil;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.Shelf;
@@ -26,6 +27,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Component
 public class TestDataGenerator {
@@ -49,7 +52,7 @@ public class TestDataGenerator {
 
     public final int SHELF_PER_WAREHOUSE = 20;
 
-    public final int RELIC_COUNT = 2000;
+    public final int RELIC_COUNT = 1000;
 
     public void generateJdenticon(String string, String filename, boolean override) throws IOException, TranscoderException {
         String filePath = Paths.get("data", "images")
@@ -106,7 +109,13 @@ public class TestDataGenerator {
             Relic relic = new Relic();
 
             String name = "文物 #" + i;
-            int statusId = RandomUtil.randomInt(1, 6);
+            int[] statusWeight = new int[] {1, 5, 1, 1, 1};
+            List<WeightRandom.WeightObj<Integer>> weightObjList = IntStream.rangeClosed(1, 5)
+                    .mapToObj(j -> new WeightRandom.WeightObj<Integer>(j, statusWeight[j - 1]))
+                    .collect(Collectors.toList());
+            
+            int statusId = RandomUtil.weightRandom(weightObjList).next();
+
             final long millisecondsPerHour = 60 * 60 * 1000;
             long baseTime = new Date().getTime() - 10 * millisecondsPerHour;
 
@@ -135,11 +144,11 @@ public class TestDataGenerator {
             relic.setWeight(RandomUtil.randomInt(1000000) / 100.0);
             relic.setEnterPrice(new BigDecimal(i * 100));
 
-            relic.setShelfId(i % (WAREHOUSE_COUNT * SHELF_PER_WAREHOUSE) + 1);
-            relic.setWarehouseId((relic.getShelfId() - 1) / SHELF_PER_WAREHOUSE + 1);
-
             switch (relic.getStatusId()) {
                 case 2:
+                    relic.setShelfId(i % (WAREHOUSE_COUNT * SHELF_PER_WAREHOUSE) + 1);
+                    relic.setWarehouseId((relic.getShelfId() - 1) / SHELF_PER_WAREHOUSE + 1);
+
                     relic.setEnterTime(new Date(baseTime + RandomUtil.randomLong(2 * millisecondsPerHour, 3 * millisecondsPerHour)));
                     relic.setMoveTime(new Date(baseTime + RandomUtil.randomLong(4 * millisecondsPerHour, 5 * millisecondsPerHour)));
                     break;

@@ -21,17 +21,6 @@ public class RelicCheck implements Serializable {
     private Integer id;
 
     /**
-     * 盘点人id
-     */
-    private Integer operatorId;
-
-    /**
-     * 盘点人实体
-     */
-    @TableField(exist = false)
-    private User operator;
-
-    /**
      * 盘点仓库id
      */
     private Integer warehouseId;

@@ -2,6 +2,8 @@ package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.dto.RelicMoveDto;
 import cn.wegfan.relicsmanagement.dto.WarehouseIdDto;
+import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
+import cn.wegfan.relicsmanagement.service.RelicCheckDetailService;
 import cn.wegfan.relicsmanagement.service.RelicCheckService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
@@ -21,6 +23,9 @@ public class RelicCheckController {
     @Autowired
     private RelicCheckService relicCheckService;
 
+    @Autowired
+    private RelicCheckDetailService relicCheckDetailService;
+
     /**
      * 获取盘点列表
      *
@@ -39,12 +44,12 @@ public class RelicCheckController {
     /**
      * 获取某次盘点的文物列表
      */
-    @GetMapping("checks/{checkId}/relics")
+    @GetMapping("{checkId}/relics")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
     public DataReturnVo listRelicsByCheckId(@PathVariable Integer checkId,
                                             @RequestParam Integer page,
                                             @RequestParam Integer count) {
-        throw new NotImplementedException();
+        return DataReturnVo.success(relicCheckDetailService.listRelicCheckDetailByCheckIdAndPage(checkId, page, count));
     }
 
     /**
@@ -59,10 +64,10 @@ public class RelicCheckController {
     /**
      * 结束一次盘点
      */
-    @DeleteMapping("sessions")
+    @DeleteMapping("sessions/{checkId}")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
-    public DataReturnVo endCheck() {
-        return DataReturnVo.success(relicCheckService.endRelicCheck());
+    public DataReturnVo endCheck(@PathVariable Integer checkId) {
+        return DataReturnVo.success(relicCheckService.endRelicCheck(checkId));
     }
 
     /**
@@ -70,11 +75,12 @@ public class RelicCheckController {
      *
      * @param relicId 文物编号
      */
-    @PutMapping("relics/{relicId}")
+    @PutMapping("{checkId}/relics/{relicId}")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
-    public DataReturnVo updateRelicPlaceInfo(@PathVariable Integer relicId,
+    public DataReturnVo updateRelicPlaceInfo(@PathVariable Integer checkId,
+                                             @PathVariable Integer relicId,
                                              @RequestBody @Valid RelicMoveDto dto) {
-        throw new NotImplementedException();
+        return DataReturnVo.success(relicCheckDetailService.addRelicCheckDetail(checkId, relicId, dto));
     }
 
     /**

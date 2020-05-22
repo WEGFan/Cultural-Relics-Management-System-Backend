@@ -23,18 +23,28 @@ public class RelicCheckDetailVo {
     private String picturePath;
 
     /**
+     * 盘点前仓库id
+     */
+    private Integer oldWarehouseId;
+
+    /**
+     * 盘点前货架id
+     */
+    private Integer oldShelfId;
+
+    /**
      * 盘点后仓库id
      */
-    private Integer warehouseId;
+    private Integer newWarehouseId;
 
     /**
      * 盘点后货架id
      */
-    private Integer shelfId;
+    private Integer newShelfId;
 
     /**
      * 盘点时间
      */
-    private Date checkTime;
+    private Date createTime;
 
 }

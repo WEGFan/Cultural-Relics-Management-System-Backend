@@ -1,6 +1,8 @@
 package cn.wegfan.relicsmanagement.service;
 
+import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicCheck;
+import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
 import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.*;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +49,9 @@ public class RelicCheckServiceImpl implements RelicCheckService {
     private RelicCheckDao relicCheckDao;
 
     @Autowired
+    private RelicCheckDetailService relicCheckDetailService;
+
+    @Autowired
     private ShelfDao shelfDao;
 
     private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
@@ -62,7 +68,7 @@ public class RelicCheckServiceImpl implements RelicCheckService {
                     }
                 });
         mapperFactory.classMap(RelicCheck.class, RelicCheckVo.class)
-                .fieldMap("operator", "operatorName").converter("operatorNameConvert").add()
+                // .fieldMap("operator", "operatorName").converter("operatorNameConvert").add()
                 .byDefault()
                 .register();
         mapperFacade = mapperFactory.getMapperFacade();
@@ -90,36 +96,40 @@ public class RelicCheckServiceImpl implements RelicCheckService {
         if (warehouseDao.selectNotDeletedById(warehouseId) == null) {
             throw new BusinessException(BusinessErrorEnum.WarehouseNotExists);
         }
-        // 检查当前登录的用户是否有其他未完成的盘点
-        if (relicCheckDao.selectNotEndByUserId(currentLoginUserId) != null) {
-            throw new BusinessException(BusinessErrorEnum.HasNotEndedRelicCheck);
-        }
-        // 检查是否有其他用户在盘点该仓库
+
+        // 检查该仓库是否在被盘点
         if (relicCheckDao.selectNotEndByWarehouseId(warehouseId) != null) {
             throw new BusinessException(BusinessErrorEnum.WarehouseHasBeenChecking);
         }
 
         RelicCheck relicCheck = new RelicCheck();
-        relicCheck.setOperatorId(currentLoginUserId);
         relicCheck.setWarehouseId(warehouseId);
         relicCheck.setStartTime(new Date());
 
         relicCheckDao.insert(relicCheck);
+        
+        // 获取盘点仓库内的所有文物并批量插入到盘点详情表里
+        List<Relic> warehouseRelicList = relicDao.selectNotDeletedByWarehouseId(warehouseId);
+        List<RelicCheckDetail> relicCheckDetailList = new ArrayList<>();
+        for (Relic relic : warehouseRelicList) {
+            RelicCheckDetail relicCheckDetail = new RelicCheckDetail();
+            relicCheckDetail.setCheckId(relicCheck.getId());
+            relicCheckDetail.setRelicId(relic.getId());
+            relicCheckDetail.setCreateTime(new Date());
+            relicCheckDetail.setOldWarehouseId(relic.getWarehouseId());
+            relicCheckDetail.setOldShelfId(relic.getShelfId());
+            relicCheckDetailList.add(relicCheckDetail);
+        }
+        relicCheckDetailService.saveBatch(relicCheckDetailList);
+        
         return new CheckIdVo(relicCheck.getId());
     }
 
     @Override
-    public SuccessVo endRelicCheck() {
-        // 获取当前登录的用户编号
-        Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
-
-        if (relicCheckDao.selectNotEndByUserId(currentLoginUserId) == null) {
-            throw new BusinessException(BusinessErrorEnum.NoNotEndedRelicCheck);
-        }
-
-        int result = relicCheckDao.updateEndTimeByUserId(currentLoginUserId);
-
+    public SuccessVo endRelicCheck(Integer checkId) {
+        int result = relicCheckDao.updateEndTimeByCheckId(checkId);
         return new SuccessVo(result > 0);
     }
+    
 
 }

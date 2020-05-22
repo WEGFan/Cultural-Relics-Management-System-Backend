@@ -197,10 +197,21 @@ POST {{host}}/api/v1/checks/sessions
 Content-Type: application/json
 
 {
-    "warehouseId": 2
+    "warehouseId": 1
 }
 
 ### end relic check
 DELETE {{host}}/api/v1/checks/sessions
+
+### relic check move
+PUT {{host}}/api/v1/checks/7/relics/32
+Content-Type: application/json
+
+{
+    "warehouseId": 1,
+    "shelfId": 5
+}
+### list relic check detail
+GET {{host}}/api/v1/checks/3/relics?page=1&count=20
 
 ###

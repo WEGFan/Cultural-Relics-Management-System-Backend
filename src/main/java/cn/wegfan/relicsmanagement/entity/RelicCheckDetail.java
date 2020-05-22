@@ -1,5 +1,8 @@
 package cn.wegfan.relicsmanagement.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import javax.annotation.Nullable;
@@ -14,6 +17,7 @@ public class RelicCheckDetail implements Serializable {
     /**
      * 编号
      */
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -49,8 +53,31 @@ public class RelicCheckDetail implements Serializable {
     private Integer newShelfId;
 
     /**
-     * 创建时间（盘点时间）
+     * 盘点人id
+     */
+    private Integer operatorId;
+
+    /**
+     * 盘点人实体
+     */
+    @TableField(exist = false)
+    private User operator;
+
+    /**
+     * 盘点时间
+     */
+    @Nullable
+    private Date checkTime;
+
+    /**
+     * 创建时间
      */
     private Date createTime;
+
+    /**
+     * 盘点文物实体
+     */
+    @TableField(exist = false)
+    private Relic relic;
 
 }
