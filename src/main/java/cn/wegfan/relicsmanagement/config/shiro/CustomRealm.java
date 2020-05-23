@@ -26,10 +26,9 @@ public class CustomRealm extends AuthorizingRealm {
 
     @Resource
     private UserDao userDao;
-    
+
     @Resource
     private PermissionService permissionService;
-    
 
     @Override
     public String getName() {

@@ -51,7 +51,7 @@ public class PermissionCodeEnum {
      * 移动文物
      */
     public static final String MOVE_RELIC = "relic:move";
-    
+
     /**
      * 查询、导出文物一览表
      */

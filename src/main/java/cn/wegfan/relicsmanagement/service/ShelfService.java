@@ -12,10 +12,11 @@ public interface ShelfService {
     PageResultVo<ShelfVo> listNotDeletedShelvesByWarehouseIdAndNameAndPage(Integer warehouseId, String name, long pageIndex, long pageSize);
 
     List<ShelfVo> listNotDeletedShelves();
-    
+
     ShelfVo createShelf(ShelfDto dto);
 
     ShelfVo updateShelf(Integer shelfId, ShelfDto dto);
-    
+
     SuccessVo deleteShelf(Integer shelfId);
+
 }

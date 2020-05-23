@@ -21,7 +21,7 @@ public class TestJdenticon {
         graphics.fillRect(0, 0, 300, 300);
         graphics.dispose();
         // ImageIO.write(bg, "jpg", new File("123123.jpg"));
-        ImgUtil.pressImage(bg,ImageIO.read(file),0,0,1.0f);
+        ImgUtil.pressImage(bg, ImageIO.read(file), 0, 0, 1.0f);
         ImgUtil.write(bg, new File("123123.jpg"));
         // FileUtil.writeFromStream(FileUtil.getInputStream(jdenticon), new File("aaa.png"));
     }

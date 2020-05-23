@@ -113,7 +113,7 @@ public class TestDataGenerator {
             List<WeightRandom.WeightObj<Integer>> weightObjList = IntStream.rangeClosed(1, 5)
                     .mapToObj(j -> new WeightRandom.WeightObj<Integer>(j, statusWeight[j - 1]))
                     .collect(Collectors.toList());
-            
+
             int statusId = RandomUtil.weightRandom(weightObjList).next();
 
             final long millisecondsPerHour = 60 * 60 * 1000;

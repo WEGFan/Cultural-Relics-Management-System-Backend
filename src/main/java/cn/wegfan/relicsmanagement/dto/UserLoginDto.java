@@ -14,7 +14,7 @@ public class UserLoginDto implements Serializable {
     /**
      * 工号
      */
-    @Pattern(regexp = "^\\d{1,10}$", message="工号需为 10 位以内数字")
+    @Pattern(regexp = "^\\d{1,10}$", message = "工号需为 10 位以内数字")
     private String workId;
 
     /**

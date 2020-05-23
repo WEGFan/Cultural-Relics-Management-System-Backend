@@ -211,6 +211,7 @@ Content-Type: application/json
     "warehouseId": "",
     "shelfId": ""
 }
+
 ### list relic check detail
 GET {{host}}/api/v1/checks/7/relics?page=1&count=20
 

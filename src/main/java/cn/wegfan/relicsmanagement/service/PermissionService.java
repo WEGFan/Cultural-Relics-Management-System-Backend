@@ -8,9 +8,9 @@ import java.util.Set;
 public interface PermissionService {
 
     List<Permission> listAllPermissions();
-    
+
     Set<String> listAllPermissionCodeByUserId(Integer userId);
-    
+
     Set<String> listAllPermissionCodeByCurrentLoginUser();
 
 }

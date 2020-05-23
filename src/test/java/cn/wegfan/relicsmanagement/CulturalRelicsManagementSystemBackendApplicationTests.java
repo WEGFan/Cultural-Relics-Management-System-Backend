@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @Slf4j
 class CulturalRelicsManagementSystemBackendApplicationTests {
+
     @Autowired
     private UserDao userDao;
 

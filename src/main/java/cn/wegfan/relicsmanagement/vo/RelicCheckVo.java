@@ -16,7 +16,7 @@ public class RelicCheckVo {
      * 盘点仓库id
      */
     private Integer warehouseId;
-    
+
     /**
      * 盘点文物个数
      */

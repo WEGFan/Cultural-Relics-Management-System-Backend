@@ -79,7 +79,7 @@ public class RelicCheckServiceImpl implements RelicCheckService {
         List<RelicCheckVo> relicCheckVoList = mapperFacade.mapAsList(relicCheckList, RelicCheckVo.class);
         return new PageResultVo<RelicCheckVo>(relicCheckVoList, pageResult);
     }
-    
+
     @Override
     public CheckIdVo startRelicCheck(Integer warehouseId) {
         // 获取当前登录的用户编号
