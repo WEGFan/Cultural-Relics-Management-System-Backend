@@ -1,10 +1,12 @@
 package cn.wegfan.relicsmanagement.mapper;
 
+import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicCheck;
+import cn.wegfan.relicsmanagement.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,7 +20,18 @@ public interface RelicCheckDao extends BaseMapper<RelicCheck> {
             "    AND warehouse_id = #{warehouseId}" +
             "  </if>" +
             "</where>" +
+            "ORDER BY start_time DESC" + 
             "</script>")
+    // language=none
+    @Results(id = "relicCheckResultMap", value = {
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "checkCount", column = "id", javaType = Integer.class,
+                    one = @One(select = "cn.wegfan.relicsmanagement.mapper.RelicCheckDetailDao.countCheckedByCheckId",
+                            fetchType = FetchType.EAGER)),
+            @Result(property = "abnormalCount", column = "id", javaType = Integer.class,
+                    one = @One(select = "cn.wegfan.relicsmanagement.mapper.RelicCheckDetailDao.countAbnormalByCheckId",
+                            fetchType = FetchType.EAGER))
+    })
     Page<RelicCheck> selectPageByWarehouseId(Page<?> page, Integer warehouseId);
 
     @Select("SELECT * FROM relic_check WHERE id = #{checkId} AND end_time IS NULL LIMIT 1")

@@ -23,9 +23,9 @@ public class RelicCheckVo {
     private Integer checkCount;
 
     /**
-     * 未盘点文物个数（盘点异常）
+     * 盘点异常个数（移动文物个数 + 未盘点文物个数）
      */
-    private Integer notCheckCount;
+    private Integer abnormalCount;
 
     /**
      * 盘点开始时间

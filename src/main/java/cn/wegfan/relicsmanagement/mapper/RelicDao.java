@@ -48,6 +48,14 @@ public interface RelicDao extends BaseMapper<Relic> {
             "  </if>" +
             "  AND delete_time IS NULL" +
             "</where>" +
+            "<choose>" +
+            "  <when test='dateType != null'>" +
+            "    ORDER BY ${dateType} DESC" +
+            "  </when>" +
+            "  <otherwise>" +
+            "    ORDER BY update_time DESC" +
+            "  </otherwise>" +
+            "</choose>" +
             "<if test='dateType != null'>" +
             "  ORDER BY ${dateType} DESC" +
             "</if>" +

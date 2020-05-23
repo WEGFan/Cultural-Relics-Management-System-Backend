@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 public interface RelicCheckDetailService extends IService<RelicCheckDetail> {
 
-    PageResultVo<RelicCheckDetailVo> listRelicCheckDetailByCheckIdAndPage(Integer checkId, long pageIndex, long pageSize);
+    PageResultVo<RelicCheckDetailVo> listRelicCheckDetailByCheckIdAndStatusAndPage(Integer checkId, Boolean checked, long pageIndex, long pageSize);
 
     SuccessVo addRelicCheckDetail(Integer checkId, Integer relicId, RelicMoveDto dto);
 

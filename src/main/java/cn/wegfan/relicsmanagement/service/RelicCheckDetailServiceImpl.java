@@ -74,10 +74,10 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
     }
 
     @Override
-    public PageResultVo<RelicCheckDetailVo> listRelicCheckDetailByCheckIdAndPage(Integer checkId, long pageIndex, long pageSize) {
+    public PageResultVo<RelicCheckDetailVo> listRelicCheckDetailByCheckIdAndStatusAndPage(Integer checkId, Boolean checked, long pageIndex, long pageSize) {
         Page<RelicCheckDetail> page = new Page<>(pageIndex, pageSize);
 
-        Page<RelicCheckDetail> pageResult = relicCheckDetailDao.selectPageByCheckId(page, checkId);
+        Page<RelicCheckDetail> pageResult = relicCheckDetailDao.selectPageByCheckId(page, checkId, checked);
 
         List<RelicCheckDetail> relicCheckDetailList = pageResult.getRecords();
         log.debug(relicCheckDetailList.toString());
@@ -117,7 +117,7 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
             throw new BusinessException(BusinessErrorEnum.ShelfNotExists);
         }
 
-        RelicCheckDetail relicCheckDetail = relicCheckDetailDao.selectNotCheckedByCheckIdAndRelicId(checkId, relicId);
+        RelicCheckDetail relicCheckDetail = relicCheckDetailDao.selectByCheckIdAndRelicId(checkId, relicId);
 
         // 说明这个文物在盘点前不属于这个仓库
         if (relicCheckDetail == null) {
@@ -137,10 +137,12 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
         relicCheckDetail.setNewWarehouseId(warehouseId);
         relicCheckDetail.setNewShelfId(shelfId);
         relicCheckDetail.setCheckTime(new Date());
-
         saveOrUpdate(relicCheckDetail);
 
-        relicDao.updateRelicWarehouseAndShelfById(relic.getId(), warehouseId, shelfId);
+        relic.setWarehouseId(warehouseId);
+        relic.setShelfId(shelfId);
+        relic.setLastCheckTime(new Date());
+        relicDao.updateById(relic);
 
         return new SuccessVo(true);
     }

@@ -46,9 +46,10 @@ public class RelicCheckController {
     @GetMapping("{checkId}/relics")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
     public DataReturnVo listRelicsByCheckId(@PathVariable Integer checkId,
+                                            @RequestParam(required = false) Boolean checked,
                                             @RequestParam Integer page,
                                             @RequestParam Integer count) {
-        return DataReturnVo.success(relicCheckDetailService.listRelicCheckDetailByCheckIdAndPage(checkId, page, count));
+        return DataReturnVo.success(relicCheckDetailService.listRelicCheckDetailByCheckIdAndStatusAndPage(checkId, checked, page, count));
     }
 
     /**

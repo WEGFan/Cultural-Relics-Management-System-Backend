@@ -1,6 +1,7 @@
 package cn.wegfan.relicsmanagement.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -34,5 +35,17 @@ public class RelicCheck implements Serializable {
      */
     @Nullable
     private Date endTime;
+
+    /**
+     * 盘点文物个数
+     */
+    @TableField(exist = false)
+    private Integer checkCount;
+
+    /**
+     * 盘点异常个数（移动文物个数 + 未盘点文物个数）
+     */
+    @TableField(exist = false)
+    private Integer abnormalCount;
 
 }

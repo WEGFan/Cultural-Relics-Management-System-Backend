@@ -5,6 +5,7 @@ import cn.wegfan.relicsmanagement.entity.Job;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.JobDao;
+import cn.wegfan.relicsmanagement.mapper.RelicCheckDetailDao;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.service.UserExtraPermissionService;
@@ -138,6 +139,15 @@ public class Test1 {
         set.forEach(System.out::println);
         set.removeAll(Arrays.asList(3));
         log.debug(new ObjectMapper().writeValueAsString(set));
+    }
+
+    @Autowired
+    private RelicCheckDetailDao relicCheckDetailDao;
+
+    @Test
+    void test10() {
+        int a = relicCheckDetailDao.countCheckedByCheckId(12);
+        log.debug(String.valueOf(a));
     }
 
     @Autowired
