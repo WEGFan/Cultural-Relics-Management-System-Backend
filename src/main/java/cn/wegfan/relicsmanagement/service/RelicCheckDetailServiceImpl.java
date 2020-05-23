@@ -35,19 +35,10 @@ import java.util.List;
 public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao, RelicCheckDetail> implements RelicCheckDetailService {
 
     @Autowired
-    private RelicStatusDao relicStatusDao;
-
-    @Autowired
     private RelicCheckDetailDao relicCheckDetailDao;
 
     @Autowired
     private RelicDao relicDao;
-
-    @Autowired
-    private PermissionService permissionService;
-
-    @Autowired
-    private RelicCheckService relicCheckService;
 
     @Autowired
     private WarehouseDao warehouseDao;
@@ -159,7 +150,7 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
         RelicCheck newRelicCheck = relicCheckDao.selectNotEndByWarehouseId(newPlace.getWarehouseId());
 
         RelicCheckDetail relicCheckDetail = new RelicCheckDetail();
-        
+
         // 如果旧仓库正在被盘点
         if (oldRelicCheck != null) {
             RelicCheckDetail oldRelicCheckDetail = relicCheckDetailDao.selectByCheckIdAndRelicId(oldRelicCheck.getId(), relicId);

@@ -51,9 +51,6 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
     private PermissionService permissionService;
 
     @Autowired
-    private WarehouseDao warehouseDao;
-
-    @Autowired
     private RelicCheckDetailService relicCheckDetailService;
 
     @Autowired

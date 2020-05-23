@@ -34,13 +34,7 @@ import java.util.List;
 public class RelicCheckServiceImpl implements RelicCheckService {
 
     @Autowired
-    private RelicStatusDao relicStatusDao;
-
-    @Autowired
     private RelicDao relicDao;
-
-    @Autowired
-    private PermissionService permissionService;
 
     @Autowired
     private WarehouseDao warehouseDao;
@@ -50,9 +44,6 @@ public class RelicCheckServiceImpl implements RelicCheckService {
 
     @Autowired
     private RelicCheckDetailService relicCheckDetailService;
-
-    @Autowired
-    private ShelfDao shelfDao;
 
     private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
 
