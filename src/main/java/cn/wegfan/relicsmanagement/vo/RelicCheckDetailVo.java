@@ -43,6 +43,11 @@ public class RelicCheckDetailVo {
     private Integer newShelfId;
 
     /**
+     * 盘点人姓名
+     */
+    private String operatorName;
+
+    /**
      * 盘点时间
      */
     private Date createTime;

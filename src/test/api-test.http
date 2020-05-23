@@ -212,6 +212,6 @@ Content-Type: application/json
     "shelfId": 5
 }
 ### list relic check detail
-GET {{host}}/api/v1/checks/3/relics?page=1&count=20
+GET {{host}}/api/v1/checks/7/relics?page=1&count=20
 
 ###

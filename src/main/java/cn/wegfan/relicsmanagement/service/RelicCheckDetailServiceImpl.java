@@ -63,10 +63,19 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
     private MapperFacade mapperFacade;
 
     public RelicCheckDetailServiceImpl() {
+        mapperFactory
+                .getConverterFactory()
+                .registerConverter("operatorNameConvert", new CustomConverter<User, String>() {
+                    @Override
+                    public String convert(User user, Type<? extends String> type, MappingContext mappingContext) {
+                        return user.getName();
+                    }
+                });
         mapperFactory.classMap(RelicCheckDetail.class, RelicCheckDetailVo.class)
                 .fieldMap("relic.id", "relicId").add()
                 .fieldMap("relic.name", "name").add()
                 .fieldMap("relic.picturePath", "picturePath").add()
+                .fieldMap("operator", "operatorName").converter("operatorNameConvert").add()
                 .byDefault()
                 .register();
         mapperFacade = mapperFactory.getMapperFacade();

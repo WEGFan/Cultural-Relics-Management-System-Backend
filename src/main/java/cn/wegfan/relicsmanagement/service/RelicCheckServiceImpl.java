@@ -107,7 +107,7 @@ public class RelicCheckServiceImpl implements RelicCheckService {
         relicCheck.setStartTime(new Date());
 
         relicCheckDao.insert(relicCheck);
-        
+
         // 获取盘点仓库内的所有文物并批量插入到盘点详情表里
         List<Relic> warehouseRelicList = relicDao.selectNotDeletedByWarehouseId(warehouseId);
         List<RelicCheckDetail> relicCheckDetailList = new ArrayList<>();
@@ -121,7 +121,7 @@ public class RelicCheckServiceImpl implements RelicCheckService {
             relicCheckDetailList.add(relicCheckDetail);
         }
         relicCheckDetailService.saveBatch(relicCheckDetailList);
-        
+
         return new CheckIdVo(relicCheck.getId());
     }
 
@@ -130,6 +130,5 @@ public class RelicCheckServiceImpl implements RelicCheckService {
         int result = relicCheckDao.updateEndTimeByCheckId(checkId);
         return new SuccessVo(result > 0);
     }
-    
 
 }

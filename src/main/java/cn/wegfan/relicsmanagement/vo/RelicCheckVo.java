@@ -16,12 +16,7 @@ public class RelicCheckVo {
      * 盘点仓库id
      */
     private Integer warehouseId;
-
-    /**
-     * 盘点人姓名
-     */
-    private String operatorName;
-
+    
     /**
      * 盘点文物个数
      */
