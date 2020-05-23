@@ -827,7 +827,6 @@ TODO: 去掉一些不必要的
     {
         "id": 1, // 盘点编号
         "warehouseId": 1, // 盘点的仓库编号
-        "operatorName": "dddd", // 盘点人姓名
         "checkCount": 10, // 盘点文物个数
         "notCheckCount": 10, // 未盘点文物个数（盘点异常）
         "startTime": "2020-05-17 15:30:22", // 盘点开始时间
@@ -865,8 +864,11 @@ TODO: 去掉一些不必要的
         "relicId": 1, // 文物编号
         "name": "wdnmd", // 文物名称
         "picturePath": "//files/relics/images/1.jpg", // 照片地址
-        "warehouseId": 1, // 盘点后收储仓库id
-        "shelfId": 1, // 盘点后收储货架id
+        "oldWarehouseId": 1, // 盘点前收储仓库id
+        "oldShelfId": 1, // 盘点前收储货架id
+        "newWarehouseId": 1, // 盘点后收储仓库id
+        "newShelfId": 1, // 盘点后收储货架id
+        "operatorName": "aaa", // 盘点人姓名
         "checkTime": "2020-04-25 11:11:11" // 盘点时间
     }
 ]
@@ -906,12 +908,11 @@ TODO: 去掉一些不必要的
 
 | 状态码 code | 含义 msg                 |
 | ----------- | ------------------------ |
-| *TODO*      | 当前用户还有未结束的盘点 |
 | *TODO*      | 该仓库已经有人在盘点     |
 
 ### 结束当前盘点
 
-`DELETE /api/v1/checks/sessions`
+`DELETE /api/v1/checks/sessions/{checkId:int:盘点编号}`
 
 #### 权限
 
@@ -939,7 +940,7 @@ TODO: 去掉一些不必要的
 
 ### 提交当前文物位置和状态信息
 
-`PUT /api/v1/checks/relics/{relicId:int:文物编号}`
+`PUT /api/v1/checks/{checkId:int:盘点编号}/relics/{relicId:int:文物编号}`
 
 #### 权限
 
