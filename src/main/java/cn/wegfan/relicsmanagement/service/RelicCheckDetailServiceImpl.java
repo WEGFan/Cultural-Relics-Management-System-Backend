@@ -117,7 +117,6 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
 
         // 获取当前登录的用户编号
         Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
-        Integer currentCheckWarehouseId = relicCheck.getWarehouseId();
 
         if (warehouseDao.selectNotDeletedById(warehouseId) == null) {
             throw new BusinessException(BusinessErrorEnum.WarehouseNotExists);
@@ -146,12 +145,39 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
         relicCheckDetail.setNewWarehouseId(warehouseId);
         relicCheckDetail.setNewShelfId(shelfId);
         relicCheckDetail.setCheckTime(new Date());
-        
+
         saveOrUpdate(relicCheckDetail);
 
         relicDao.updateRelicWarehouseAndShelfById(relic.getId(), warehouseId, shelfId);
 
         return new SuccessVo(true);
+    }
+
+    @Override
+    public void updateRelicCheckDetailAfterRelicMove(Integer relicId, RelicMoveDto oldPlace, RelicMoveDto newPlace) {
+        RelicCheck oldRelicCheck = relicCheckDao.selectNotEndByWarehouseId(oldPlace.getWarehouseId());
+        RelicCheck newRelicCheck = relicCheckDao.selectNotEndByWarehouseId(newPlace.getWarehouseId());
+
+        RelicCheckDetail relicCheckDetail = new RelicCheckDetail();
+        
+        // 如果旧仓库正在被盘点
+        if (oldRelicCheck != null) {
+            RelicCheckDetail oldRelicCheckDetail = relicCheckDetailDao.selectByCheckIdAndRelicId(oldRelicCheck.getId(), relicId);
+            // 如果对应的文物还没有被盘点的话，就删除这个记录
+            if (oldRelicCheckDetail != null && oldRelicCheckDetail.getCheckTime() == null) {
+                relicCheckDetailDao.deleteById(oldRelicCheckDetail);
+            }
+        }
+        // 如果新仓库正在被盘点，就插入新位置信息
+        if (newRelicCheck != null) {
+            RelicCheckDetail newRelicCheckDetail = new RelicCheckDetail();
+            newRelicCheckDetail.setRelicId(relicId);
+            newRelicCheckDetail.setOldWarehouseId(newPlace.getWarehouseId());
+            newRelicCheckDetail.setOldShelfId(newPlace.getShelfId());
+            newRelicCheckDetail.setCheckId(newRelicCheck.getId());
+            newRelicCheckDetail.setCreateTime(new Date());
+            relicCheckDetailDao.insert(newRelicCheckDetail);
+        }
     }
 
 }

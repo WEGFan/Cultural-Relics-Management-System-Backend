@@ -115,7 +115,7 @@ GET {{host}}/api/v1/relics/status
 GET {{host}}/api/v1/relics/1
 
 ### change relic info
-PUT {{host}}/api/v1/relics/1
+PUT {{host}}/api/v1/relics/1003
 Content-Type: application/json
 
 {
@@ -128,9 +128,9 @@ Content-Type: application/json
     "size": "11cm x 45cm x 14cm",
     "weight": 19198.10,
     "warehouseId": 2,
-    "shelfId": 11,
+    "shelfId": 21,
     "place": "aaa",
-    "statusId": 5,
+    "statusId": 2,
     "enterPrice": "0.00",
     "leavePrice": "0.00",
     "comment1": "a",
@@ -197,21 +197,24 @@ POST {{host}}/api/v1/checks/sessions
 Content-Type: application/json
 
 {
-    "warehouseId": 1
+    "warehouseId": 2
 }
 
 ### end relic check
 DELETE {{host}}/api/v1/checks/sessions
 
 ### relic check move
-PUT {{host}}/api/v1/checks/7/relics/32
+PUT {{host}}/api/v1/checks/12/relics/1002
 Content-Type: application/json
 
 {
-    "warehouseId": 1,
-    "shelfId": 5
+    "warehouseId": "",
+    "shelfId": ""
 }
 ### list relic check detail
 GET {{host}}/api/v1/checks/7/relics?page=1&count=20
+
+### delete relic
+DELETE {{host}}/api/v1/relics/1004
 
 ###

@@ -5,6 +5,7 @@ import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
+import cn.wegfan.relicsmanagement.dto.RelicMoveDto;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
@@ -51,6 +52,9 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
     @Autowired
     private WarehouseDao warehouseDao;
+
+    @Autowired
+    private RelicCheckDetailService relicCheckDetailService;
 
     @Autowired
     private ShelfDao shelfDao;
@@ -170,7 +174,23 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
     @Override
     public SuccessVo deleteRelicById(Integer relicId) {
+        Relic relic = relicDao.selectNotDeletedByRelicId(relicId);
+        if (relic == null) {
+            throw new BusinessException(BusinessErrorEnum.RelicNotExists);
+        }
+
         int result = relicDao.deleteRelicById(relicId);
+
+        // TODO: 优化
+        // 如果有正在被盘点的，就删除盘点详情记录
+        Integer oldRelicWarehouseId = relic.getWarehouseId();
+        Integer oldRelicShelfId = relic.getShelfId();
+        Integer newRelicWarehouseId = null;
+        Integer newRelicShelfId = null;
+        RelicMoveDto oldPlace = new RelicMoveDto(oldRelicWarehouseId, oldRelicShelfId);
+        RelicMoveDto newPlace = new RelicMoveDto(newRelicWarehouseId, newRelicShelfId);
+        relicCheckDetailService.updateRelicCheckDetailAfterRelicMove(relicId, oldPlace, newPlace);
+
         return new SuccessVo(result > 0);
     }
 
@@ -188,12 +208,25 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
             newRelicStatusId = oldRelicStatusId;
         }
 
-        boolean relicMoved = !Objects.equals(relic.getWarehouseId(), relicInfo.getWarehouseId()) ||
-                !Objects.equals(relic.getShelfId(), relicInfo.getShelfId());
+        Integer oldRelicWarehouseId = relic.getWarehouseId();
+        Integer oldRelicShelfId = relic.getShelfId();
+        Integer newRelicWarehouseId = relicInfo.getWarehouseId();
+        Integer newRelicShelfId = relicInfo.getShelfId();
+
+        // 如果修改后文物状态不是在馆，则清除仓库货架信息
+        if (!newRelicStatusId.equals(RelicStatusEnum.InMuseum.getStatusId())) {
+            newRelicWarehouseId = null;
+            newRelicShelfId = null;
+        }
+
+        // 根据修改后状态和仓库、货架判断文物是否被移动
+        boolean relicMoved = newRelicStatusId.equals(RelicStatusEnum.InMuseum.getStatusId()) &&
+                !Objects.equals(oldRelicWarehouseId, newRelicWarehouseId) ||
+                !Objects.equals(oldRelicShelfId, newRelicShelfId);
 
         // 获取当前登录的用户权限
         Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByCurrentLoginUser();
-        // 根据权限检查是否存在不能修改的字段
+        // 根据权限检查是否存在不能修改的字段，并把前端传来的空字符串设为null
         boolean fieldAllValid = relicInfo.checkAndClearFieldsByPermissionCode(permissionCodeSet);
         if (!fieldAllValid) {
             throw new BusinessException(BusinessErrorEnum.Unauthorized);
@@ -210,20 +243,35 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         }
 
         // 如果文物的仓库和货架不为空，检测货架是否存在
-        if ((relicInfo.getWarehouseId() != null || relicInfo.getShelfId() != null) &&
-                shelfDao.selectNotDeletedByWarehouseIdAndShelfId(relicInfo.getWarehouseId(), relicInfo.getShelfId()) == null) {
+        if ((newRelicWarehouseId != null || newRelicShelfId != null) &&
+                shelfDao.selectNotDeletedByWarehouseIdAndShelfId(newRelicWarehouseId, newRelicShelfId) == null) {
             throw new BusinessException(BusinessErrorEnum.ShelfNotExists);
         }
 
         mapperFacade.map(relicInfo, relic);
 
         relic.setUpdateTime(new Date());
+
+        // 如果移动了文物则设置移动时间
+        if (relicMoved) {
+            relic.setMoveTime(new Date());
+        }
+
+        // 如果文物移动了或者修改了文物状态，就更新正在盘点的信息
+        if (relicMoved || !newRelicStatusId.equals(oldRelicStatusId)) {
+            // 如果更改前后的仓库正在被盘点
+            RelicMoveDto oldPlace = new RelicMoveDto(oldRelicWarehouseId, oldRelicShelfId);
+            RelicMoveDto newPlace = new RelicMoveDto(newRelicWarehouseId, newRelicShelfId);
+            relicCheckDetailService.updateRelicCheckDetailAfterRelicMove(relicId, oldPlace, newPlace);
+
+        }
+
         // 如果修改了文物状态
         if (!newRelicStatusId.equals(oldRelicStatusId)) {
             // 入馆 设置入馆时间
             if (newRelicStatusId.equals(RelicStatusEnum.InMuseum.getStatusId())) {
                 relic.setEnterTime(new Date());
-            } else if (newRelicStatusId > RelicStatusEnum.InMuseum.getStatusId()) {
+            } else {
                 // 清除时间
                 relic.setFixTime(null);
                 relic.setLendTime(null);
@@ -241,16 +289,10 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
                     relic.setLeaveTime(new Date());
                 }
             }
-
         }
 
-        // 如果移动了文物则设置移动时间
-        if (relicMoved) {
-            relic.setMoveTime(new Date());
-        }
-
-        log.debug("{}", relic);
         relicDao.updateById(relic);
+        log.debug("{}", relic);
 
         RelicVo relicVo = mapperFacade.map(relic, RelicVo.class);
 
