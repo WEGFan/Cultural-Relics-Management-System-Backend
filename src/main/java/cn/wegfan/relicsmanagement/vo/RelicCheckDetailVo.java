@@ -50,6 +50,6 @@ public class RelicCheckDetailVo {
     /**
      * 盘点时间
      */
-    private Date createTime;
+    private Date checkTime;
 
 }
