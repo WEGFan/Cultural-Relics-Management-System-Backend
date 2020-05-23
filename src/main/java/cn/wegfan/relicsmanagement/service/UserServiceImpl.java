@@ -44,9 +44,6 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Autowired
-    private PermissionDao permissionDao;
-
-    @Autowired
     private UserExtraPermissionService userExtraPermissionService;
 
     private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();

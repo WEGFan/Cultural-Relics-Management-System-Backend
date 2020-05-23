@@ -1,16 +1,12 @@
 package cn.wegfan.relicsmanagement;
 
-import cn.hutool.core.img.Img;
 import cn.hutool.core.img.ImgUtil;
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.IoUtil;
 import com.github.atomfrede.jadenticon.Jadenticon;
 import org.apache.batik.transcoder.TranscoderException;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
 

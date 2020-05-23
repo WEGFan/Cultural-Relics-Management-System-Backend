@@ -27,7 +27,7 @@ public class InitApp implements ApplicationRunner {
     private ServletContext context;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         // File file = FileUtil.touch("data/images/1.txt");
         // log.debug(file.getAbsolutePath());
         // FileUtil.writeBytes(new byte[] {47, 52, 53, 56}, file);

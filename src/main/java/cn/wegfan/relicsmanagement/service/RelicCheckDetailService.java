@@ -5,7 +5,6 @@ import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.RelicCheckDetailVo;
 import cn.wegfan.relicsmanagement.vo.SuccessVo;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 public interface RelicCheckDetailService extends IService<RelicCheckDetail> {

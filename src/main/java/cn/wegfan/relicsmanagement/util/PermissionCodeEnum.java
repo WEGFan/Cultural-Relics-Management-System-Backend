@@ -51,12 +51,7 @@ public class PermissionCodeEnum {
      * 移动文物
      */
     public static final String MOVE_RELIC = "relic:move";
-
-    /**
-     * 查询文物盘点记录
-     */
-    public static final String EXPORT_RELIC_CHECK_LOG = "relic:export:check";
-
+    
     /**
      * 查询、导出文物一览表
      */
@@ -73,29 +68,3 @@ public class PermissionCodeEnum {
     public static final String EXPORT_RELIC_CHANGE_LOG = "relic:export:changes";
 
 }
-// public enum PermissionCodeEnum {
-//
-//     Admin("admin", "管理员"),
-//     Warehouse("warehouse", "创建、修改、删除仓库"),
-//     AddRelic("relic:add", "拍照创建文物"),
-//     ViewRelicInfo("relic:info:view", "查看文物详细信息"),
-//     EditRelicInfo("relic:info:edit", "修改文物详细信息"),
-//     EditRelicStatus("relic:status:edit", "文物入库、外借、送修、离馆"),
-//     ViewEditRelicPrice("relic:price", "查看、修改文物价值信息"),
-//     CheckRelic("relic:check", "盘点文物"),
-//     MoveRelic("relic:move", "移动文物"),
-//     ExportRelicCheckLog("relic:export:check", "查询文物盘点记录"),
-//     ExportRelic("relic:export:relics", "查询、导出文物一览表"),
-//     ExportWarehouseRelic("relic:export:warehouse", "查询、导出某仓库文物一览表"),
-//     ExportRelicChangeLog("relic:export:changes", "查询、导出文物流水表");
-//
-//     private final String code;
-//
-//     private final String name;
-//
-//     PermissionCodeEnum(String code, String name) {
-//         this.code = code;
-//         this.name = name;
-//     }
-//
-// }

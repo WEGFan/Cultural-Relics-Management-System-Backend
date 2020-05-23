@@ -2,7 +2,6 @@ package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.dto.RelicMoveDto;
 import cn.wegfan.relicsmanagement.dto.WarehouseIdDto;
-import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
 import cn.wegfan.relicsmanagement.service.RelicCheckDetailService;
 import cn.wegfan.relicsmanagement.service.RelicCheckService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;

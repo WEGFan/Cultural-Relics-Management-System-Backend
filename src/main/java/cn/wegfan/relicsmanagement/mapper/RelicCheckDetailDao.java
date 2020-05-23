@@ -3,15 +3,16 @@ package cn.wegfan.relicsmanagement.mapper;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
 import cn.wegfan.relicsmanagement.entity.User;
-import cn.wegfan.relicsmanagement.vo.RelicCheckDetailVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface RelicCheckDetailDao extends BaseMapper<RelicCheckDetail> {

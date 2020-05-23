@@ -6,7 +6,6 @@ import cn.wegfan.relicsmanagement.dto.ShelfNameDto;
 import cn.wegfan.relicsmanagement.entity.Shelf;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
-import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;

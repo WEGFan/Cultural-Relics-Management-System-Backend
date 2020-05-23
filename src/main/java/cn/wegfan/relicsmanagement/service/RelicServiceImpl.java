@@ -11,7 +11,6 @@ import cn.wegfan.relicsmanagement.entity.RelicStatus;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.RelicStatusDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
-import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;

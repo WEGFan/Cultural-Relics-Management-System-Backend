@@ -1,11 +1,10 @@
 package cn.wegfan.relicsmanagement.mapper;
 
 import cn.wegfan.relicsmanagement.entity.RelicCheck;
-import cn.wegfan.relicsmanagement.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.mapping.FetchType;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 @Repository

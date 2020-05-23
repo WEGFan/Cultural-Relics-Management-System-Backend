@@ -26,22 +26,15 @@ public class CustomRealm extends AuthorizingRealm {
 
     @Resource
     private UserDao userDao;
-
-    @Resource
-    private JobDao jobDao;
-
+    
     @Resource
     private PermissionService permissionService;
-
-    @Resource
-    private PermissionDao permissionDao;
+    
 
     @Override
     public String getName() {
         return "CustomRealm";
     }
-
-    // private final Integer ADMIN_JOB_ID = 5;
 
     @Override
     public AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
