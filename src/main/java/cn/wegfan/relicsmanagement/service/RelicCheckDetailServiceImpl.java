@@ -10,7 +10,6 @@ import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.RelicCheckDetailVo;
-import cn.wegfan.relicsmanagement.vo.RelicCheckVo;
 import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,8 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -116,7 +117,7 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
             throw new BusinessException(BusinessErrorEnum.ShelfNotExists);
         }
 
-        RelicCheckDetail relicCheckDetail = relicCheckDetailDao.selectByCheckIdAndRelicId(checkId, relicId);
+        RelicCheckDetail relicCheckDetail = relicCheckDetailDao.selectNotCheckedByCheckIdAndRelicId(checkId, relicId);
 
         // 说明这个文物在盘点前不属于这个仓库
         if (relicCheckDetail == null) {
@@ -149,13 +150,11 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
         RelicCheck oldRelicCheck = relicCheckDao.selectNotEndByWarehouseId(oldPlace.getWarehouseId());
         RelicCheck newRelicCheck = relicCheckDao.selectNotEndByWarehouseId(newPlace.getWarehouseId());
 
-        RelicCheckDetail relicCheckDetail = new RelicCheckDetail();
-
         // 如果旧仓库正在被盘点
         if (oldRelicCheck != null) {
-            RelicCheckDetail oldRelicCheckDetail = relicCheckDetailDao.selectByCheckIdAndRelicId(oldRelicCheck.getId(), relicId);
+            RelicCheckDetail oldRelicCheckDetail = relicCheckDetailDao.selectNotCheckedByCheckIdAndRelicId(oldRelicCheck.getId(), relicId);
             // 如果对应的文物还没有被盘点的话，就删除这个记录
-            if (oldRelicCheckDetail != null && oldRelicCheckDetail.getCheckTime() == null) {
+            if (oldRelicCheckDetail != null) {
                 relicCheckDetailDao.deleteById(oldRelicCheckDetail);
             }
         }
@@ -168,6 +167,41 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
             newRelicCheckDetail.setCheckId(newRelicCheck.getId());
             newRelicCheckDetail.setCreateTime(new Date());
             relicCheckDetailDao.insert(newRelicCheckDetail);
+        }
+    }
+
+    @Override
+    public void updateRelicCheckDetailAfterShelfMove(Integer shelfId, Integer oldWarehouseId, Integer newWarehouseId) {
+        RelicCheck oldRelicCheck = relicCheckDao.selectNotEndByWarehouseId(oldWarehouseId);
+        RelicCheck newRelicCheck = relicCheckDao.selectNotEndByWarehouseId(newWarehouseId);
+
+        // 如果旧仓库正在被盘点
+        if (oldRelicCheck != null) {
+            List<RelicCheckDetail> oldRelicCheckDetailList = relicCheckDetailDao.selectNotCheckedListByCheckIdAndOldShelfId(oldRelicCheck.getId(), shelfId);
+            log.debug(oldRelicCheckDetailList.toString());
+            // 如果存在还没有被盘点的文物，就删除掉
+            if (!oldRelicCheckDetailList.isEmpty()) {
+                List<Integer> idList = oldRelicCheckDetailList.stream()
+                        .map(RelicCheckDetail::getId)
+                        .collect(Collectors.toList());
+                relicCheckDetailDao.deleteBatchIds(idList);
+            }
+        }
+        // 如果新仓库正在被盘点，就插入新位置信息
+        if (newRelicCheck != null) {
+            // 获取当前货架的所有文物
+            List<Relic> shelfRelicList = relicDao.selectNotDeletedByShelfId(shelfId);
+            List<RelicCheckDetail> newRelicCheckDetailList = new ArrayList<>();
+            for (Relic relic : shelfRelicList) {
+                RelicCheckDetail relicCheckDetail = new RelicCheckDetail();
+                relicCheckDetail.setRelicId(relic.getId());
+                relicCheckDetail.setOldWarehouseId(newWarehouseId);
+                relicCheckDetail.setOldShelfId(shelfId);
+                relicCheckDetail.setCheckId(newRelicCheck.getId());
+                relicCheckDetail.setCreateTime(new Date());
+                newRelicCheckDetailList.add(relicCheckDetail);
+            }
+            saveBatch(newRelicCheckDetailList);
         }
     }
 

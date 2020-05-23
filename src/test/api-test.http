@@ -115,7 +115,7 @@ GET {{host}}/api/v1/relics/status
 GET {{host}}/api/v1/relics/1
 
 ### change relic info
-PUT {{host}}/api/v1/relics/1003
+PUT {{host}}/api/v1/relics/1002
 Content-Type: application/json
 
 {
@@ -127,8 +127,8 @@ Content-Type: application/json
     "source": "xxx捐赠",
     "size": "11cm x 45cm x 14cm",
     "weight": 19198.10,
-    "warehouseId": 2,
-    "shelfId": 21,
+    "warehouseId": 1,
+    "shelfId": 1,
     "place": "aaa",
     "statusId": 2,
     "enterPrice": "0.00",
@@ -150,12 +150,12 @@ Content-Type: application/json
 }
 
 ### change shelf
-PUT {{host}}/api/v1/shelves/180
+PUT {{host}}/api/v1/shelves/1
 Content-Type: application/json
 
 {
-    "name": "eaee",
-    "warehouseId": 7
+    "name": "eaedde",
+    "warehouseId": 2
 }
 
 ### delete shelf
@@ -204,7 +204,7 @@ Content-Type: application/json
 DELETE {{host}}/api/v1/checks/sessions
 
 ### relic check move
-PUT {{host}}/api/v1/checks/12/relics/1002
+PUT {{host}}/api/v1/checks/12/relics/1200
 Content-Type: application/json
 
 {

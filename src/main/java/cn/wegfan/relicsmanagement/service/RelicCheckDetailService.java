@@ -16,4 +16,6 @@ public interface RelicCheckDetailService extends IService<RelicCheckDetail> {
 
     void updateRelicCheckDetailAfterRelicMove(Integer relicId, RelicMoveDto oldPlace, RelicMoveDto newPlace);
 
+    void updateRelicCheckDetailAfterShelfMove(Integer shelfId, Integer oldWarehouseId, Integer newWarehouseId);
+
 }

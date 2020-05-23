@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -27,7 +28,10 @@ public interface RelicCheckDetailDao extends BaseMapper<RelicCheckDetail> {
     })
     Page<RelicCheckDetail> selectPageByCheckId(Page<?> page, Integer checkId);
 
-    @Select("SELECT * FROM relic_check_detail WHERE check_id = #{checkId} AND relic_id = #{relicId} LIMIT 1")
-    RelicCheckDetail selectByCheckIdAndRelicId(Integer checkId, Integer relicId);
+    @Select("SELECT * FROM relic_check_detail WHERE check_id = #{checkId} AND relic_id = #{relicId} AND check_time IS NULL LIMIT 1")
+    RelicCheckDetail selectNotCheckedByCheckIdAndRelicId(Integer checkId, Integer relicId);
+
+    @Select("SELECT * FROM relic_check_detail WHERE check_id = #{checkId} AND old_shelf_id = #{shelfId} AND check_time IS NULL")
+    List<RelicCheckDetail> selectNotCheckedListByCheckIdAndOldShelfId(Integer checkId, Integer shelfId);
 
 }

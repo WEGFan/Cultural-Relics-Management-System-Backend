@@ -33,10 +33,10 @@ public class ShelfServiceImpl implements ShelfService {
     private ShelfDao shelfDao;
 
     @Autowired
-    private UserDao userDao;
+    private RelicDao relicDao;
 
     @Autowired
-    private RelicDao relicDao;
+    private RelicCheckDetailService relicCheckDetailService;
 
     private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
 
@@ -101,25 +101,33 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public ShelfVo updateShelf(Integer shelfId, ShelfDto dto) {
-        String name = dto.getName();
-        Integer warehouseId = dto.getWarehouseId();
-
         Shelf shelf = shelfDao.selectNotDeletedById(shelfId);
 
         // 检测没有被删除的货架中是否存在货架编号对应的货架
         if (shelf == null) {
             throw new BusinessException(BusinessErrorEnum.ShelfNotExists);
         }
+
+        String name = dto.getName();
+        Integer newWarehouseId = dto.getWarehouseId();
+        Integer oldWarehouseId = shelf.getWarehouseId();
+
         // 检测相同仓库里没有被删除的其他货架中是否存在相同名字的货架
-        Shelf sameNameShelf = shelfDao.selectNotDeletedByWarehouseIdAndExactName(warehouseId, name);
+        Shelf sameNameShelf = shelfDao.selectNotDeletedByWarehouseIdAndExactName(newWarehouseId, name);
         if (sameNameShelf != null && !sameNameShelf.getId().equals(shelfId)) {
             throw new BusinessException(BusinessErrorEnum.DuplicateShelfName);
         }
 
-        relicDao.updateRelicWarehouse(shelf.getWarehouseId(), warehouseId);
-        
+        // 如果移动了货架所在的仓库
+        if (!shelf.getWarehouseId().equals(newWarehouseId)) {
+            // 更新文物表里的仓库id
+            relicDao.updateRelicWarehouse(oldWarehouseId, newWarehouseId);
+            // 更新盘点详情记录
+            relicCheckDetailService.updateRelicCheckDetailAfterShelfMove(shelfId, oldWarehouseId, newWarehouseId);
+        }
+
         shelf.setName(name);
-        shelf.setWarehouseId(warehouseId);
+        shelf.setWarehouseId(newWarehouseId);
         shelf.setUpdateTime(new Date());
 
         shelfDao.updateById(shelf);
