@@ -8,6 +8,7 @@ import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
+import cn.wegfan.relicsmanagement.util.EscapeUtil;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import cn.wegfan.relicsmanagement.vo.WarehouseVo;
@@ -59,7 +60,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             name = null;
         }
 
-        Page<Warehouse> pageResult = warehouseDao.selectPageNotDeletedByName(page, name);
+        Page<Warehouse> pageResult = warehouseDao.selectPageNotDeletedByName(page, EscapeUtil.escapeSqlLike(name));
 
         List<Warehouse> warehouseList = pageResult.getRecords();
         List<WarehouseVo> warehouseVoList = mapperFacade.mapAsList(warehouseList, WarehouseVo.class);

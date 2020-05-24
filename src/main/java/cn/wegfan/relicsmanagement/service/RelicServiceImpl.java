@@ -11,10 +11,7 @@ import cn.wegfan.relicsmanagement.entity.RelicStatus;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.RelicStatusDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
-import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
-import cn.wegfan.relicsmanagement.util.BusinessException;
-import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
-import cn.wegfan.relicsmanagement.util.RelicStatusEnum;
+import cn.wegfan.relicsmanagement.util.*;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.RelicIdPicturePathVo;
 import cn.wegfan.relicsmanagement.vo.RelicVo;
@@ -99,7 +96,7 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
             dateType = null;
         }
 
-        Page<Relic> pageResult = relicDao.selectPageNotDeletedByCondition(page, name, status,
+        Page<Relic> pageResult = relicDao.selectPageNotDeletedByCondition(page, EscapeUtil.escapeSqlLike(name), status,
                 warehouseId, shelfId, dateType, startTime, endTime);
         // log.debug(String.valueOf(result.getRecords()));
         // log.debug("current={} size={} total={} pages={}", result.getCurrent(), result.getSize(), result.getTotal(), result.getPages());

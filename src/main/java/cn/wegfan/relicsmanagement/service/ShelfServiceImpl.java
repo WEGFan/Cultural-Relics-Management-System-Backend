@@ -8,6 +8,7 @@ import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
+import cn.wegfan.relicsmanagement.util.EscapeUtil;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.ShelfVo;
 import cn.wegfan.relicsmanagement.vo.SuccessVo;
@@ -59,7 +60,7 @@ public class ShelfServiceImpl implements ShelfService {
             name = null;
         }
 
-        Page<Shelf> pageResult = shelfDao.selectPageNotDeletedByWarehouseIdAndName(page, warehouseId, name);
+        Page<Shelf> pageResult = shelfDao.selectPageNotDeletedByWarehouseIdAndName(page, warehouseId, EscapeUtil.escapeSqlLike(name));
         // log.debug(String.valueOf(result.getRecords()));
         // log.debug("current={} size={} total={} pages={}", result.getCurrent(), result.getSize(), result.getTotal(), result.getPages());
         // log.debug("{} {}", result.hasPrevious(), result.hasNext());
