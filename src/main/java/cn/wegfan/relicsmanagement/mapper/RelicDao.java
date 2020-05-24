@@ -48,17 +48,11 @@ public interface RelicDao extends BaseMapper<Relic> {
             "  </if>" +
             "  AND delete_time IS NULL" +
             "</where>" +
-            "<choose>" +
-            "  <when test='dateType != null'>" +
-            "    ORDER BY ${dateType} DESC" +
-            "  </when>" +
-            "  <otherwise>" +
-            "    ORDER BY update_time DESC" +
-            "  </otherwise>" +
-            "</choose>" +
+            "ORDER BY" +
             "<if test='dateType != null'>" +
-            "  ORDER BY ${dateType} DESC" +
+            "  ${dateType} DESC," +
             "</if>" +
+            "update_time DESC" +
             "</script>")
     Page<Relic> selectPageNotDeletedByCondition(Page<?> page, String name, Integer status,
                                                 Integer warehouseId, Integer shelfId,

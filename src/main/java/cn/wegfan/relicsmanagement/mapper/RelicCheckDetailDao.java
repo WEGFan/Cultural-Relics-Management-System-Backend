@@ -31,9 +31,11 @@ public interface RelicCheckDetailDao extends BaseMapper<RelicCheckDetail> {
             "    </when>" +
             "  </choose>" +
             "</where>" +
+            "ORDER BY" +
             "<if test='checked != false'>" +
-            "  ORDER BY check_time DESC" +
+            "  check_time DESC," +
             "</if>" +
+            "relic_id ASC" +
             "</script>")
     // language=none
     @Results(id = "relicCheckDetailResultMap", value = {
