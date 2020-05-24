@@ -30,6 +30,9 @@ public interface ShelfDao extends BaseMapper<Shelf> {
     @Select("SELECT * FROM shelf WHERE delete_time IS NULL")
     List<Shelf> selectNotDeletedList();
 
+    @Select("SELECT * FROM shelf WHERE warehouse_id = #{warehouseId} AND delete_time IS NULL")
+    List<Shelf> selectNotDeletedListByWarehouseId(Integer warehouseId);
+
     @Select("SELECT * FROM shelf WHERE warehouse_id = #{warehouseId} AND name = #{name} AND delete_time IS NULL LIMIT 1")
     Shelf selectNotDeletedByWarehouseIdAndExactName(Integer warehouseId, String name);
 

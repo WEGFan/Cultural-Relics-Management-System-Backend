@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.WarehouseNameDto;
 import cn.wegfan.relicsmanagement.entity.Warehouse;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
+import cn.wegfan.relicsmanagement.mapper.ShelfDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
@@ -33,7 +34,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     private WarehouseDao warehouseDao;
 
     @Autowired
-    private UserDao userDao;
+    private ShelfDao shelfDao;
 
     @Autowired
     private RelicDao relicDao;
@@ -125,8 +126,8 @@ public class WarehouseServiceImpl implements WarehouseService {
         if (warehouseDao.selectNotDeletedById(warehouseId) == null) {
             throw new BusinessException(BusinessErrorEnum.WarehouseNotExists);
         }
-        // 检测该仓库里是否还有文物
-        if (!relicDao.selectNotDeletedByWarehouseId(warehouseId).isEmpty()) {
+        // 检测该仓库里是否还有货架
+        if (!shelfDao.selectNotDeletedListByWarehouseId(warehouseId).isEmpty()) {
             throw new BusinessException(BusinessErrorEnum.WarehouseNotEmpty);
         }
 
