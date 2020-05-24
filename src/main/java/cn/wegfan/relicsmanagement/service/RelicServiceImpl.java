@@ -214,8 +214,8 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
         // 根据修改后状态和仓库、货架判断文物是否被移动
         boolean relicMoved = newRelicStatusId.equals(RelicStatusEnum.InMuseum.getStatusId()) &&
-                !Objects.equals(oldRelicWarehouseId, newRelicWarehouseId) ||
-                !Objects.equals(oldRelicShelfId, newRelicShelfId);
+                (!Objects.equals(oldRelicWarehouseId, newRelicWarehouseId) ||
+                        !Objects.equals(oldRelicShelfId, newRelicShelfId));
 
         // 获取当前登录的用户权限
         Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByCurrentLoginUser();
@@ -256,7 +256,12 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
             RelicMoveDto oldPlace = new RelicMoveDto(oldRelicWarehouseId, oldRelicShelfId);
             RelicMoveDto newPlace = new RelicMoveDto(newRelicWarehouseId, newRelicShelfId);
             relicCheckDetailService.updateRelicCheckDetailAfterRelicMove(relicId, oldPlace, newPlace);
+        }
 
+        // 如果文物状态不是在馆就清除仓库和货架信息
+        if (!relic.getStatusId().equals(RelicStatusEnum.InMuseum.getStatusId())) {
+            relic.setWarehouseId(null);
+            relic.setShelfId(null);
         }
 
         // 如果修改了文物状态
@@ -270,9 +275,6 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
                 relic.setLendTime(null);
                 relic.setLeaveTime(null);
                 relic.setMoveTime(null);
-                // 清除仓库和货架信息
-                relic.setWarehouseId(null);
-                relic.setShelfId(null);
                 // 根据状态设置时间
                 if (newRelicStatusId.equals(RelicStatusEnum.Lend.getStatusId())) {
                     relic.setLendTime(new Date());

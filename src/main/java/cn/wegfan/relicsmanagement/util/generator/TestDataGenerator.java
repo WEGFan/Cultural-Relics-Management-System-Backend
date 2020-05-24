@@ -106,6 +106,10 @@ public class TestDataGenerator {
         }
         List<Relic> relicList = new ArrayList<Relic>();
         for (int i = 1; i <= RELIC_COUNT; i++) {
+            if (relicList.size() >= 10000) {
+                relicService.saveBatch(relicList, 5000);
+                relicList.clear();
+            }
             Relic relic = new Relic();
 
             String name = "文物 #" + i;
