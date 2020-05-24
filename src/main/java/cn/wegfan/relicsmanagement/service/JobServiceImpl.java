@@ -52,7 +52,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<JobVo> listAllJobs() {
-        List<Job> jobList = jobDao.selectList(null);
+        List<Job> jobList = jobDao.selectJobList();
         List<JobVo> jobVoList = mapperFacade.mapAsList(jobList, JobVo.class);
         return jobVoList;
     }

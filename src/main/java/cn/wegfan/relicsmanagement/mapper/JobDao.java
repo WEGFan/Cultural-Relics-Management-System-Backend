@@ -22,6 +22,6 @@ public interface JobDao extends BaseMapper<Job> {
                     many = @Many(select = "cn.wegfan.relicsmanagement.mapper.PermissionDao.selectListByJobId",
                             fetchType = FetchType.EAGER))
     })
-    List<Job> selectList();
+    List<Job> selectJobList();
 
 }
