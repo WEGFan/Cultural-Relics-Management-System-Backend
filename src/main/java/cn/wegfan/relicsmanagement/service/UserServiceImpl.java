@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
                 .byDefault()
                 .register();
         mapperFactory.classMap(UserInfoDto.class, User.class)
+                .mapNulls(false)
                 .byDefault()
                 .register();
         mapperFacade = mapperFactory.getMapperFacade();
