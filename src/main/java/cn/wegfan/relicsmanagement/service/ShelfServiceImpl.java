@@ -6,6 +6,7 @@ import cn.wegfan.relicsmanagement.dto.ShelfNameDto;
 import cn.wegfan.relicsmanagement.entity.Shelf;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
+import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
 import cn.wegfan.relicsmanagement.util.EscapeUtil;
@@ -34,6 +35,9 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Autowired
     private RelicDao relicDao;
+
+    @Autowired
+    private WarehouseDao warehouseDao;
 
     @Autowired
     private RelicCheckDetailService relicCheckDetailService;
@@ -85,6 +89,10 @@ public class ShelfServiceImpl implements ShelfService {
         if (shelfDao.selectNotDeletedByWarehouseIdAndExactName(warehouseId, name) != null) {
             throw new BusinessException(BusinessErrorEnum.DuplicateShelfName);
         }
+        // 检测仓库是否存在
+        if (warehouseDao.selectNotDeletedById(dto.getWarehouseId()) == null) {
+            throw new BusinessException(BusinessErrorEnum.WarehouseNotExists);
+        }
 
         Shelf shelf = new Shelf();
         shelf.setWarehouseId(warehouseId);
@@ -106,6 +114,10 @@ public class ShelfServiceImpl implements ShelfService {
         // 检测没有被删除的货架中是否存在货架编号对应的货架
         if (shelf == null) {
             throw new BusinessException(BusinessErrorEnum.ShelfNotExists);
+        }
+        // 检测仓库是否存在
+        if (warehouseDao.selectNotDeletedById(dto.getWarehouseId()) == null) {
+            throw new BusinessException(BusinessErrorEnum.WarehouseNotExists);
         }
 
         String name = dto.getName();
