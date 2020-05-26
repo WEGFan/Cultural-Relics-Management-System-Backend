@@ -1,6 +1,7 @@
 package cn.wegfan.relicsmanagement.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -45,5 +46,11 @@ public class Shelf implements Serializable {
      */
     @Nullable
     private Date deleteTime;
+
+    /**
+     * 所属仓库实体
+     */
+    @TableField(exist = false)
+    private Warehouse warehouse;
 
 }

@@ -15,19 +15,14 @@ public class RelicCheckDetailMapping implements OrikaMapperFactoryConfigurer {
 
     @Override
     public void configure(MapperFactory mapperFactory) {
-        mapperFactory
-                .getConverterFactory()
-                .registerConverter("operatorNameConvert", new CustomConverter<User, String>() {
-                    @Override
-                    public String convert(User user, Type<? extends String> type, MappingContext mappingContext) {
-                        return user.getName();
-                    }
-                });
         mapperFactory.classMap(RelicCheckDetail.class, RelicCheckDetailVo.class)
-                .fieldMap("relic.id", "relicId").add()
                 .fieldMap("relic.name", "name").add()
                 .fieldMap("relic.picturePath", "picturePath").add()
-                .fieldMap("operator", "operatorName").converter("operatorNameConvert").add()
+                .fieldMap("operator.name", "operatorName").add()
+                .fieldMap("oldWarehouse.name", "oldWarehouseName").add()
+                .fieldMap("oldShelf.name", "oldShelfName").add()
+                .fieldMap("newWarehouse.name", "newWarehouseName").add()
+                .fieldMap("newShelf.name", "newShelfName").add()
                 .byDefault()
                 .register();
     }

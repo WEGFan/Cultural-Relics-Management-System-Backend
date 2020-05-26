@@ -1,5 +1,7 @@
 package cn.wegfan.relicsmanagement.vo;
 
+import cn.wegfan.relicsmanagement.entity.Shelf;
+import cn.wegfan.relicsmanagement.entity.Warehouse;
 import lombok.Data;
 
 import java.util.Date;
@@ -28,9 +30,19 @@ public class RelicCheckDetailVo {
     private Integer oldWarehouseId;
 
     /**
+     * 盘点前仓库名
+     */
+    private String oldWarehouseName;
+
+    /**
      * 盘点前货架id
      */
     private Integer oldShelfId;
+
+    /**
+     * 盘点前货架名
+     */
+    private String oldShelfName;
 
     /**
      * 盘点后仓库id
@@ -38,9 +50,19 @@ public class RelicCheckDetailVo {
     private Integer newWarehouseId;
 
     /**
+     * 盘点后仓库名
+     */
+    private String newWarehouseName;
+
+    /**
      * 盘点后货架id
      */
     private Integer newShelfId;
+
+    /**
+     * 盘点后货架名
+     */
+    private String newShelfName;
 
     /**
      * 盘点人姓名

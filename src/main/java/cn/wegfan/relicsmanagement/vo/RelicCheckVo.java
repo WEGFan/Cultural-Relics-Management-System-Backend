@@ -1,5 +1,7 @@
 package cn.wegfan.relicsmanagement.vo;
 
+import cn.wegfan.relicsmanagement.entity.Warehouse;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,6 +18,11 @@ public class RelicCheckVo {
      * 盘点仓库id
      */
     private Integer warehouseId;
+
+    /**
+     * 盘点仓库名
+     */
+    private String warehouseName;
 
     /**
      * 盘点文物个数

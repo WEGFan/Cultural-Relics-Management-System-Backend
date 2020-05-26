@@ -80,4 +80,28 @@ public class RelicCheckDetail implements Serializable {
     @TableField(exist = false)
     private Relic relic;
 
+    /**
+     * 盘点前仓库实体
+     */
+    @TableField(exist = false)
+    private Warehouse oldWarehouse;
+
+    /**
+     * 盘点前货架实体
+     */
+    @TableField(exist = false)
+    private Shelf oldShelf;
+
+    /**
+     * 盘点后仓库实体
+     */
+    @TableField(exist = false)
+    private Warehouse newWarehouse;
+
+    /**
+     * 盘点后货架实体
+     */
+    @TableField(exist = false)
+    private Shelf newShelf;
+
 }

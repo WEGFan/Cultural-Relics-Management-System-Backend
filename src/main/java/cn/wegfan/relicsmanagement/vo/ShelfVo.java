@@ -20,4 +20,9 @@ public class ShelfVo {
      */
     private Integer warehouseId;
 
+    /**
+     * 所属仓库名
+     */
+    private String warehouseName;
+
 }

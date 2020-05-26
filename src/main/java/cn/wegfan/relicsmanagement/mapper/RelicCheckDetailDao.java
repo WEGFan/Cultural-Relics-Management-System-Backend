@@ -1,14 +1,9 @@
 package cn.wegfan.relicsmanagement.mapper;
 
-import cn.wegfan.relicsmanagement.entity.Relic;
-import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
-import cn.wegfan.relicsmanagement.entity.User;
+import cn.wegfan.relicsmanagement.entity.*;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
@@ -40,11 +35,29 @@ public interface RelicCheckDetailDao extends BaseMapper<RelicCheckDetail> {
     // language=none
     @Results(id = "relicCheckDetailResultMap", value = {
             @Result(property = "id", column = "id", id = true),
+            @Result(property = "relicId", column = "relic_id"),
             @Result(property = "relic", column = "relic_id", javaType = Relic.class,
                     one = @One(select = "cn.wegfan.relicsmanagement.mapper.RelicDao.selectNotDeletedByRelicId",
                             fetchType = FetchType.EAGER)),
+            @Result(property = "operatorId", column = "operator_id"),
             @Result(property = "operator", column = "operator_id", javaType = User.class,
                     one = @One(select = "cn.wegfan.relicsmanagement.mapper.UserDao.selectByUserId",
+                            fetchType = FetchType.EAGER)),
+            @Result(property = "oldWarehouseId", column = "old_warehouse_id"),
+            @Result(property = "oldWarehouse", column = "old_warehouse_id", javaType = Warehouse.class,
+                    one = @One(select = "cn.wegfan.relicsmanagement.mapper.WarehouseDao.selectByWarehouseId",
+                            fetchType = FetchType.EAGER)),
+            @Result(property = "oldShelfId", column = "old_shelf_id"),
+            @Result(property = "oldShelf", column = "old_shelf_id", javaType = Shelf.class,
+                    one = @One(select = "cn.wegfan.relicsmanagement.mapper.ShelfDao.selectByShelfId",
+                            fetchType = FetchType.EAGER)),
+            @Result(property = "newWarehouseId", column = "new_warehouse_id"),
+            @Result(property = "newWarehouse", column = "new_warehouse_id", javaType = Warehouse.class,
+                    one = @One(select = "cn.wegfan.relicsmanagement.mapper.WarehouseDao.selectByWarehouseId",
+                            fetchType = FetchType.EAGER)),
+            @Result(property = "newShelfId", column = "new_shelf_id"),
+            @Result(property = "newShelf", column = "new_shelf_id", javaType = Shelf.class,
+                    one = @One(select = "cn.wegfan.relicsmanagement.mapper.ShelfDao.selectByShelfId",
                             fetchType = FetchType.EAGER))
     })
     Page<RelicCheckDetail> selectPageByCheckId(Page<?> page, Integer checkId, Boolean checked);

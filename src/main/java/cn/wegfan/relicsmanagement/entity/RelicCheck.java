@@ -48,4 +48,10 @@ public class RelicCheck implements Serializable {
     @TableField(exist = false)
     private Integer abnormalCount;
 
+    /**
+     * 仓库实体
+     */
+    @TableField(exist = false)
+    private Warehouse warehouse;
+
 }

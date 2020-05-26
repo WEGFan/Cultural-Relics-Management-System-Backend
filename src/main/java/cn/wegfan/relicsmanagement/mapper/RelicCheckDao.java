@@ -3,6 +3,7 @@ package cn.wegfan.relicsmanagement.mapper;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicCheck;
 import cn.wegfan.relicsmanagement.entity.User;
+import cn.wegfan.relicsmanagement.entity.Warehouse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.*;
@@ -30,6 +31,10 @@ public interface RelicCheckDao extends BaseMapper<RelicCheck> {
                             fetchType = FetchType.EAGER)),
             @Result(property = "abnormalCount", column = "id", javaType = Integer.class,
                     one = @One(select = "cn.wegfan.relicsmanagement.mapper.RelicCheckDetailDao.countAbnormalByCheckId",
+                            fetchType = FetchType.EAGER)),
+            @Result(property = "warehouseId", column = "warehouse_id"),
+            @Result(property = "warehouse", column = "warehouse_id", javaType = Warehouse.class,
+                    one = @One(select = "cn.wegfan.relicsmanagement.mapper.WarehouseDao.selectByWarehouseId",
                             fetchType = FetchType.EAGER))
     })
     Page<RelicCheck> selectPageByWarehouseId(Page<?> page, Integer warehouseId);

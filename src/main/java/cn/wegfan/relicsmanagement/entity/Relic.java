@@ -1,6 +1,7 @@
 package cn.wegfan.relicsmanagement.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -167,5 +168,17 @@ public class Relic implements Serializable {
      */
     @Nullable
     private Date deleteTime;
+
+    /**
+     * 仓库实体
+     */
+    @TableField(exist = false)
+    private Warehouse warehouse;
+
+    /**
+     * 货架实体
+     */
+    @TableField(exist = false)
+    private Shelf shelf;
 
 }

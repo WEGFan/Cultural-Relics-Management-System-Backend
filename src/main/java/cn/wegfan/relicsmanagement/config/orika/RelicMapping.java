@@ -19,6 +19,8 @@ public class RelicMapping implements OrikaMapperFactoryConfigurer {
     @Override
     public void configure(MapperFactory mapperFactory) {
         mapperFactory.classMap(Relic.class, RelicVo.class)
+                .fieldMap("warehouse.name", "warehouseName").add()
+                .fieldMap("shelf.name", "shelfName").add()
                 .byDefault()
                 .register();
         mapperFactory.classMap(RelicInfoDto.class, Relic.class)

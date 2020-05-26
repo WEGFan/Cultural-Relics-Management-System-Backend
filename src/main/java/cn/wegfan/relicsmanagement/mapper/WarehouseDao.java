@@ -36,4 +36,8 @@ public interface WarehouseDao extends BaseMapper<Warehouse> {
     @Update("UPDATE warehouse SET delete_time = now() WHERE id = #{warehouseId}")
     int deleteWarehouseById(Integer warehouseId);
 
+    @Select("SELECT * FROM warehouse WHERE id = #{warehouseId} LIMIT 1")
+    @SuppressWarnings("unused")
+    Warehouse selectByWarehouseId(Integer warehouseId);
+
 }
