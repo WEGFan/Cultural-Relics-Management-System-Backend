@@ -23,7 +23,7 @@ public class RelicInfoStringDto implements Serializable {
     /**
      * 数量
      */
-    @NumberString(    message = "数量不合法")
+    @NumberString(message = "数量不合法")
     @EmptyOrRange(min = 0, max = 999_999_999, message = "数量超出范围")
     private String quantity;
 

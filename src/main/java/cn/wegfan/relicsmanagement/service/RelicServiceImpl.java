@@ -175,6 +175,7 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
     @Override
     public RelicVo updateRelicInfo(Integer relicId, RelicInfoDto relicInfo) {
+        // FIX: 无法清空非字符串的字段
         // 根据文物编号查找未删除的文物中是否存在该文物
         Relic relic = relicDao.selectNotDeletedByRelicId(relicId);
         if (relic == null) {

@@ -1,16 +1,9 @@
 package cn.wegfan.relicsmanagement;
 
 import cn.hutool.core.img.ImgUtil;
-import cn.wegfan.relicsmanagement.config.orika.AllowEmptyStringFromStringConverter;
-import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.MappingContext;
-import ma.glasnost.orika.converter.builtin.FromStringConverter;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-import ma.glasnost.orika.metadata.Type;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
