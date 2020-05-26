@@ -3,60 +3,14 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 15/05/2020 23:38:37
+ Date: 26/05/2020 23:39:22
 */
 
 CREATE DATABASE IF NOT EXISTS relics_manage_sys DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
-
 USE relics_manage_sys;
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for check
--- ----------------------------
-DROP TABLE IF EXISTS `check`;
-CREATE TABLE `check`
-(
-    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '盘点编号',
-    `operator_id` int(11) UNSIGNED NOT NULL COMMENT '盘点人',
-    `warehouse_id` int(11) UNSIGNED NOT NULL COMMENT '盘点仓库编号',
-    `start_time` datetime(0) NOT NULL COMMENT '盘点开始时间',
-    `end_time` datetime(0) NULL DEFAULT NULL COMMENT '盘点结束时间',
-    PRIMARY KEY (`id`) USING BTREE,
-    INDEX `check_ibfk_operator_id` (`operator_id`) USING BTREE,
-    CONSTRAINT `check_ibfk_operator_id` FOREIGN KEY (`operator_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
-  CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_general_ci COMMENT = '盘点表'
-  ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Table structure for check_relic
--- ----------------------------
-DROP TABLE IF EXISTS `check_relic`;
-CREATE TABLE `check_relic`
-(
-    `check_id` int(11) UNSIGNED NOT NULL COMMENT '盘点编号',
-    `relic_id` int(11) UNSIGNED NOT NULL COMMENT '文物编号',
-    `old_warehouse_id` int(11) UNSIGNED NOT NULL COMMENT '旧仓库编号',
-    `old_place` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '旧地点',
-    `new_warehouse_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '新仓库编号',
-    `new_place` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新地点',
-    `create_time` datetime(0) NOT NULL COMMENT '创建时间（盘点时间）',
-    INDEX `check_relic_ibfk_check_id` (`check_id`) USING BTREE,
-    INDEX `check_relic_ibfk_new_warehouse_id` (`new_warehouse_id`) USING BTREE,
-    INDEX `check_relic_ibfk_old_warehouse_id` (`old_warehouse_id`) USING BTREE,
-    INDEX `check_relic_ibfk_relic_id` (`relic_id`) USING BTREE,
-    CONSTRAINT `check_relic_ibfk_check_id` FOREIGN KEY (`check_id`) REFERENCES `check` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT `check_relic_ibfk_new_warehouse_id` FOREIGN KEY (`new_warehouse_id`) REFERENCES `warehouse` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT `check_relic_ibfk_old_warehouse_id` FOREIGN KEY (`old_warehouse_id`) REFERENCES `warehouse` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT `check_relic_ibfk_relic_id` FOREIGN KEY (`relic_id`) REFERENCES `relic` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB
-  CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_general_ci COMMENT = '盘点文物记录表'
-  ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for job
@@ -122,8 +76,6 @@ VALUES (3, 8);
 INSERT INTO `job_permission`
 VALUES (3, 9);
 INSERT INTO `job_permission`
-VALUES (3, 10);
-INSERT INTO `job_permission`
 VALUES (3, 12);
 INSERT INTO `job_permission`
 VALUES (3, 4);
@@ -132,7 +84,7 @@ VALUES (4, 4);
 INSERT INTO `job_permission`
 VALUES (4, 5);
 INSERT INTO `job_permission`
-VALUES (4, 6);
+VALUES (4, 14);
 INSERT INTO `job_permission`
 VALUES (4, 11);
 INSERT INTO `job_permission`
@@ -154,13 +106,13 @@ VALUES (5, 8);
 INSERT INTO `job_permission`
 VALUES (5, 9);
 INSERT INTO `job_permission`
-VALUES (5, 10);
-INSERT INTO `job_permission`
 VALUES (5, 11);
 INSERT INTO `job_permission`
 VALUES (5, 12);
 INSERT INTO `job_permission`
 VALUES (5, 13);
+INSERT INTO `job_permission`
+VALUES (5, 14);
 
 -- ----------------------------
 -- Table structure for operation
@@ -184,6 +136,10 @@ CREATE TABLE `operation`
   ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Records of operation
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for permission
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
@@ -194,7 +150,7 @@ CREATE TABLE `permission`
     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限名称',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 14
+  AUTO_INCREMENT = 15
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '权限表'
   ROW_FORMAT = DYNAMIC;
@@ -221,13 +177,13 @@ VALUES (8, 'relic:check', '盘点文物');
 INSERT INTO `permission`
 VALUES (9, 'relic:move', '移动文物');
 INSERT INTO `permission`
-VALUES (10, 'relic:export:check', '查询文物盘点记录');
-INSERT INTO `permission`
 VALUES (11, 'relic:export:relics', '查询、导出文物一览表');
 INSERT INTO `permission`
 VALUES (12, 'relic:export:warehouse', '查询、导出某仓库文物一览表');
 INSERT INTO `permission`
 VALUES (13, 'relic:export:changes', '查询、导出文物流水表');
+INSERT INTO `permission`
+VALUES (14, 'relic:status:enter', '文物入馆');
 
 -- ----------------------------
 -- Table structure for relic
@@ -246,7 +202,7 @@ CREATE TABLE `relic`
     `size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '尺寸',
     `weight` double(15, 2) NULL DEFAULT NULL COMMENT '重量 kg',
     `warehouse_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '收储仓库id',
-    `place` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '收储地点',
+    `shelf_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '收储货架id',
     `enter_price` decimal(15, 2) NULL DEFAULT NULL COMMENT '入馆价值',
     `leave_price` decimal(15, 2) NULL DEFAULT NULL COMMENT '离馆价值',
     `status_id` int(11) UNSIGNED NOT NULL COMMENT '状态id',
@@ -259,7 +215,7 @@ CREATE TABLE `relic`
     `comment1` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '备注1',
     `comment2` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '备注2',
     `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间/录入时间',
+    `update_time` datetime(0) NOT NULL COMMENT '更新时间/录入时间',
     `delete_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `relic_ibfk_warehouse_id` (`warehouse_id`) USING BTREE,
@@ -271,6 +227,8 @@ CREATE TABLE `relic`
     INDEX `relic_idx_last_check_time` (`last_check_time`) USING BTREE,
     INDEX `relic_idx_fix_time` (`fix_time`) USING BTREE,
     INDEX `relic_idx_update_time` (`update_time`) USING BTREE,
+    INDEX `relic_ibfk_shelf_id` (`shelf_id`) USING BTREE,
+    CONSTRAINT `relic_ibfk_shelf_id` FOREIGN KEY (`shelf_id`) REFERENCES `shelf` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `relic_ibfk_status` FOREIGN KEY (`status_id`) REFERENCES `relic_status` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT `relic_ibfk_warehouse_id` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouse` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE = InnoDB
@@ -278,6 +236,74 @@ CREATE TABLE `relic`
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '文物表'
   ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of relic
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for relic_check
+-- ----------------------------
+DROP TABLE IF EXISTS `relic_check`;
+CREATE TABLE `relic_check`
+(
+    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '盘点编号',
+    `warehouse_id` int(11) UNSIGNED NOT NULL COMMENT '盘点仓库编号',
+    `start_time` datetime(0) NOT NULL COMMENT '盘点开始时间',
+    `end_time` datetime(0) NULL DEFAULT NULL COMMENT '盘点结束时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `relic_check_ibfk_warehouse_id` (`warehouse_id`) USING BTREE,
+    CONSTRAINT `relic_check_ibfk_warehouse_id` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouse` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '盘点表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of relic_check
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for relic_check_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `relic_check_detail`;
+CREATE TABLE `relic_check_detail`
+(
+    `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增列',
+    `check_id` int(11) UNSIGNED NOT NULL COMMENT '盘点编号',
+    `relic_id` int(11) UNSIGNED NOT NULL COMMENT '文物编号',
+    `old_warehouse_id` int(11) UNSIGNED NOT NULL COMMENT '盘点前文物所在仓库编号',
+    `old_shelf_id` int(11) UNSIGNED NOT NULL COMMENT '盘点前文物所在货架编号',
+    `new_warehouse_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '盘点后文物所在仓库编号',
+    `new_shelf_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '盘点后文物所在货架编号',
+    `operator_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '盘点人id',
+    `check_time` datetime(0) NULL DEFAULT NULL COMMENT '盘点时间',
+    `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `relic_check_detail_ibfk_check_id` (`check_id`) USING BTREE,
+    INDEX `relic_check_detail_ibfk_new_warehouse_id` (`new_warehouse_id`) USING BTREE,
+    INDEX `relic_check_detail_ibfk_old_warehouse_id` (`old_warehouse_id`) USING BTREE,
+    INDEX `relic_check_detail_ibfk_relic_id` (`relic_id`) USING BTREE,
+    INDEX `relic_check_detail_ibfk_old_shelf_id` (`old_shelf_id`) USING BTREE,
+    INDEX `relic_check_detail_ibfk_new_shelf_id` (`new_shelf_id`) USING BTREE,
+    INDEX `relic_check_detail_ibfk_operator_id` (`operator_id`) USING BTREE,
+    CONSTRAINT `relic_check_detail_ibfk_check_id` FOREIGN KEY (`check_id`) REFERENCES `relic_check` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT `relic_check_detail_ibfk_new_shelf_id` FOREIGN KEY (`new_shelf_id`) REFERENCES `shelf` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT `relic_check_detail_ibfk_new_warehouse_id` FOREIGN KEY (`new_warehouse_id`) REFERENCES `warehouse` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT `relic_check_detail_ibfk_old_shelf_id` FOREIGN KEY (`old_shelf_id`) REFERENCES `shelf` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT `relic_check_detail_ibfk_old_warehouse_id` FOREIGN KEY (`old_warehouse_id`) REFERENCES `warehouse` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT `relic_check_detail_ibfk_operator_id` FOREIGN KEY (`operator_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT `relic_check_detail_ibfk_relic_id` FOREIGN KEY (`relic_id`) REFERENCES `relic` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '盘点文物记录表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of relic_check_detail
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for relic_status
@@ -309,6 +335,31 @@ INSERT INTO `relic_status`
 VALUES (5, '离馆');
 
 -- ----------------------------
+-- Table structure for shelf
+-- ----------------------------
+DROP TABLE IF EXISTS `shelf`;
+CREATE TABLE `shelf`
+(
+    `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '货架编号',
+    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '仓库名',
+    `warehouse_id` int(11) UNSIGNED NOT NULL COMMENT '所属仓库编号',
+    `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `delete_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    INDEX `shelf_ibfk_warehouse_id` (`warehouse_id`) USING BTREE,
+    CONSTRAINT `shelf_ibfk_warehouse_id` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouse` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '仓库表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of shelf
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
@@ -336,6 +387,10 @@ CREATE TABLE `user`
   ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Records of user
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for user_extra_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `user_extra_permission`;
@@ -351,6 +406,10 @@ CREATE TABLE `user_extra_permission`
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '用户临时权限表'
   ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of user_extra_permission
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for warehouse
@@ -369,6 +428,10 @@ CREATE TABLE `warehouse`
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '仓库表'
   ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of warehouse
+-- ----------------------------
 
 -- ----------------------------
 -- View structure for job_permission_view
