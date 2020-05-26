@@ -42,7 +42,10 @@ public class ShelfController {
         if (page != null && count != null) {
             return DataReturnVo.success(shelfService.listNotDeletedShelvesByWarehouseIdAndNameAndPage(warehouseId, name, page, count));
         }
-        return DataReturnVo.success(shelfService.listNotDeletedShelvesByWarehouseId(warehouseId));
+        if (warehouseId != null) {
+            return DataReturnVo.success(shelfService.listNotDeletedShelvesByWarehouseId(warehouseId));
+        }
+        return DataReturnVo.success(shelfService.listNotDeletedShelves());
     }
 
     /**
