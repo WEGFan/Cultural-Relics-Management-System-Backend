@@ -204,11 +204,11 @@ Content-Type: application/json
 DELETE {{host}}/api/v1/checks/sessions
 
 ### relic check move
-PUT {{host}}/api/v1/checks/12/relics/1200
+PUT {{host}}/api/v1/checks/37/relics/1040
 Content-Type: application/json
 
 {
-    "warehouseId": "",
+    "warehouseId": "44aa",
     "shelfId": ""
 }
 

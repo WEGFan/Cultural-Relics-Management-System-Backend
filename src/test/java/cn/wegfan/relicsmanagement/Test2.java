@@ -1,18 +1,28 @@
 package cn.wegfan.relicsmanagement;
 
 import cn.hutool.core.img.ImgUtil;
+import cn.wegfan.relicsmanagement.config.orika.AllowEmptyStringFromStringConverter;
+import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.MappingContext;
+import ma.glasnost.orika.converter.builtin.FromStringConverter;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
+import ma.glasnost.orika.metadata.Type;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
+@SpringBootTest
 public class Test2 {
 
     @Data
@@ -153,11 +163,67 @@ public class Test2 {
 
     }
 
+    @Data
+    private static class A {
+
+        private String value;
+
+    }
+
+    @Data
+    private static class B {
+
+        private Integer value;
+
+    }
+
+    @Data
+    private static class C {
+
+        private List<Integer> list = new ArrayList<>();
+
+    }
+
+    @Autowired
+    private MapperFacade mapperFacade;
+
+    @Test
+    void test() {
+        A a = new A();
+        a.setValue("");
+        B b = mapperFacade.map(a, B.class);
+        log.debug("{}", b.value);
+    }
+
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
-        BigDecimal a = new BigDecimal("1.2222").setScale(2, BigDecimal.ROUND_HALF_UP);
-        log.debug(a.toPlainString());
-        Set<Integer> set = new HashSet<>();
-        set.stream();
+        C c = new C();
+        c.getList().addAll(Arrays.asList(1, 2, 3));
+        log.debug(String.valueOf(c.getList()));
+        BigDecimal bigDecimal = new BigDecimal("0x6");
+        log.debug(String.valueOf(bigDecimal));
+        // MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+        // mapperFactory
+        //         .getConverterFactory()
+        //         .registerConverter("aaConvert", new AllowEmptyStringFromStringConverter());
+        // MapperFacade mapperFacade;
+        //
+        // mapperFactory.classMap(A.class, B.class)
+        //         .fieldMap("value").converter("aaConvert").add()
+        //         .byDefault()
+        //         .register();
+        // Integer e = Integer.valueOf("");
+        // mapperFacade = mapperFactory.getMapperFacade();
+        // A a = new A();
+        // a.setValue("null");
+        // B b = mapperFacade.map(a, B.class);
+        // log.debug("{}", b.value);
+        if (true) {
+            return;
+        }
+        // BigDecimal a = new BigDecimal("1.2222").setScale(2, BigDecimal.ROUND_HALF_UP);
+        // log.debug(a.toPlainString());
+        // Set<Integer> set = new HashSet<>();
+        // set.stream();
         // File file = FileUtil.touch("data/images/1.txt");
         // log.debug(file.getAbsolutePath());
         // FileUtil.writeBytes(new byte[] {47, 52, 53, 56}, file);
