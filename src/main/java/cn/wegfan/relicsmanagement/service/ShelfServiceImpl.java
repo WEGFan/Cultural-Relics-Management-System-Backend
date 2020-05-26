@@ -68,6 +68,13 @@ public class ShelfServiceImpl implements ShelfService {
     }
 
     @Override
+    public List<ShelfVo> listNotDeletedShelvesByWarehouseId(Integer warehouseId) {
+        List<Shelf> shelfList = shelfDao.selectNotDeletedListByWarehouseId(warehouseId);
+        List<ShelfVo> shelfVoList = mapperFacade.mapAsList(shelfList, ShelfVo.class);
+        return shelfVoList;
+    }
+
+    @Override
     public ShelfVo createShelf(ShelfDto dto) {
         Integer warehouseId = dto.getWarehouseId();
         String name = dto.getName();
