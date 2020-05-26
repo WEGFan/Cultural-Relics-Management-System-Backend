@@ -19,7 +19,8 @@ public class CustomOrikaMapperFactoryBuilderConfigurer implements OrikaMapperFac
 
         ConverterFactory converterFactory = mapperFactory.getConverterFactory();
 
-        converterFactory.registerConverter(new AllowEmptyStringFromStringConverter());
+        converterFactory.registerConverter(new FromEmptiableStringConverter());
+        converterFactory.registerConverter(new EmptiableStringToBigDecimalConverter());
 
         BuiltinConverters.register(converterFactory);
     }
