@@ -4,8 +4,6 @@ import javax.validation.Constraint;
 import javax.validation.OverridesAttribute;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.lang.annotation.*;
 
 @Constraint(validatedBy = {})

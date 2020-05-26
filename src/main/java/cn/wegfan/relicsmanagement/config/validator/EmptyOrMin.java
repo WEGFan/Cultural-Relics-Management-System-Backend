@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 public @interface EmptyOrMin {
 
     long value();
-    
+
     String message() default "";
 
     Class<?>[] groups() default {};

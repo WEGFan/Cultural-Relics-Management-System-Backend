@@ -43,7 +43,6 @@ public interface UserDao extends BaseMapper<User> {
     User selectNotDeletedById(Integer userId);
 
     @Update("UPDATE user SET delete_time = now() WHERE id = #{userId}")
-    @ResultMap("userExtraPermissionsResultMap")
     int deleteUserById(Integer userId);
 
     @Select("SELECT * FROM user WHERE work_id = #{workId} AND password = #{password} AND delete_time IS NULL LIMIT 1")

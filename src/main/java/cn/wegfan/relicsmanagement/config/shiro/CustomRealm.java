@@ -1,8 +1,6 @@
 package cn.wegfan.relicsmanagement.config.shiro;
 
 import cn.wegfan.relicsmanagement.entity.User;
-import cn.wegfan.relicsmanagement.mapper.JobDao;
-import cn.wegfan.relicsmanagement.mapper.PermissionDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.service.PermissionService;
 import lombok.extern.slf4j.Slf4j;

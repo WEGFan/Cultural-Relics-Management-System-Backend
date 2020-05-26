@@ -1,7 +1,5 @@
 package cn.wegfan.relicsmanagement.vo;
 
-import cn.wegfan.relicsmanagement.entity.Warehouse;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.util.Date;

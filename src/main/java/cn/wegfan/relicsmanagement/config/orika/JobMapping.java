@@ -2,9 +2,7 @@ package cn.wegfan.relicsmanagement.config.orika;
 
 import cn.wegfan.relicsmanagement.entity.Job;
 import cn.wegfan.relicsmanagement.entity.Permission;
-import cn.wegfan.relicsmanagement.entity.Shelf;
 import cn.wegfan.relicsmanagement.vo.JobVo;
-import cn.wegfan.relicsmanagement.vo.ShelfVo;
 import ma.glasnost.orika.CustomConverter;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;

@@ -1,7 +1,5 @@
 package cn.wegfan.relicsmanagement.config.validator;
 
-import javafx.util.converter.NumberStringConverter;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;

@@ -1,8 +1,6 @@
 package cn.wegfan.relicsmanagement.mapper;
 
-import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicCheck;
-import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.entity.Warehouse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,7 +19,7 @@ public interface RelicCheckDao extends BaseMapper<RelicCheck> {
             "    AND warehouse_id = #{warehouseId}" +
             "  </if>" +
             "</where>" +
-            "ORDER BY start_time DESC" + 
+            "ORDER BY start_time DESC" +
             "</script>")
     // language=none
     @Results(id = "relicCheckResultMap", value = {

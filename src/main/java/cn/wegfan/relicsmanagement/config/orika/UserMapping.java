@@ -1,20 +1,11 @@
 package cn.wegfan.relicsmanagement.config.orika;
 
 import cn.wegfan.relicsmanagement.dto.UserInfoDto;
-import cn.wegfan.relicsmanagement.entity.Job;
-import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.entity.User;
-import cn.wegfan.relicsmanagement.vo.JobVo;
 import cn.wegfan.relicsmanagement.vo.UserVo;
-import ma.glasnost.orika.CustomConverter;
 import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.MappingContext;
-import ma.glasnost.orika.metadata.Type;
 import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class UserMapping implements OrikaMapperFactoryConfigurer {
