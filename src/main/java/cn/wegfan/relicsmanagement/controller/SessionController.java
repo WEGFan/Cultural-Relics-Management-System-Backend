@@ -1,9 +1,11 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.dto.UserLoginDto;
+import cn.wegfan.relicsmanagement.dto.stringdto.UserLoginStringDto;
 import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +20,16 @@ public class SessionController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MapperFacade mapperFacade;
+
     /**
      * 用户登录
      */
     @PostMapping("")
-    public DataReturnVo userLogin(@RequestBody @Valid UserLoginDto loginInfo) {
-        return DataReturnVo.success(userService.userLogin(Integer.parseInt(loginInfo.getWorkId()), loginInfo.getPassword()));
+    public DataReturnVo userLogin(@RequestBody @Valid UserLoginStringDto stringDto) {
+        UserLoginDto dto = mapperFacade.map(stringDto, UserLoginDto.class);
+        return DataReturnVo.success(userService.userLogin(dto.getWorkId(), dto.getPassword()));
     }
 
     /**

@@ -1,12 +1,15 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.dto.RelicMoveDto;
+import cn.wegfan.relicsmanagement.dto.stringdto.RelicMoveStringDto;
 import cn.wegfan.relicsmanagement.dto.WarehouseIdDto;
+import cn.wegfan.relicsmanagement.dto.stringdto.WarehouseIdStringDto;
 import cn.wegfan.relicsmanagement.service.RelicCheckDetailService;
 import cn.wegfan.relicsmanagement.service.RelicCheckService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,9 @@ public class RelicCheckController {
 
     @Autowired
     private RelicCheckDetailService relicCheckDetailService;
+
+    @Autowired
+    private MapperFacade mapperFacade;
 
     /**
      * 获取盘点列表
@@ -57,7 +63,8 @@ public class RelicCheckController {
      */
     @PostMapping("sessions")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
-    public DataReturnVo startCheck(@RequestBody @Valid WarehouseIdDto dto) {
+    public DataReturnVo startCheck(@RequestBody @Valid WarehouseIdStringDto stringDto) {
+        WarehouseIdDto dto = mapperFacade.map(stringDto, WarehouseIdDto.class);
         return DataReturnVo.success(relicCheckService.startRelicCheck(dto.getWarehouseId()));
     }
 
@@ -79,7 +86,8 @@ public class RelicCheckController {
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
     public DataReturnVo updateRelicPlaceInfo(@PathVariable Integer checkId,
                                              @PathVariable Integer relicId,
-                                             @RequestBody @Valid RelicMoveDto dto) {
+                                             @RequestBody @Valid RelicMoveStringDto stringDto) {
+        RelicMoveDto dto = mapperFacade.map(stringDto, RelicMoveDto.class);
         return DataReturnVo.success(relicCheckDetailService.addRelicCheckDetail(checkId, relicId, dto));
     }
 

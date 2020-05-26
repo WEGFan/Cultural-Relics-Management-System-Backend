@@ -2,10 +2,12 @@ package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.dto.UserChangePasswordDto;
 import cn.wegfan.relicsmanagement.dto.UserInfoDto;
+import cn.wegfan.relicsmanagement.dto.stringdto.UserInfoStringDto;
 import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MapperFacade mapperFacade;
 
     /**
      * 获取所有用户信息【管理员】
@@ -40,8 +45,9 @@ public class UserController {
      */
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
-    public DataReturnVo addUser(@RequestBody @Valid UserInfoDto userInfo) {
-        return DataReturnVo.success(userService.addUser(userInfo));
+    public DataReturnVo addUser(@RequestBody @Valid UserInfoStringDto stringDto) {
+        UserInfoDto dto = mapperFacade.map(stringDto, UserInfoDto.class);
+        return DataReturnVo.success(userService.addUser(dto));
     }
 
     /**
@@ -52,7 +58,8 @@ public class UserController {
     @PutMapping("{userId}")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
     public DataReturnVo updateUserInfo(@PathVariable Integer userId,
-                                       @RequestBody @Valid UserInfoDto dto) {
+                                       @RequestBody @Valid UserInfoStringDto stringDto) {
+        UserInfoDto dto = mapperFacade.map(stringDto, UserInfoDto.class);
         return DataReturnVo.success(userService.updateUserInfo(userId, dto));
     }
 

@@ -4,6 +4,7 @@ import cn.wegfan.relicsmanagement.service.BackupService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ public class BackupController {
 
     @Autowired
     private BackupService backupService;
+
+    @Autowired
+    private MapperFacade mapperFacade;
 
     /**
      * 获取所有数据库备份信息【管理员】

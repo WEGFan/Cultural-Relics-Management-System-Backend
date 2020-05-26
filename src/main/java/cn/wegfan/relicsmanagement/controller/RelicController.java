@@ -3,10 +3,12 @@ package cn.wegfan.relicsmanagement.controller;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
+import cn.wegfan.relicsmanagement.dto.stringdto.RelicInfoStringDto;
 import cn.wegfan.relicsmanagement.service.RelicService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
@@ -28,6 +30,9 @@ public class RelicController {
 
     @Autowired
     private RelicService relicService;
+
+    @Autowired
+    private MapperFacade mapperFacade;
 
     /**
      * 获取所有文物状态
@@ -110,8 +115,8 @@ public class RelicController {
             logical = Logical.OR
     )
     public DataReturnVo updateRelicInfo(@PathVariable Integer relicId,
-                                        @RequestBody @Valid RelicInfoDto dto) {
-        log.debug(dto.toString());
+                                        @RequestBody @Valid RelicInfoStringDto stringDto) {
+        RelicInfoDto dto = mapperFacade.map(stringDto, RelicInfoDto.class);
         return DataReturnVo.success(relicService.updateRelicInfo(relicId, dto));
     }
 

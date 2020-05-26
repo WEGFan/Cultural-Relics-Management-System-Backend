@@ -5,6 +5,7 @@ import cn.wegfan.relicsmanagement.util.BusinessException;
 import cn.wegfan.relicsmanagement.util.generator.TestDataGenerator;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import org.apache.batik.transcoder.TranscoderException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,9 @@ public class TestController {
 
     @Autowired
     private TestDataGenerator generator;
+
+    @Autowired
+    private MapperFacade mapperFacade;
 
     @PostMapping("generate")
     public DataReturnVo test(@RequestParam("password") String password,

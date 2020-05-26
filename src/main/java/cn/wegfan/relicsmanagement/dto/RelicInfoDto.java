@@ -16,7 +16,6 @@ import java.util.Set;
 
 @Slf4j
 @Data
-
 public class RelicInfoDto implements Serializable {
 
     private static final long serialVersionUID = 1L;

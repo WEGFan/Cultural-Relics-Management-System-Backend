@@ -1,11 +1,9 @@
 package cn.wegfan.relicsmanagement.service;
 
 import cn.hutool.core.util.StrUtil;
-import cn.wegfan.relicsmanagement.dto.WarehouseNameDto;
 import cn.wegfan.relicsmanagement.entity.Warehouse;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
-import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
@@ -16,8 +14,6 @@ import cn.wegfan.relicsmanagement.vo.WarehouseVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,19 +35,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Autowired
     private RelicDao relicDao;
 
-    private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-
+    @Autowired
     private MapperFacade mapperFacade;
-
-    public WarehouseServiceImpl() {
-        mapperFactory.classMap(Warehouse.class, WarehouseVo.class)
-                .byDefault()
-                .register();
-        mapperFactory.classMap(WarehouseNameDto.class, Warehouse.class)
-                .byDefault()
-                .register();
-        mapperFacade = mapperFactory.getMapperFacade();
-    }
 
     @Override
     public PageResultVo<WarehouseVo> listNotDeletedWarehousesByNameAndPage(String name, long pageIndex, long pageSize) {

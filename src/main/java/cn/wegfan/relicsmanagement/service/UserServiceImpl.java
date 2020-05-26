@@ -2,10 +2,8 @@ package cn.wegfan.relicsmanagement.service;
 
 import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.UserInfoDto;
-import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.entity.Warehouse;
-import cn.wegfan.relicsmanagement.mapper.PermissionDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
@@ -16,12 +14,7 @@ import cn.wegfan.relicsmanagement.vo.UserIdVo;
 import cn.wegfan.relicsmanagement.vo.UserVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.CustomConverter;
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.MappingContext;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-import ma.glasnost.orika.metadata.Type;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -32,8 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -46,32 +37,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserExtraPermissionService userExtraPermissionService;
 
-    private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-
+    @Autowired
     private MapperFacade mapperFacade;
-
-    public UserServiceImpl() {
-        mapperFactory
-                .getConverterFactory()
-                .registerConverter("permissionIdConvert", new CustomConverter<Set<Permission>, Set<Integer>>() {
-                    @Override
-                    public Set<Integer> convert(Set<Permission> extraPermissions, Type<? extends Set<Integer>> type, MappingContext mappingContext) {
-                        // 把权限的id提取成列表
-                        return extraPermissions.stream()
-                                .map(Permission::getId)
-                                .collect(Collectors.toSet());
-                    }
-                });
-        mapperFactory.classMap(User.class, UserVo.class)
-                .fieldMap("extraPermissions", "extraPermissionsId").converter("permissionIdConvert").add()
-                .byDefault()
-                .register();
-        mapperFactory.classMap(UserInfoDto.class, User.class)
-                .mapNulls(false)
-                .byDefault()
-                .register();
-        mapperFacade = mapperFactory.getMapperFacade();
-    }
 
     @Override
     public List<UserVo> listAllInWorkUsers() {

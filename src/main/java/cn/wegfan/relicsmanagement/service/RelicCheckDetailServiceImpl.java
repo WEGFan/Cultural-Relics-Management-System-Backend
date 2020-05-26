@@ -4,7 +4,6 @@ import cn.wegfan.relicsmanagement.dto.RelicMoveDto;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicCheck;
 import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
-import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.*;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
@@ -14,12 +13,7 @@ import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.CustomConverter;
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.MappingContext;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-import ma.glasnost.orika.metadata.Type;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,29 +43,9 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
 
     @Autowired
     private ShelfDao shelfDao;
-
-    private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-
+    
+    @Autowired
     private MapperFacade mapperFacade;
-
-    public RelicCheckDetailServiceImpl() {
-        mapperFactory
-                .getConverterFactory()
-                .registerConverter("operatorNameConvert", new CustomConverter<User, String>() {
-                    @Override
-                    public String convert(User user, Type<? extends String> type, MappingContext mappingContext) {
-                        return user.getName();
-                    }
-                });
-        mapperFactory.classMap(RelicCheckDetail.class, RelicCheckDetailVo.class)
-                .fieldMap("relic.id", "relicId").add()
-                .fieldMap("relic.name", "name").add()
-                .fieldMap("relic.picturePath", "picturePath").add()
-                .fieldMap("operator", "operatorName").converter("operatorNameConvert").add()
-                .byDefault()
-                .register();
-        mapperFacade = mapperFactory.getMapperFacade();
-    }
 
     @Override
     public PageResultVo<RelicCheckDetailVo> listRelicCheckDetailByCheckIdAndStatusAndPage(Integer checkId, Boolean checked, long pageIndex, long pageSize) {

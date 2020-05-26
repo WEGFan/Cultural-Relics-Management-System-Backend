@@ -2,7 +2,6 @@ package cn.wegfan.relicsmanagement.service;
 
 import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.ShelfDto;
-import cn.wegfan.relicsmanagement.dto.ShelfNameDto;
 import cn.wegfan.relicsmanagement.entity.Shelf;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
@@ -16,8 +15,6 @@ import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,19 +39,8 @@ public class ShelfServiceImpl implements ShelfService {
     @Autowired
     private RelicCheckDetailService relicCheckDetailService;
 
-    private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-
+    @Autowired
     private MapperFacade mapperFacade;
-
-    public ShelfServiceImpl() {
-        mapperFactory.classMap(Shelf.class, ShelfVo.class)
-                .byDefault()
-                .register();
-        mapperFactory.classMap(ShelfNameDto.class, Shelf.class)
-                .byDefault()
-                .register();
-        mapperFacade = mapperFactory.getMapperFacade();
-    }
 
     @Override
     public PageResultVo<ShelfVo> listNotDeletedShelvesByWarehouseIdAndNameAndPage(Integer warehouseId, String name, long pageIndex, long pageSize) {
@@ -90,7 +76,7 @@ public class ShelfServiceImpl implements ShelfService {
             throw new BusinessException(BusinessErrorEnum.DuplicateShelfName);
         }
         // 检测仓库是否存在
-        if (warehouseDao.selectNotDeletedById(dto.getWarehouseId()) == null) {
+        if (warehouseDao.selectNotDeletedById(warehouseId) == null) {
             throw new BusinessException(BusinessErrorEnum.WarehouseNotExists);
         }
 
@@ -110,18 +96,18 @@ public class ShelfServiceImpl implements ShelfService {
     @Override
     public ShelfVo updateShelf(Integer shelfId, ShelfDto dto) {
         Shelf shelf = shelfDao.selectNotDeletedById(shelfId);
+        Integer newWarehouseId = dto.getWarehouseId();
 
         // 检测没有被删除的货架中是否存在货架编号对应的货架
         if (shelf == null) {
             throw new BusinessException(BusinessErrorEnum.ShelfNotExists);
         }
         // 检测仓库是否存在
-        if (warehouseDao.selectNotDeletedById(dto.getWarehouseId()) == null) {
+        if (warehouseDao.selectNotDeletedById(newWarehouseId) == null) {
             throw new BusinessException(BusinessErrorEnum.WarehouseNotExists);
         }
 
         String name = dto.getName();
-        Integer newWarehouseId = dto.getWarehouseId();
         Integer oldWarehouseId = shelf.getWarehouseId();
 
         // 检测相同仓库里没有被删除的其他货架中是否存在相同名字的货架

@@ -20,8 +20,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,20 +50,8 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
     @Autowired
     private ShelfDao shelfDao;
 
-    private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-
+    @Autowired
     private MapperFacade mapperFacade;
-
-    public RelicServiceImpl() {
-        mapperFactory.classMap(Relic.class, RelicVo.class)
-                .byDefault()
-                .register();
-        mapperFactory.classMap(RelicInfoDto.class, Relic.class)
-                .mapNulls(false)
-                .byDefault()
-                .register();
-        mapperFacade = mapperFactory.getMapperFacade();
-    }
 
     @Override
     public List<RelicStatus> listAllRelicStatus() {

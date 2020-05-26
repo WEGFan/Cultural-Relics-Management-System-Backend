@@ -3,7 +3,6 @@ package cn.wegfan.relicsmanagement.service;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicCheck;
 import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
-import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.RelicCheckDao;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
@@ -15,12 +14,7 @@ import cn.wegfan.relicsmanagement.vo.RelicCheckVo;
 import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.CustomConverter;
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.MappingContext;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-import ma.glasnost.orika.metadata.Type;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,25 +41,8 @@ public class RelicCheckServiceImpl implements RelicCheckService {
     @Autowired
     private RelicCheckDetailService relicCheckDetailService;
 
-    private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-
+    @Autowired
     private MapperFacade mapperFacade;
-
-    public RelicCheckServiceImpl() {
-        mapperFactory
-                .getConverterFactory()
-                .registerConverter("operatorNameConvert", new CustomConverter<User, String>() {
-                    @Override
-                    public String convert(User user, Type<? extends String> type, MappingContext mappingContext) {
-                        return user.getName();
-                    }
-                });
-        mapperFactory.classMap(RelicCheck.class, RelicCheckVo.class)
-                // .fieldMap("operator", "operatorName").converter("operatorNameConvert").add()
-                .byDefault()
-                .register();
-        mapperFacade = mapperFactory.getMapperFacade();
-    }
 
     @Override
     public PageResultVo<RelicCheckVo> listByWarehouseIdAndPage(Integer warehouseId, long pageIndex, long pageSize) {

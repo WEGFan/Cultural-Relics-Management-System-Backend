@@ -105,7 +105,12 @@
             <artifactId>orika-core</artifactId>
             <version>1.5.4</version>
         </dependency>
-
+        <dependency>
+            <groupId>net.rakugakibox.spring.boot</groupId>
+            <artifactId>orika-spring-boot-starter</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+        
         <!-- swagger -->
         <dependency>
             <groupId>io.springfox</groupId>

@@ -1,10 +1,12 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.dto.ShelfDto;
+import cn.wegfan.relicsmanagement.dto.stringdto.ShelfStringDto;
 import cn.wegfan.relicsmanagement.service.ShelfService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class ShelfController {
 
     @Autowired
     private ShelfService shelfService;
+
+    @Autowired
+    private MapperFacade mapperFacade;
 
     /**
      * 获取某仓库的所有货架【仓库管理员】
@@ -45,7 +50,8 @@ public class ShelfController {
      */
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
-    public DataReturnVo addShelf(@RequestBody @Valid ShelfDto dto) {
+    public DataReturnVo addShelf(@RequestBody @Valid ShelfStringDto stringDto) {
+        ShelfDto dto = mapperFacade.map(stringDto, ShelfDto.class);
         return DataReturnVo.success(shelfService.createShelf(dto));
     }
 
@@ -57,7 +63,8 @@ public class ShelfController {
     @PutMapping("{shelfId}")
     @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
     public DataReturnVo updateShelfInfo(@PathVariable Integer shelfId,
-                                        @RequestBody @Valid ShelfDto dto) {
+                                        @RequestBody @Valid ShelfStringDto stringDto) {
+        ShelfDto dto = mapperFacade.map(stringDto, ShelfDto.class);
         return DataReturnVo.success(shelfService.updateShelf(shelfId, dto));
     }
 

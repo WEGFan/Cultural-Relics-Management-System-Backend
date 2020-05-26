@@ -5,6 +5,7 @@ import cn.wegfan.relicsmanagement.service.WarehouseService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
+import ma.glasnost.orika.MapperFacade;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class WarehouseController {
 
     @Autowired
     private WarehouseService warehouseService;
+
+    @Autowired
+    private MapperFacade mapperFacade;
 
     /**
      * 获取所有仓库信息【仓库管理员】
