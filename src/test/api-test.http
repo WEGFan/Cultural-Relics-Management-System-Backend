@@ -138,7 +138,7 @@ Content-Type: application/json
 }
 
 ### list shelf
-GET {{host}}/api/v1/shelves?warehouseId=8&name=&page=1&count=20
+GET {{host}}/api/v1/shelves?warehouseId=1
 
 ### add shelf
 POST {{host}}/api/v1/shelves

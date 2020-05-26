@@ -43,7 +43,7 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
 
     @Autowired
     private ShelfDao shelfDao;
-    
+
     @Autowired
     private MapperFacade mapperFacade;
 
