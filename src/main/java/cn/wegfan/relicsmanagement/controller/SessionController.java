@@ -30,7 +30,6 @@ public class SessionController {
      * 用户退出登录
      */
     @DeleteMapping("")
-    @RequiresUser
     public DataReturnVo userLogout() {
         return DataReturnVo.success(userService.userLogout());
     }
