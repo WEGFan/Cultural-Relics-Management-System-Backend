@@ -116,6 +116,7 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
         relic.setWarehouseId(warehouseId);
         relic.setShelfId(shelfId);
         relic.setLastCheckTime(new Date());
+        relic.setUpdateTime(new Date());
         relicDao.updateById(relic);
 
         return new SuccessVo(true);
