@@ -10,6 +10,11 @@ spring:
     multipart:
       max-file-size: '5MB'
       max-request-size: '10MB'
+  datasource:
+    hikari:
+      maximum-pool-size: 100
+      max-lifetime: 120000
+      connection-timeout: 15000
 
 mybatis-plus:
   configuration:
@@ -33,5 +38,3 @@ logging:
     name: 'data/app.log'
     max-history: 31
     max-size: '1GB'
-
-    
