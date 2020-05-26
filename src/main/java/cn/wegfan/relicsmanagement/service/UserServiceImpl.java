@@ -105,8 +105,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserIdVo addUser(UserInfoDto userInfo) {
-        // TODO: 判断职务和权限
-
+        // 检查密码是否为空
+        if (StrUtil.isEmpty(userInfo.getPassword())) {
+            throw new BusinessException(400, "密码不能为空");
+        }
         // 从所有员工中检查工号是否重复
         if (userDao.selectByWorkId(Integer.parseInt(userInfo.getWorkId())) != null) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
