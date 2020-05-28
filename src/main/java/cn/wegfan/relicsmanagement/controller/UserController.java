@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.annotation.Nullable;
 import javax.validation.Valid;
 
 @Slf4j
@@ -29,14 +30,22 @@ public class UserController {
 
     /**
      * 获取所有用户信息【管理员】
+     * 导出用户信息 Excel 表【管理员】
      */
     @GetMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
     public DataReturnVo listAllUsers(@RequestParam(required = false) Integer page,
-                                     @RequestParam(required = false) Integer count) {
+                                     @RequestParam(required = false) Integer count,
+                                     @RequestParam(required = false) Boolean excel) {
+        // 如果 excel 为真，则导出成 excel
+        if (Boolean.TRUE.equals(excel)) {
+            throw new NotImplementedException();
+        }
+        // 如果存在分页参数则分页查询
         if (page != null && count != null) {
             return DataReturnVo.success(userService.listAllInWorkUsersByPage(page, count));
         }
+        // 否则返回所有员工的信息（在操作记录里筛选）
         return DataReturnVo.success(userService.listAllInWorkUsers());
     }
 
@@ -81,20 +90,6 @@ public class UserController {
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
     public DataReturnVo deleteUser(@PathVariable Integer userId) {
         return DataReturnVo.success(userService.deleteUserById(userId));
-    }
-
-    /**
-     * 导出用户信息 Excel 表【管理员】
-     *
-     * @param excel 是否导出成 Excel
-     */
-    @GetMapping(value = "", params = "excel=true")
-    @RequiresPermissions(PermissionCodeEnum.ADMIN)
-    public DataReturnVo exportAllUsersToExcel(@RequestParam Boolean excel) {
-        if (excel.equals(Boolean.FALSE)) {
-            throw new NotImplementedException();
-        }
-        return DataReturnVo.success(userService.listAllInWorkUsers());
     }
 
 }

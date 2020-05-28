@@ -64,9 +64,13 @@ public class RelicController {
                                    @RequestParam(required = false) Date to,
                                    @RequestParam(required = false) String dateType,
                                    @RequestParam Integer page,
-                                   @RequestParam Integer count) {
+                                   @RequestParam Integer count,
+                                   @RequestParam(required = false) Boolean excel) {
         log.debug("{} {} {} {}", name, status, page, count);
         log.debug("{} {} {}", from, to, dateType);
+        if (Boolean.TRUE.equals(excel)) {
+            throw new NotImplementedException();
+        }
         return DataReturnVo.success(relicService.searchNotDeletedRelicsByPage(name, status,
                 warehouse, shelf, dateType, from, to,
                 page, count));
@@ -118,55 +122,6 @@ public class RelicController {
                                         @RequestBody @Valid RelicInfoStringDto stringDto) {
         RelicInfoDto dto = mapperFacade.map(stringDto, RelicInfoDto.class);
         return DataReturnVo.success(relicService.updateRelicInfo(relicId, dto));
-    }
-
-    /**
-     * 导出文物一览 Excel 表【文职人员（无价值）、管理员】
-     *
-     * @param excel 是否导出成 Excel
-     */
-    @GetMapping(value = "", params = "excel=true")
-    @RequiresPermissions(PermissionCodeEnum.EXPORT_RELIC)
-    public DataReturnVo exportAllRelicsToExcel(@RequestParam Boolean excel,
-                                               @RequestParam(required = false) Integer warehouseId) {
-        if (excel.equals(Boolean.FALSE)) {
-            throw new NotImplementedException();
-        }
-        throw new NotImplementedException();
-    }
-
-    /**
-     * 导出某仓库文物一览 Excel 表【仓库管理员、管理员】 <3.2.3 (3)>
-     *
-     * @param excel       是否导出成 Excel
-     * @param warehouseId 根据仓库编号筛选
-     */
-    @GetMapping(value = "", params = {"excel=true", "warehouseId"})
-    @RequiresPermissions(PermissionCodeEnum.EXPORT_WAREHOUSE_RELIC)
-    public DataReturnVo exportWarehouseRelicsToExcel(@RequestParam Boolean excel,
-                                                     @RequestParam(required = false) Integer warehouseId) {
-        if (excel.equals(Boolean.FALSE)) {
-            throw new NotImplementedException();
-        }
-        throw new NotImplementedException();
-    }
-
-    /**
-     * 导出文物流水 Excel 表【管理员】
-     *
-     * @param excel 是否导出成 Excel
-     * @param from  起始时间
-     * @param to    结束时间
-     */
-    @GetMapping(value = "changes", params = "excel=true")
-    @RequiresPermissions(PermissionCodeEnum.EXPORT_RELIC_CHANGE_LOG)
-    public DataReturnVo exportRelicChangesToExcel(@RequestParam Boolean excel,
-                                                  @RequestParam(required = false) Date from,
-                                                  @RequestParam(required = false) Date to) {
-        if (excel.equals(Boolean.FALSE)) {
-            throw new NotImplementedException();
-        }
-        throw new NotImplementedException();
     }
 
     /**

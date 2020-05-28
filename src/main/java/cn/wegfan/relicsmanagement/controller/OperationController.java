@@ -33,12 +33,16 @@ public class OperationController {
      * @param from  起始时间
      * @param to    结束时间
      */
-    @GetMapping(value = "", params = "excel=true")
+    @GetMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
-    public DataReturnVo exportOperationsToExcel(@RequestParam Boolean excel,
+    public DataReturnVo exportOperationsToExcel(@RequestParam(required = false) Integer operator,
+                                                @RequestParam(required = false) String itemType,
                                                 @RequestParam(required = false) Date from,
-                                                @RequestParam(required = false) Date to) {
-        if (excel.equals(Boolean.FALSE)) {
+                                                @RequestParam(required = false) Date to,
+                                                @RequestParam Integer page,
+                                                @RequestParam Integer count,
+                                                @RequestParam(required = false) Boolean excel) {
+        if (Boolean.TRUE.equals(excel)) {
             throw new NotImplementedException();
         }
         throw new NotImplementedException();
