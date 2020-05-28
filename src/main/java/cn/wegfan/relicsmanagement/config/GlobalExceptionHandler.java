@@ -15,6 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.io.Serializable;
 import java.util.*;
@@ -22,6 +23,12 @@ import java.util.*;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public DataReturnVo handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+        log.warn("{}", e.getMessage());
+        return DataReturnVo.businessError(new BusinessException(BusinessErrorEnum.UploadFileTooLarge));
+    }
 
     @ExceptionHandler({UnauthorizedException.class, AuthorizationException.class})
     public DataReturnVo handleUnauthorizedException(Exception e) {

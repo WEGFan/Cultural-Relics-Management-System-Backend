@@ -24,7 +24,8 @@ public enum BusinessErrorEnum {
     WarehouseHasBeenChecking(10014, "该仓库已经在盘点"),
     NoNotEndedRelicCheck(10015, "没有未结束的盘点"),
     RelicCheckEnded(10016, "该盘点已经结束"),
-    RelicAlreadyChecked(10017, "文物已经被盘点过");
+    RelicAlreadyChecked(10017, "文物已经被盘点过"),
+    UploadFileTooLarge(10018, "上传的文件大小超过 10 MB");
 
     private final Integer errorCode;
 
