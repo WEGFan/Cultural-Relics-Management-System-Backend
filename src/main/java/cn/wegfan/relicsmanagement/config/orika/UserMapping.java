@@ -2,6 +2,7 @@ package cn.wegfan.relicsmanagement.config.orika;
 
 import cn.wegfan.relicsmanagement.dto.UserInfoDto;
 import cn.wegfan.relicsmanagement.entity.User;
+import cn.wegfan.relicsmanagement.vo.UserExcelVo;
 import cn.wegfan.relicsmanagement.vo.UserVo;
 import ma.glasnost.orika.MapperFactory;
 import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
@@ -29,6 +30,11 @@ public class UserMapping implements OrikaMapperFactoryConfigurer {
                 .register();
         mapperFactory.classMap(UserInfoDto.class, User.class)
                 .mapNulls(false)
+                .byDefault()
+                .register();
+        mapperFactory.classMap(User.class, UserExcelVo.class)
+                .fieldMap("jobId", "job").converter("jobNameConverter").add()
+                .fieldMap("extraPermissions").converter("extraPermissionNameConverter").add()
                 .byDefault()
                 .register();
     }

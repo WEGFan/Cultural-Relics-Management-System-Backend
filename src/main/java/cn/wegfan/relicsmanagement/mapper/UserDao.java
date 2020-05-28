@@ -22,6 +22,10 @@ public interface UserDao extends BaseMapper<User> {
     })
     List<User> selectNotDeletedList();
 
+    @Select("SELECT * FROM user")
+    @ResultMap("userExtraPermissionsResultMap")
+    List<User> selectUserList();
+
     @Select("SELECT * FROM user WHERE delete_time IS NULL")
     @ResultMap("userExtraPermissionsResultMap")
     Page<User> selectPageNotDeleted(Page<?> page);

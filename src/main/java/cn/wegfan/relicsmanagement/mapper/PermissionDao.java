@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface PermissionDao extends BaseMapper<Permission> {
 
+    @Select("SELECT * FROM permission")
+    List<Permission> selectPermissionList();
+    
     @SuppressWarnings("unused")
     @Select("SELECT permission.* FROM permission, user_extra_permission " +
             "WHERE user_extra_permission.permission_id = permission.id AND user_id = #{userId}")

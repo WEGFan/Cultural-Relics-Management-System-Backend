@@ -1,10 +1,7 @@
 package cn.wegfan.relicsmanagement.service;
 
 import cn.wegfan.relicsmanagement.dto.UserInfoDto;
-import cn.wegfan.relicsmanagement.vo.PageResultVo;
-import cn.wegfan.relicsmanagement.vo.SuccessVo;
-import cn.wegfan.relicsmanagement.vo.UserIdVo;
-import cn.wegfan.relicsmanagement.vo.UserVo;
+import cn.wegfan.relicsmanagement.vo.*;
 
 import java.util.List;
 
@@ -27,6 +24,8 @@ public interface UserService {
     SuccessVo userLogout();
 
     SuccessVo changeUserPassword(String oldPassword, String newPassword);
+    
+    FilePathVo exportAllUsersToExcel();
 
 }
 

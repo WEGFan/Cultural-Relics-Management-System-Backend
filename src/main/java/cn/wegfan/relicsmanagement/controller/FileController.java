@@ -51,4 +51,32 @@ public class FileController {
         return FileUtil.readBytes(file);
     }
 
+    /**
+     * 用户信息 Excel 表
+     */
+    @GetMapping(value = "exports/users/{fileName}")
+    @ResponseBody
+    @RequiresPermissions(PermissionCodeEnum.ADMIN)
+    public ResponseEntity<Resource> getUserExcel(@PathVariable String fileName) throws UnsupportedEncodingException {
+        File file = Paths.get("data", "exports", "users")
+                .resolve(fileName)
+                .toAbsolutePath()
+                .toFile();
+        log.debug(file.toString());
+        if (!FileUtil.exist(file)) {
+            throw new BusinessException(BusinessErrorEnum.FileNotFound);
+        }
+
+        MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
+        byte[] data = FileUtil.readBytes(file);
+        ByteArrayResource resource = new ByteArrayResource(data);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment;filename=" + URLEncoder.encode(FileUtil.getName(file), "UTF-8"))
+                .contentType(mediaType)
+                .contentLength(data.length)
+                .body(resource);
+    }
+
 }

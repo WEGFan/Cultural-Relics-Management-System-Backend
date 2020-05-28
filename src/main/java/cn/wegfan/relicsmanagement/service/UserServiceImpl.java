@@ -1,5 +1,7 @@
 package cn.wegfan.relicsmanagement.service;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.UserInfoDto;
 import cn.wegfan.relicsmanagement.entity.User;
@@ -8,10 +10,9 @@ import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
 import cn.wegfan.relicsmanagement.util.PasswordUtil;
-import cn.wegfan.relicsmanagement.vo.PageResultVo;
-import cn.wegfan.relicsmanagement.vo.SuccessVo;
-import cn.wegfan.relicsmanagement.vo.UserIdVo;
-import cn.wegfan.relicsmanagement.vo.UserVo;
+import cn.wegfan.relicsmanagement.vo.*;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -23,6 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
@@ -217,6 +221,27 @@ public class UserServiceImpl implements UserService {
         }
 
         return new SuccessVo(true);
+    }
+
+    @Override
+    public FilePathVo exportAllUsersToExcel() {
+        List<User> userList = userDao.selectUserList();
+
+        List<UserExcelVo> userExcelVoList = mapperFacade.mapAsList(userList, UserExcelVo.class);
+
+        Path dir = Paths.get("data", "exports", "users")
+                .toAbsolutePath();
+        FileUtil.mkdir(dir.toFile());
+
+        String fileName = "员工列表_" + DateUtil.format(new Date(), "yyyy-MM-dd_HH-mm-ss") + ".xlsx";
+        File file = dir.resolve(fileName)
+                .toFile();
+
+        EasyExcel.write(file, UserExcelVo.class)
+                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
+                .sheet("员工列表")
+                .doWrite(userExcelVoList);
+        return new FilePathVo("/api/files/exports/users/" + fileName);
     }
 
 }

@@ -39,7 +39,7 @@ public class UserController {
                                      @RequestParam(required = false) Boolean excel) {
         // 如果 excel 为真，则导出成 excel
         if (Boolean.TRUE.equals(excel)) {
-            throw new NotImplementedException();
+            return DataReturnVo.success(userService.exportAllUsersToExcel());
         }
         // 如果存在分页参数则分页查询
         if (page != null && count != null) {
