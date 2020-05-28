@@ -24,3 +24,4 @@ public interface RelicCheckDao extends BaseMapper<RelicCheck> {
 - springboot 的数据库连接池默认为 10
 - 先用全为 String 的 DTO 接收从前端发来的值，数据校验后再进行转换
 - shiro 默认 session 失效时间为 30 分钟
+- mybatis 的模糊查找要转义 `%_\`
