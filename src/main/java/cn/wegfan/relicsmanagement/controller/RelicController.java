@@ -93,15 +93,14 @@ public class RelicController {
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADD_RELIC)
     public DataReturnVo addRelic(@RequestParam("file") MultipartFile multipartFile) throws IOException {
-        String dir = Paths.get("data", "images")
+        String tempFileName = UUID.fastUUID().toString(true);
+        File file = Paths.get("data", "images", "tmp")
+                .resolve(tempFileName)
                 .toAbsolutePath()
-                .toString();
-        log.debug(dir);
-        File file = FileUtil.touch(dir, "tmp/" + UUID.fastUUID().toString(true));
+                .toFile();
+        log.debug("{}", file);
         multipartFile.transferTo(file);
-        String tempPath = file.getAbsolutePath();
-        log.debug(tempPath);
-        return DataReturnVo.success(relicService.addRelicByPicturePath(tempPath));
+        return DataReturnVo.success(relicService.addRelicByPicturePath(file.toString()));
     }
 
     /**
