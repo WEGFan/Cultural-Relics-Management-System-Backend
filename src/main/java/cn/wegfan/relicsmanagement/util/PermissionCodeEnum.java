@@ -57,14 +57,4 @@ public class PermissionCodeEnum {
      */
     public static final String EXPORT_RELIC = "relic:export:relics";
 
-    /**
-     * 查询、导出某仓库文物一览表
-     */
-    public static final String EXPORT_WAREHOUSE_RELIC = "relic:export:warehouse";
-
-    /**
-     * 查询、导出文物流水表
-     */
-    public static final String EXPORT_RELIC_CHANGE_LOG = "relic:export:changes";
-
 }
