@@ -69,6 +69,9 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         if (StrUtil.isEmpty(name)) {
             name = null;
         }
+        if (StrUtil.isEmpty(dateType)) {
+            dateType = null;
+        }
 
         // 检测是否填写了开始或结束时间，但是没填写时间类型
         if (dateType == null && (startTime != null || endTime != null)) {
