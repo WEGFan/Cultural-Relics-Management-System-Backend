@@ -3,6 +3,7 @@ package cn.wegfan.relicsmanagement.controller;
 import cn.wegfan.relicsmanagement.dto.WarehouseNameDto;
 import cn.wegfan.relicsmanagement.service.WarehouseService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
+import cn.wegfan.relicsmanagement.util.Util;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -37,7 +38,7 @@ public class WarehouseController {
                                        @RequestParam(required = false) Integer page,
                                        @RequestParam(required = false) Integer count) {
         if (page != null && count != null) {
-            return DataReturnVo.success(warehouseService.listNotDeletedWarehousesByNameAndPage(name, page, count));
+            return DataReturnVo.success(warehouseService.listNotDeletedWarehousesByNameAndPage(name, page, Util.clampPageCount(count)));
         }
         return DataReturnVo.success(warehouseService.listNotDeletedWarehouses());
     }

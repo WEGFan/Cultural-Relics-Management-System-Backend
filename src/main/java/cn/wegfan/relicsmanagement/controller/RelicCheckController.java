@@ -7,6 +7,7 @@ import cn.wegfan.relicsmanagement.dto.stringdto.WarehouseIdStringDto;
 import cn.wegfan.relicsmanagement.service.RelicCheckDetailService;
 import cn.wegfan.relicsmanagement.service.RelicCheckService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
+import cn.wegfan.relicsmanagement.util.Util;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -43,7 +44,7 @@ public class RelicCheckController {
     public DataReturnVo listChecks(@RequestParam(required = false) Integer warehouseId,
                                    @RequestParam Integer page,
                                    @RequestParam Integer count) {
-        return DataReturnVo.success(relicCheckService.listByWarehouseIdAndPage(warehouseId, page, count));
+        return DataReturnVo.success(relicCheckService.listByWarehouseIdAndPage(warehouseId, page, Util.clampPageCount(count)));
     }
 
     /**
@@ -55,7 +56,7 @@ public class RelicCheckController {
                                             @RequestParam(required = false) Boolean checked,
                                             @RequestParam Integer page,
                                             @RequestParam Integer count) {
-        return DataReturnVo.success(relicCheckDetailService.listRelicCheckDetailByCheckIdAndStatusAndPage(checkId, checked, page, count));
+        return DataReturnVo.success(relicCheckDetailService.listRelicCheckDetailByCheckIdAndStatusAndPage(checkId, checked, page, Util.clampPageCount(count)));
     }
 
     /**

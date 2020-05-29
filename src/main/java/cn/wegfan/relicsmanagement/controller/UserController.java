@@ -5,6 +5,7 @@ import cn.wegfan.relicsmanagement.dto.UserInfoDto;
 import cn.wegfan.relicsmanagement.dto.stringdto.UserInfoStringDto;
 import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
+import cn.wegfan.relicsmanagement.util.Util;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -43,7 +44,7 @@ public class UserController {
         }
         // 如果存在分页参数则分页查询
         if (page != null && count != null) {
-            return DataReturnVo.success(userService.listAllInWorkUsersByPage(page, count));
+            return DataReturnVo.success(userService.listAllInWorkUsersByPage(page, Util.clampPageCount(count)));
         }
         // 否则返回所有员工的信息（在操作记录里筛选）
         return DataReturnVo.success(userService.listAllInWorkUsers());
