@@ -50,6 +50,8 @@ GET {{host}}/api/v1/relics?name=&page=1&count=-1&from=&dateType=&status=&shelf=
 
 
 
+
+
 ### add new user
 POST {{host}}/api/v1/users
 Content-Type: application/json
@@ -147,6 +149,8 @@ Content-Type: application/json
 ### list shelf
 GET {{host}}/api/v1/shelves?warehouseId=
 
+
+
 ### add shelf
 POST {{host}}/api/v1/shelves
 Content-Type: application/json
@@ -221,6 +225,8 @@ Content-Type: application/json
 
 ### list relic check detail
 GET {{host}}/api/v1/checks/26/relics?page=1&count=1&checked=
+
+
 
 
 

@@ -14,7 +14,7 @@ public interface ShelfService {
     List<ShelfVo> listNotDeletedShelves();
 
     List<ShelfVo> listNotDeletedShelvesByWarehouseId(Integer warehouseId);
-    
+
     ShelfVo createShelf(ShelfDto dto);
 
     ShelfVo updateShelf(Integer shelfId, ShelfDto dto);

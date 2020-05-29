@@ -24,7 +24,7 @@ public interface UserService {
     SuccessVo userLogout();
 
     SuccessVo changeUserPassword(String oldPassword, String newPassword);
-    
+
     FilePathVo exportAllUsersToExcel();
 
 }
