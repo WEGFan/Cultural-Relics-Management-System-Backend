@@ -25,3 +25,4 @@ public interface RelicCheckDao extends BaseMapper<RelicCheck> {
 - 先用全为 String 的 DTO 接收从前端发来的值，数据校验后再进行转换
 - shiro 默认 session 失效时间为 30 分钟
 - mybatis 的模糊查找要转义 `%_\`
+- mybatis plus 分页插件，`count` 为负数的时候返回所有结果
