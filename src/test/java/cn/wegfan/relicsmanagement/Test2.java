@@ -12,6 +12,8 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -192,6 +194,15 @@ public class Test2 {
     }
 
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+        ;
+        Path path = Paths.get("a", "b", "..");
+        Path path2 = path
+                .resolve("ddd")
+                .toAbsolutePath();
+        log.debug("{} {}", path, path2);
+        if (true) {
+            return;
+        }
         C c = new C();
         c.getList().addAll(Arrays.asList(1, 2, 3));
         log.debug(String.valueOf(c.getList()));

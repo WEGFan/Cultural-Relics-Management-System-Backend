@@ -12,7 +12,7 @@ POST {{host}}/api/v1/sessions
 Content-Type: application/json
 
 {
-    "workId": 10003,
+    "workId": 10004,
     "password": "123456"
 }
 
@@ -40,8 +40,15 @@ Accept: application/json
 ### list all users
 GET {{host}}/api/v1/users?page=1&count=20
 
+### export all users to excel
+GET {{host}}/api/v1/users?excel=true
+
 ### list relics
-GET {{host}}/api/v1/relics?name=&page=1&count=1&from=&dateType=&status=2&shelf=100
+GET {{host}}/api/v1/relics?name=&page=1&count=-1&from=&dateType=&status=&shelf=
+
+
+
+
 
 ### add new user
 POST {{host}}/api/v1/users
@@ -74,7 +81,7 @@ Content-Type: application/json
 DELETE {{host}}/api/v1/users/13
 
 ### list warehouses
-GET {{host}}/api/v1/warehouses?page=1&count=50
+GET {{host}}/api/v1/warehouses?page=-1&count=-1
 
 ### list users
 GET {{host}}/api/v1/users
@@ -115,11 +122,11 @@ GET {{host}}/api/v1/relics/status
 GET {{host}}/api/v1/relics/1022
 
 ### change relic info
-PUT {{host}}/api/v1/relics/1002
+PUT {{host}}/api/v1/relics/1005
 Content-Type: application/json
 
 {
-    "name": "wdnmd",
+    "name": "wdnmasdasdasdasd",
     "quantity": 2,
     "year": "南北朝",
     "reign": "xxx",
@@ -128,12 +135,12 @@ Content-Type: application/json
     "size": "11cm x 45cm x 14cm",
     "weight": 19198.10,
     "warehouseId": 1,
-    "shelfId": 1,
+    "shelfId": 3,
     "place": "aaa",
     "statusId": 2,
     "enterPrice": "0.00",
     "leavePrice": "0.00",
-    "comment1": "a",
+    "comment1": "asdsada\neeeee",
     "comment2": "b"
 }
 
@@ -215,7 +222,14 @@ Content-Type: application/json
 ### list relic check detail
 GET {{host}}/api/v1/checks/26/relics?page=1&count=1&checked=
 
+
+
+
+
 ### delete relic
 DELETE {{host}}/api/v1/relics/1004
+
+### export relics to excel
+GET {{host}}/api/v1/relics?name=&page=1&count=20&from=&dateType=&status=&shelf=&excel=true
 
 ###
