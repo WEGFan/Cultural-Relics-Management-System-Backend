@@ -79,4 +79,32 @@ public class FileController {
                 .body(resource);
     }
 
+    /**
+     * 文物 Excel 表
+     */
+    @GetMapping(value = "exports/relics/{fileName}")
+    @ResponseBody
+    @RequiresPermissions(PermissionCodeEnum.VIEW_RELIC_INFO)
+    public ResponseEntity<Resource> getRelicExcel(@PathVariable String fileName) throws UnsupportedEncodingException {
+        File file = Paths.get("data", "exports", "relics")
+                .resolve(fileName)
+                .toAbsolutePath()
+                .toFile();
+        log.debug(file.toString());
+        if (!FileUtil.exist(file)) {
+            throw new BusinessException(BusinessErrorEnum.FileNotFound);
+        }
+
+        MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
+        byte[] data = FileUtil.readBytes(file);
+        ByteArrayResource resource = new ByteArrayResource(data);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment;filename=" + URLEncoder.encode(FileUtil.getName(file), "UTF-8"))
+                .contentType(mediaType)
+                .contentLength(data.length)
+                .body(resource);
+    }
+
 }

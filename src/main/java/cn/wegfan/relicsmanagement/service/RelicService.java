@@ -3,10 +3,7 @@ package cn.wegfan.relicsmanagement.service;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
-import cn.wegfan.relicsmanagement.vo.PageResultVo;
-import cn.wegfan.relicsmanagement.vo.RelicIdPicturePathVo;
-import cn.wegfan.relicsmanagement.vo.RelicVo;
-import cn.wegfan.relicsmanagement.vo.SuccessVo;
+import cn.wegfan.relicsmanagement.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Date;
@@ -28,5 +25,9 @@ public interface RelicService extends IService<Relic> {
     SuccessVo deleteRelicById(Integer relicId);
 
     RelicVo updateRelicInfo(Integer relicId, RelicInfoDto relicInfo);
+
+    FilePathVo exportRelicByConditionToExcel(String name, Integer status,
+                                             Integer warehouseId, Integer shelfId,
+                                             String dateType, Date startTime, Date endTime);
 
 }

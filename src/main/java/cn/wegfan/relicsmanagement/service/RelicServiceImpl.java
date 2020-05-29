@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
@@ -12,10 +13,11 @@ import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.RelicStatusDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
 import cn.wegfan.relicsmanagement.util.*;
-import cn.wegfan.relicsmanagement.vo.PageResultVo;
-import cn.wegfan.relicsmanagement.vo.RelicIdPicturePathVo;
-import cn.wegfan.relicsmanagement.vo.RelicVo;
-import cn.wegfan.relicsmanagement.vo.SuccessVo;
+import cn.wegfan.relicsmanagement.vo.*;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
+import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +27,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -55,7 +56,7 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
     @Override
     public List<RelicStatus> listAllRelicStatus() {
-        List<RelicStatus> relicStatusList = relicStatusDao.selectList(null);
+        List<RelicStatus> relicStatusList = relicStatusDao.selectRelicStatusList();
         return relicStatusList;
     }
 
@@ -283,6 +284,54 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
         relicVo.clearFieldsByPermissionCode(permissionCodeSet);
         return relicVo;
+    }
+
+    @Override
+    public FilePathVo exportRelicByConditionToExcel(String name, Integer status,
+                                                    Integer warehouseId, Integer shelfId,
+                                                    String dateType, Date startTime, Date endTime) {
+        long pageSize = 500;
+
+        Path dir = Paths.get("data", "exports", "relics")
+                .toAbsolutePath();
+        FileUtil.mkdir(dir.toFile());
+        String fileName = "文物列表_" + DateUtil.format(new Date(), "yyyy-MM-dd_HH-mm-ss") + ".xlsx";
+        File file = dir.resolve(fileName)
+                .toFile();
+
+        // 获取当前登录的用户权限
+        Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByCurrentLoginUser();
+        List<String> excludeColumnList = new ArrayList<>();
+        if (!permissionCodeSet.contains(PermissionCodeEnum.VIEW_EDIT_RELIC_PRICE)) {
+            excludeColumnList.addAll(Arrays.asList("enterPrice", "leavePrice"));
+        }
+        if (!permissionCodeSet.contains(PermissionCodeEnum.WAREHOUSE)) {
+            excludeColumnList.addAll(Arrays.asList("lastCheckTime", "enterTime", "leaveTime",
+                    "moveTime", "lendTime", "fixTime"));
+        }
+
+        ExcelWriter excelWriter = EasyExcel.write(file, RelicExcelVo.class)
+                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
+                .excludeColumnFiledNames(excludeColumnList)
+                .build();
+
+        WriteSheet writeSheet = EasyExcel.writerSheet("文物列表").build();
+
+        int pageIndex = 1;
+        PageResultVo<RelicVo> pageResult;
+        do {
+            pageResult = searchNotDeletedRelicsByPage(name, status,
+                    warehouseId, shelfId, dateType, startTime, endTime,
+                    pageIndex, pageSize);
+            List<RelicVo> relicVoList = pageResult.getContent();
+            List<RelicExcelVo> data = mapperFacade.mapAsList(relicVoList, RelicExcelVo.class);
+
+            excelWriter.write(data, writeSheet);
+            pageIndex++;
+        } while (pageResult.getHasNext());
+        excelWriter.finish();
+
+        return new FilePathVo("/api/files/exports/relics/" + fileName);
     }
 
 }

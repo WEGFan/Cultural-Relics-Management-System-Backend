@@ -1,6 +1,5 @@
 package cn.wegfan.relicsmanagement.controller;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
 import cn.wegfan.relicsmanagement.dto.stringdto.RelicInfoStringDto;
@@ -16,7 +15,6 @@ import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import java.io.File;
@@ -69,8 +67,10 @@ public class RelicController {
                                    @RequestParam(required = false) Boolean excel) {
         log.debug("{} {} {} {}", name, status, page, count);
         log.debug("{} {} {}", from, to, dateType);
+        // TODO: 导出excel权限
         if (Boolean.TRUE.equals(excel)) {
-            throw new NotImplementedException();
+            return DataReturnVo.success(relicService.exportRelicByConditionToExcel(name, status,
+                    warehouse, shelf, dateType, from, to));
         }
         return DataReturnVo.success(relicService.searchNotDeletedRelicsByPage(name, status,
                 warehouse, shelf, dateType, from, to,
