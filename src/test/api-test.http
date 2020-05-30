@@ -44,13 +44,7 @@ GET {{host}}/api/v1/users?page=1&count=20
 GET {{host}}/api/v1/users?excel=true
 
 ### list relics
-GET {{host}}/api/v1/relics?name=&page=1&count=-1&from=&dateType=&status=&shelf=
-
-
-
-
-
-
+GET {{host}}/api/v1/relics?name=&page=1&count=-1&from=&dateType=&status=&shelf=1
 
 ### add new user
 POST {{host}}/api/v1/users
@@ -147,9 +141,7 @@ Content-Type: application/json
 }
 
 ### list shelf
-GET {{host}}/api/v1/shelves?warehouseId=
-
-
+GET {{host}}/api/v1/shelves?warehouseId=1
 
 ### add shelf
 POST {{host}}/api/v1/shelves
@@ -224,13 +216,7 @@ Content-Type: application/json
 }
 
 ### list relic check detail
-GET {{host}}/api/v1/checks/26/relics?page=1&count=1&checked=
-
-
-
-
-
-
+GET {{host}}/api/v1/checks/26/relics?checked=&page=1&count=1
 
 ### delete relic
 DELETE {{host}}/api/v1/relics/1004
