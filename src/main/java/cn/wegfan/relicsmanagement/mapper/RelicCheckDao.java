@@ -37,6 +37,9 @@ public interface RelicCheckDao extends BaseMapper<RelicCheck> {
     })
     Page<RelicCheck> selectPageByWarehouseId(Page<?> page, Integer warehouseId);
 
+    @Select("SELECT * FROM relic_check WHERE id = #{checkId}")
+    RelicCheck selectByCheckId(Integer checkId);
+
     @Select("SELECT * FROM relic_check WHERE id = #{checkId} AND end_time IS NULL LIMIT 1")
     RelicCheck selectNotEndByCheckId(Integer checkId);
 

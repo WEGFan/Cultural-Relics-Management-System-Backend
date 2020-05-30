@@ -14,7 +14,6 @@ import ma.glasnost.orika.MapperFacade;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 
@@ -54,8 +53,19 @@ public class RelicCheckController {
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
     public DataReturnVo listRelicsByCheckId(@PathVariable Integer checkId,
                                             @RequestParam(required = false) Boolean checked,
-                                            @RequestParam Integer page,
-                                            @RequestParam Integer count) {
+                                            @RequestParam(required = false) Integer page,
+                                            @RequestParam(required = false) Integer count,
+                                            @RequestParam(required = false) Boolean excel) {
+        if (Boolean.TRUE.equals(excel)) {
+            return DataReturnVo.success(relicCheckDetailService.exportRelicCheckDetailByCheckIdToExcel(checkId));
+        }
+        // 防止没传分页参数造成错误
+        if (page == null) {
+            page = 1;
+        }
+        if (count == null) {
+            count = 1;
+        }
         return DataReturnVo.success(relicCheckDetailService.listRelicCheckDetailByCheckIdAndStatusAndPage(checkId, checked, page, Util.clampPageCount(count)));
     }
 
@@ -90,21 +100,6 @@ public class RelicCheckController {
                                              @RequestBody @Valid RelicMoveStringDto stringDto) {
         RelicMoveDto dto = mapperFacade.map(stringDto, RelicMoveDto.class);
         return DataReturnVo.success(relicCheckDetailService.addRelicCheckDetail(checkId, relicId, dto));
-    }
-
-    /**
-     * 导出某次盘点的文物 Excel 表
-     *
-     * @param excel 是否导出成 Excel
-     */
-    @GetMapping(value = "{checkId}/relics", params = "excel=true")
-    @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
-    public DataReturnVo exportRelicCheckToExcel(@PathVariable Integer checkId,
-                                                @RequestParam Boolean excel) {
-        if (excel.equals(Boolean.FALSE)) {
-            throw new NotImplementedException();
-        }
-        throw new NotImplementedException();
     }
 
 }

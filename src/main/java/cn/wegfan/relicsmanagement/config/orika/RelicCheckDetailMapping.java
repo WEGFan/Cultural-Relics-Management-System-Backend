@@ -1,6 +1,7 @@
 package cn.wegfan.relicsmanagement.config.orika;
 
 import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
+import cn.wegfan.relicsmanagement.vo.RelicCheckDetailExcelVo;
 import cn.wegfan.relicsmanagement.vo.RelicCheckDetailVo;
 import ma.glasnost.orika.MapperFactory;
 import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
@@ -19,6 +20,9 @@ public class RelicCheckDetailMapping implements OrikaMapperFactoryConfigurer {
                 .fieldMap("oldShelf.name", "oldShelfName").add()
                 .fieldMap("newWarehouse.name", "newWarehouseName").add()
                 .fieldMap("newShelf.name", "newShelfName").add()
+                .byDefault()
+                .register();
+        mapperFactory.classMap(RelicCheckDetailVo.class, RelicCheckDetailExcelVo.class)
                 .byDefault()
                 .register();
     }
