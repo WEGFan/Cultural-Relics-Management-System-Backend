@@ -140,7 +140,7 @@ public class UserServiceImpl implements UserService {
         Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
         // 检测删除的是否为自己的帐号
         if (currentLoginUserId.equals(userId)) {
-            return new SuccessVo(false);
+            throw new BusinessException(BusinessErrorEnum.CanNotDeleteOwnAccount);
         }
         // TODO: 清除用户的session缓存
         int result = userDao.deleteUserById(userId);

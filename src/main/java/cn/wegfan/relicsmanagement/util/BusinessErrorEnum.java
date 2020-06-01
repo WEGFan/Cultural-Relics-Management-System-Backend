@@ -7,6 +7,7 @@ public enum BusinessErrorEnum {
 
     Unauthorized(401, "没有权限"),
     UserNotLogin(403, "用户未登录"),
+    InternalServerError(500, "内部服务器错误"),
     WrongAccountOrPassword(10000, "工号或密码错误"),
     DuplicateWorkId(10001, "工号重复"),
     WarehouseNotEmpty(10002, "仓库内还有货架"),
@@ -25,7 +26,8 @@ public enum BusinessErrorEnum {
     NoNotEndedRelicCheck(10015, "没有未结束的盘点"),
     RelicCheckEnded(10016, "该盘点已经结束"),
     RelicAlreadyChecked(10017, "文物已经被盘点过"),
-    UploadFileTooLarge(10018, "上传的文件大小超过 10 MB");
+    UploadFileTooLarge(10018, "上传的文件大小超过 10 MB"),
+    CanNotDeleteOwnAccount(10019, "不能删除自己的帐号");
 
     private final Integer errorCode;
 
