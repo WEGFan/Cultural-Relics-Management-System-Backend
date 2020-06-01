@@ -97,6 +97,12 @@ public class RelicCheckServiceImpl implements RelicCheckService {
 
     @Override
     public SuccessVo endRelicCheck(Integer checkId) {
+        RelicCheck relicCheck = relicCheckDao.selectNotEndByCheckId(checkId);
+        // 如果盘点已经结束
+        if (relicCheck == null) {
+            throw new BusinessException(BusinessErrorEnum.RelicCheckEnded);
+        }
+
         int result = relicCheckDao.updateEndTimeByCheckId(checkId);
         return new SuccessVo(result > 0);
     }
