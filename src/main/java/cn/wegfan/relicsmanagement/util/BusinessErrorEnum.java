@@ -27,7 +27,8 @@ public enum BusinessErrorEnum {
     RelicCheckEnded(10016, "该盘点已经结束"),
     RelicAlreadyChecked(10017, "文物已经被盘点过"),
     UploadFileTooLarge(10018, "上传的文件大小超过 10 MB"),
-    CanNotDeleteOwnAccount(10019, "不能删除自己的帐号");
+    CanNotDeleteOwnAccount(10019, "不能删除自己的帐号"),
+    RelicNotInMuseum(10020, "文物不在馆内");
 
     private final Integer errorCode;
 

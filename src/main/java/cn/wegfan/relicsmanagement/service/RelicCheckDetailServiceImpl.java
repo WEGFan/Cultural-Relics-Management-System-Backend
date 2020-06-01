@@ -123,6 +123,9 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
         if (relic == null) {
             throw new BusinessException(BusinessErrorEnum.RelicNotExists);
         }
+        if (!relic.getStatusId().equals(RelicStatusEnum.InMuseum.getStatusId())) {
+            throw new BusinessException(BusinessErrorEnum.RelicNotInMuseum);
+        }
 
         Integer warehouseId = dto.getWarehouseId();
         Integer shelfId = dto.getShelfId();
