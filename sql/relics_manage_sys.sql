@@ -3,7 +3,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 26/05/2020 23:39:22
+ Date: 02/06/2020 21:05:19
 */
 
 CREATE DATABASE IF NOT EXISTS relics_manage_sys DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -76,8 +76,6 @@ VALUES (3, 8);
 INSERT INTO `job_permission`
 VALUES (3, 9);
 INSERT INTO `job_permission`
-VALUES (3, 12);
-INSERT INTO `job_permission`
 VALUES (3, 4);
 INSERT INTO `job_permission`
 VALUES (4, 4);
@@ -108,27 +106,24 @@ VALUES (5, 9);
 INSERT INTO `job_permission`
 VALUES (5, 11);
 INSERT INTO `job_permission`
-VALUES (5, 12);
-INSERT INTO `job_permission`
-VALUES (5, 13);
-INSERT INTO `job_permission`
 VALUES (5, 14);
 
 -- ----------------------------
--- Table structure for operation
+-- Table structure for operation_log
 -- ----------------------------
-DROP TABLE IF EXISTS `operation`;
-CREATE TABLE `operation`
+DROP TABLE IF EXISTS `operation_log`;
+CREATE TABLE `operation_log`
 (
     `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '操作编号',
     `operator_id` int(11) UNSIGNED NOT NULL COMMENT '操作人id',
-    `operate_item_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '被操作物id',
-    `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '操作类型 user用户 relic文物 warehouse仓库',
-    `detail_log` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '详细信息',
+    `item_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '操作对象类型 relic/user/warehouse/shelf/check',
+    `item_id` int(11) UNSIGNED NOT NULL COMMENT '操作对象id',
+    `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '操作类型',
+    `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '详细信息',
     `create_time` datetime(0) NOT NULL COMMENT '操作时间',
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `operation_ibfk_operator_id` (`operator_id`) USING BTREE,
-    CONSTRAINT `operation_ibfk_operator_id` FOREIGN KEY (`operator_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `operation_log_ibfk_operator_id` FOREIGN KEY (`operator_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
@@ -136,7 +131,7 @@ CREATE TABLE `operation`
   ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of operation
+-- Records of operation_log
 -- ----------------------------
 
 -- ----------------------------
@@ -178,10 +173,6 @@ INSERT INTO `permission`
 VALUES (9, 'relic:move', '移动文物');
 INSERT INTO `permission`
 VALUES (11, 'relic:export:relics', '查询、导出文物一览表');
-INSERT INTO `permission`
-VALUES (12, 'relic:export:warehouse', '查询、导出某仓库文物一览表');
-INSERT INTO `permission`
-VALUES (13, 'relic:export:changes', '查询、导出文物流水表');
 INSERT INTO `permission`
 VALUES (14, 'relic:status:enter', '文物入馆');
 
@@ -273,8 +264,8 @@ CREATE TABLE `relic_check_detail`
     `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增列',
     `check_id` int(11) UNSIGNED NOT NULL COMMENT '盘点编号',
     `relic_id` int(11) UNSIGNED NOT NULL COMMENT '文物编号',
-    `old_warehouse_id` int(11) UNSIGNED NOT NULL COMMENT '盘点前文物所在仓库编号',
-    `old_shelf_id` int(11) UNSIGNED NOT NULL COMMENT '盘点前文物所在货架编号',
+    `old_warehouse_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '盘点前文物所在仓库编号',
+    `old_shelf_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '盘点前文物所在货架编号',
     `new_warehouse_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '盘点后文物所在仓库编号',
     `new_shelf_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '盘点后文物所在货架编号',
     `operator_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '盘点人id',
