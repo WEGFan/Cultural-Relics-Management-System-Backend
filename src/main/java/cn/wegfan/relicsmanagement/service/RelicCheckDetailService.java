@@ -13,7 +13,7 @@ public interface RelicCheckDetailService extends IService<RelicCheckDetail> {
     PageResultVo<RelicCheckDetailVo> listRelicCheckDetailByCheckIdAndStatusAndPage(Integer checkId, Boolean checked, long pageIndex, long pageSize);
 
     FilePathVo exportRelicCheckDetailByCheckIdToExcel(Integer checkId);
-    
+
     SuccessVo addRelicCheckDetail(Integer checkId, Integer relicId, RelicMoveDto dto);
 
     void updateRelicCheckDetailAfterRelicMove(Integer relicId, RelicMoveDto oldPlace, RelicMoveDto newPlace);
