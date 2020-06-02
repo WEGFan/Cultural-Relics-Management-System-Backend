@@ -41,6 +41,7 @@ public interface RelicCheckDao extends BaseMapper<RelicCheck> {
     RelicCheck selectByCheckId(Integer checkId);
 
     @Select("SELECT * FROM relic_check WHERE id = #{checkId} AND end_time IS NULL LIMIT 1")
+    @ResultMap("relicCheckResultMap")
     RelicCheck selectNotEndByCheckId(Integer checkId);
 
     @Select("SELECT * FROM relic_check WHERE warehouse_id = #{warehouseId} AND end_time IS NULL LIMIT 1")

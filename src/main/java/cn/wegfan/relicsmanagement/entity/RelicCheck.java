@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.entity;
 
+import cn.wegfan.relicsmanagement.util.OperationLogProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -23,6 +24,7 @@ public class RelicCheck implements Serializable {
     /**
      * 盘点仓库id
      */
+    @OperationLogProperty(name = "盘点仓库")
     private Integer warehouseId;
 
     /**

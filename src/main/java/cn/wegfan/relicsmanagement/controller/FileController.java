@@ -135,4 +135,32 @@ public class FileController {
                 .body(resource);
     }
 
+    /**
+     * 操作记录 Excel 表
+     */
+    @GetMapping(value = "exports/operations/{fileName}")
+    @ResponseBody
+    @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
+    public ResponseEntity<Resource> getOperationLogExcel(@PathVariable String fileName) throws UnsupportedEncodingException {
+        File file = Paths.get("data", "exports", "operations")
+                .resolve(fileName)
+                .toAbsolutePath()
+                .toFile();
+        log.debug(file.toString());
+        if (!FileUtil.exist(file)) {
+            throw new BusinessException(BusinessErrorEnum.FileNotFound);
+        }
+
+        MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
+        byte[] data = FileUtil.readBytes(file);
+        ByteArrayResource resource = new ByteArrayResource(data);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment;filename=" + URLEncoder.encode(FileUtil.getName(file), "UTF-8"))
+                .contentType(mediaType)
+                .contentLength(data.length)
+                .body(resource);
+    }
+
 }

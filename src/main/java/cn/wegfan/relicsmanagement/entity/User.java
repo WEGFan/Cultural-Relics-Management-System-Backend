@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.entity;
 
+import cn.wegfan.relicsmanagement.util.OperationLogProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -24,11 +25,13 @@ public class User implements Serializable {
     /**
      * 工号
      */
+    @OperationLogProperty(name = "工号")
     private Integer workId;
 
     /**
      * 姓名
      */
+    @OperationLogProperty(name = "姓名")
     private String name;
 
     /**
@@ -44,11 +47,13 @@ public class User implements Serializable {
     /**
      * 职务
      */
+    @OperationLogProperty(name = "职务")
     private Integer jobId;
 
     /**
      * 手机号
      */
+    @OperationLogProperty(name = "手机号")
     private String telephone;
 
     /**
@@ -72,6 +77,7 @@ public class User implements Serializable {
      * 额外权限列表
      */
     @TableField(exist = false)
+    @OperationLogProperty(name = "额外权限")
     private Set<Permission> extraPermissions;
 
 }

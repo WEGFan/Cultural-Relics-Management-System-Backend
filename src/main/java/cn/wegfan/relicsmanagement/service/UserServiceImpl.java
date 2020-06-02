@@ -4,18 +4,20 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.dto.UserInfoDto;
+import cn.wegfan.relicsmanagement.entity.Permission;
 import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.entity.Warehouse;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
-import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
-import cn.wegfan.relicsmanagement.util.BusinessException;
-import cn.wegfan.relicsmanagement.util.PasswordUtil;
+import cn.wegfan.relicsmanagement.util.*;
+import cn.wegfan.relicsmanagement.util.OperationLogUtil.FieldDifference;
 import cn.wegfan.relicsmanagement.vo.*;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.metadata.TypeBuilder;
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -29,6 +31,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -40,6 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserExtraPermissionService userExtraPermissionService;
+
+    @Autowired
+    private OperationLogService operationLogService;
 
     @Autowired
     private MapperFacade mapperFacade;
@@ -94,14 +101,42 @@ public class UserServiceImpl implements UserService {
         log.debug(user.toString());
 
         userDao.insert(user);
-        userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
+        Set<Integer> realPermissionIdSet = userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
+
+        Set<Permission> realPermission = mapperFacade.map(realPermissionIdSet,
+                new TypeBuilder<Set<Integer>>() {
+                }.build(),
+                new TypeBuilder<Set<Permission>>() {
+                }.build());
+        user.setExtraPermissions(realPermission);
+
+        try {
+            Map<String, FieldDifference> fieldDifferenceMap = OperationLogUtil.getDifferenceFieldMap(null, user, User.class);
+            // 把额外权限变成字符串
+            String extraPermissionString = mapperFacade.convert(realPermission, String.class, "extraPermissionNameConverter", null);
+            fieldDifferenceMap.get("extraPermissions").setNewValue(extraPermissionString);
+            // 把职务编号变成字符串
+            String jobString = mapperFacade.convert(user.getJobId(), String.class, "jobNameConverter", null);
+            fieldDifferenceMap.get("jobId").setNewValue(jobString);
+
+            log.debug("{}", fieldDifferenceMap);
+            // 添加操作记录
+            OperationItemTypeEnum itemType = OperationItemTypeEnum.User;
+            Integer itemId = user.getId();
+            String detail = OperationLogUtil.getCreateItemDetailLog(itemType, itemId, fieldDifferenceMap);
+            operationLogService.addOperationLog(itemType, itemId,
+                    "新建用户", detail);
+        } catch (IllegalAccessException | InstantiationException e) {
+            log.error("获取不同成员变量错误", e);
+            throw new BusinessException(BusinessErrorEnum.InternalServerError);
+        }
+
         return new UserIdVo(user.getId());
     }
 
     @Override
     public SuccessVo updateUserInfo(Integer userId, UserInfoDto userInfo) {
         User user = userDao.selectNotDeletedById(userId);
-
         // 检测在职员工中是否存在该用户编号对应的用户
         if (user == null) {
             throw new BusinessException(BusinessErrorEnum.UserNotExists);
@@ -112,6 +147,9 @@ public class UserServiceImpl implements UserService {
         if (sameWorkIdUser != null && !sameWorkIdUser.getId().equals(userId)) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
         }
+
+        User oldUser = SerializationUtils.clone(user);
+
         // 判断是否要修改密码
         if (!StrUtil.isEmpty(userInfo.getPassword())) {
             userInfo.setPassword(PasswordUtil.encryptPassword(userInfo.getPassword(), user.getSalt()));
@@ -126,14 +164,52 @@ public class UserServiceImpl implements UserService {
         log.debug(user.toString());
 
         userDao.updateById(user);
-        userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
+        Set<Integer> realPermissionIdSet = userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
+
+        Set<Permission> realPermission = mapperFacade.map(realPermissionIdSet,
+                new TypeBuilder<Set<Integer>>() {
+                }.build(),
+                new TypeBuilder<Set<Permission>>() {
+                }.build());
+        user.setExtraPermissions(realPermission);
+
+        try {
+            Map<String, FieldDifference> fieldDifferenceMap = OperationLogUtil.getDifferenceFieldMap(oldUser, user, User.class);
+            // 把额外权限变成字符串
+            if (fieldDifferenceMap.containsKey("extraPermissions")) {
+                String oldPermissionString = mapperFacade.convert(user.getExtraPermissions(), String.class, "extraPermissionNameConverter", null);
+                fieldDifferenceMap.get("extraPermissions").setOldValue(oldPermissionString);
+                String extraPermissionString = mapperFacade.convert(realPermission, String.class, "extraPermissionNameConverter", null);
+                fieldDifferenceMap.get("extraPermissions").setNewValue(extraPermissionString);
+            }
+            // 把职务编号变成字符串  
+            if (fieldDifferenceMap.containsKey("jobId")) {
+                String oldJobString = mapperFacade.convert(oldUser.getJobId(), String.class, "jobNameConverter", null);
+                fieldDifferenceMap.get("jobId").setOldValue(oldJobString);
+                String jobString = mapperFacade.convert(user.getJobId(), String.class, "jobNameConverter", null);
+                fieldDifferenceMap.get("jobId").setNewValue(jobString);
+            }
+
+            log.debug("{}", fieldDifferenceMap);
+            // 添加操作记录
+            OperationItemTypeEnum itemType = OperationItemTypeEnum.User;
+            Integer itemId = user.getId();
+            String detail = OperationLogUtil.getUpdateItemDetailLog(itemType, itemId, user.getName(), fieldDifferenceMap);
+            operationLogService.addOperationLog(itemType, itemId,
+                    "修改用户", detail);
+        } catch (IllegalAccessException | InstantiationException e) {
+            log.error("获取不同成员变量错误", e);
+            throw new BusinessException(BusinessErrorEnum.InternalServerError);
+        }
+
         return new SuccessVo(true);
     }
 
     @Override
     public SuccessVo deleteUserById(Integer userId) {
+        User user = userDao.selectNotDeletedById(userId);
         // 检测在职员工中是否存在该用户编号对应的用户
-        if (userDao.selectNotDeletedById(userId) == null) {
+        if (user == null) {
             throw new BusinessException(BusinessErrorEnum.UserNotExists);
         }
         // 获取当前登录的用户编号
@@ -144,6 +220,12 @@ public class UserServiceImpl implements UserService {
         }
         // TODO: 清除用户的session缓存
         int result = userDao.deleteUserById(userId);
+
+        // 添加操作记录
+        String detail = OperationLogUtil.getDeleteItemDetailLog(OperationItemTypeEnum.User, userId, user.getName());
+        operationLogService.addOperationLog(OperationItemTypeEnum.User, userId,
+                "删除用户", detail);
+
         return new SuccessVo(result > 0);
     }
 

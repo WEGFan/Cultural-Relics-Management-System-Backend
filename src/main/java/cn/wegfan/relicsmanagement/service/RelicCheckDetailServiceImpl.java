@@ -3,12 +3,10 @@ package cn.wegfan.relicsmanagement.service;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.wegfan.relicsmanagement.dto.RelicMoveDto;
-import cn.wegfan.relicsmanagement.entity.Relic;
-import cn.wegfan.relicsmanagement.entity.RelicCheck;
-import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
+import cn.wegfan.relicsmanagement.entity.*;
 import cn.wegfan.relicsmanagement.mapper.*;
-import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
-import cn.wegfan.relicsmanagement.util.BusinessException;
+import cn.wegfan.relicsmanagement.util.*;
+import cn.wegfan.relicsmanagement.util.OperationLogUtil.FieldDifference;
 import cn.wegfan.relicsmanagement.vo.*;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
@@ -18,6 +16,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,9 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -50,6 +47,9 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
 
     @Autowired
     private ShelfDao shelfDao;
+
+    @Autowired
+    private OperationLogService operationLogService;
 
     @Autowired
     private MapperFacade mapperFacade;
@@ -148,6 +148,8 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
 
         RelicCheckDetail relicCheckDetail = relicCheckDetailDao.selectByCheckIdAndRelicId(checkId, relicId);
 
+        Relic oldRelic = SerializationUtils.clone(relic);
+
         // 说明这个文物在盘点前不属于这个仓库
         if (relicCheckDetail == null) {
             relicCheckDetail = new RelicCheckDetail();
@@ -173,6 +175,47 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
         relic.setLastCheckTime(new Date());
         relic.setUpdateTime(new Date());
         relicDao.updateById(relic);
+
+        try {
+            Map<String, FieldDifference> fieldDifferenceMap = OperationLogUtil.getDifferenceFieldMap(oldRelic, relic, Relic.class);
+            // 把仓库变成字符串  
+            if (fieldDifferenceMap.containsKey("warehouseId")) {
+                String oldWarehouseString = Optional.ofNullable(oldRelic.getWarehouse())
+                        .map(Warehouse::getName)
+                        .orElse(null);
+                fieldDifferenceMap.get("warehouseId").setOldValue(oldWarehouseString);
+                String newWarehouseString = Optional.ofNullable(relic.getWarehouseId())
+                        .map(i -> warehouseDao.selectNotDeletedById(i))
+                        .map(Warehouse::getName)
+                        .orElse(null);
+                fieldDifferenceMap.get("warehouseId").setNewValue(newWarehouseString);
+            }
+            // 把货架变成字符串  
+            if (fieldDifferenceMap.containsKey("shelfId")) {
+                String oldShelfString = Optional.ofNullable(oldRelic.getShelf())
+                        .map(Shelf::getName)
+                        .orElse(null);
+                fieldDifferenceMap.get("shelfId").setOldValue(oldShelfString);
+                String newShelfString = Optional.ofNullable(relic.getShelfId())
+                        .map(i -> shelfDao.selectNotDeletedById(i))
+                        .map(Shelf::getName)
+                        .orElse(null);
+                fieldDifferenceMap.get("shelfId").setNewValue(newShelfString);
+            }
+
+            log.debug("{}", fieldDifferenceMap);
+            // 添加操作记录
+            OperationItemTypeEnum itemType = OperationItemTypeEnum.Relic;
+            Integer itemId = relic.getId();
+            String detail = OperationLogUtil.getUpdateItemDetailLog(itemType, itemId, relic.getName(), fieldDifferenceMap);
+            // 把“更改”替换成“盘点”
+            detail = detail.replaceFirst("更改", "盘点");
+            operationLogService.addOperationLog(itemType, itemId,
+                    "盘点文物", detail);
+        } catch (IllegalAccessException | InstantiationException e) {
+            log.error("获取不同成员变量错误", e);
+            throw new BusinessException(BusinessErrorEnum.InternalServerError);
+        }
 
         return new SuccessVo(true);
     }

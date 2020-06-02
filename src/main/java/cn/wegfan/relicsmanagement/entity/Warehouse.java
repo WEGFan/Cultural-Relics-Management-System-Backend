@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.entity;
 
+import cn.wegfan.relicsmanagement.util.OperationLogProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Warehouse implements Serializable {
     /**
      * 仓库名
      */
+    @OperationLogProperty(name = "仓库名")
     private String name;
 
     /**

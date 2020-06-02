@@ -33,11 +33,13 @@ public class RelicCheckDetail implements Serializable {
     /**
      * 盘点前文物所在仓库编号
      */
+    @Nullable
     private Integer oldWarehouseId;
 
     /**
      * 盘点前文物所在货架编号
      */
+    @Nullable
     private Integer oldShelfId;
 
     /**

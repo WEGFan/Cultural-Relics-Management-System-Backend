@@ -1,7 +1,8 @@
 package cn.wegfan.relicsmanagement.controller;
 
-import cn.wegfan.relicsmanagement.service.OperationService;
+import cn.wegfan.relicsmanagement.service.OperationLogService;
 import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
+import cn.wegfan.relicsmanagement.util.Util;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Date;
 
@@ -21,7 +21,7 @@ import java.util.Date;
 public class OperationController {
 
     @Autowired
-    private OperationService operationService;
+    private OperationLogService operationLogService;
 
     @Autowired
     private MapperFacade mapperFacade;
@@ -43,9 +43,11 @@ public class OperationController {
                                                 @RequestParam Integer count,
                                                 @RequestParam(required = false) Boolean excel) {
         if (Boolean.TRUE.equals(excel)) {
-            throw new NotImplementedException();
+            return DataReturnVo.success(operationLogService.exportOperationLogToExcel(operator, itemType,
+                    from, to));
         }
-        throw new NotImplementedException();
+        return DataReturnVo.success(operationLogService.listOperationLogByOperatorAndTypeAndDateAndPage(operator, itemType,
+                from, to, page, Util.clampPageCount(count)));
     }
 
 }

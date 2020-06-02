@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.entity;
 
+import cn.wegfan.relicsmanagement.util.OperationLogProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -25,12 +26,14 @@ public class Relic implements Serializable {
      * 名称
      */
     @Nullable
+    @OperationLogProperty(name = "文物名")
     private String name;
 
     /**
      * 数量
      */
     @Nullable
+    @OperationLogProperty(name = "数量")
     private Integer quantity;
 
     /**
@@ -43,65 +46,76 @@ public class Relic implements Serializable {
      * 年代
      */
     @Nullable
+    @OperationLogProperty(name = "年代")
     private String year;
 
     /**
      * 年号
      */
     @Nullable
+    @OperationLogProperty(name = "年号")
     private String reign;
 
     /**
      * 器型
      */
     @Nullable
+    @OperationLogProperty(name = "器型")
     private String type;
 
     /**
      * 来源
      */
     @Nullable
+    @OperationLogProperty(name = "来源")
     private String source;
 
     /**
      * 尺寸
      */
     @Nullable
+    @OperationLogProperty(name = "尺寸")
     private String size;
 
     /**
      * 重量 kg
      */
     @Nullable
+    @OperationLogProperty(name = "重量")
     private Double weight;
 
     /**
      * 收储仓库id
      */
     @Nullable
+    @OperationLogProperty(name = "收储仓库")
     private Integer warehouseId;
 
     /**
      * 货架id
      */
     @Nullable
+    @OperationLogProperty(name = "所在货架")
     private Integer shelfId;
 
     /**
      * 入馆价值
      */
     @Nullable
+    @OperationLogProperty(name = "入馆价值")
     private BigDecimal enterPrice;
 
     /**
      * 离馆价值
      */
     @Nullable
+    @OperationLogProperty(name = "离馆价值")
     private BigDecimal leavePrice;
 
     /**
      * 状态id
      */
+    @OperationLogProperty(name = "状态")
     private Integer statusId;
 
     /**
@@ -144,12 +158,14 @@ public class Relic implements Serializable {
      * 备注1
      */
     @Nullable
+    @OperationLogProperty(name = "备注1")
     private String comment1;
 
     /**
      * 备注2
      */
     @Nullable
+    @OperationLogProperty(name = "备注2")
     private String comment2;
 
     /**

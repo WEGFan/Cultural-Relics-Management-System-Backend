@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.entity;
 
+import cn.wegfan.relicsmanagement.util.OperationLogProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -23,11 +24,13 @@ public class Shelf implements Serializable {
     /**
      * 货架名
      */
+    @OperationLogProperty(name = "货架名")
     private String name;
 
     /**
      * 所属仓库编号
      */
+    @OperationLogProperty(name = "所属仓库")
     private Integer warehouseId;
 
     /**

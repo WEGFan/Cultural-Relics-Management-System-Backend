@@ -9,10 +9,14 @@ import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
 import cn.wegfan.relicsmanagement.dto.RelicMoveDto;
 import cn.wegfan.relicsmanagement.entity.Relic;
 import cn.wegfan.relicsmanagement.entity.RelicStatus;
+import cn.wegfan.relicsmanagement.entity.Shelf;
+import cn.wegfan.relicsmanagement.entity.Warehouse;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.RelicStatusDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
+import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
 import cn.wegfan.relicsmanagement.util.*;
+import cn.wegfan.relicsmanagement.util.OperationLogUtil.FieldDifference;
 import cn.wegfan.relicsmanagement.vo.*;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
@@ -22,6 +26,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
+import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +55,12 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
     @Autowired
     private ShelfDao shelfDao;
+
+    @Autowired
+    private WarehouseDao warehouseDao;
+
+    @Autowired
+    private OperationLogService operationLogService;
 
     @Autowired
     private MapperFacade mapperFacade;
@@ -152,6 +163,11 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         relic.setPicturePath("/api/files/relics/images/" + fileName);
         relicDao.updateById(relic);
 
+        // 添加操作记录
+        String detail = OperationLogUtil.getCreateItemDetailLog(OperationItemTypeEnum.Relic, relic.getId(), null);
+        operationLogService.addOperationLog(OperationItemTypeEnum.Relic, relic.getId(),
+                "增加文物", detail);
+
         return new RelicIdPicturePathVo(relic.getId(), relic.getPicturePath());
     }
 
@@ -173,6 +189,11 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         RelicMoveDto oldPlace = new RelicMoveDto(oldRelicWarehouseId, oldRelicShelfId);
         RelicMoveDto newPlace = new RelicMoveDto(newRelicWarehouseId, newRelicShelfId);
         relicCheckDetailService.updateRelicCheckDetailAfterRelicMove(relicId, oldPlace, newPlace);
+
+        // 添加操作记录
+        String detail = OperationLogUtil.getDeleteItemDetailLog(OperationItemTypeEnum.Relic, relicId, relic.getName());
+        operationLogService.addOperationLog(OperationItemTypeEnum.Relic, relicId,
+                "删除文物", detail);
 
         return new SuccessVo(result > 0);
     }
@@ -232,6 +253,7 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
             throw new BusinessException(BusinessErrorEnum.ShelfNotExists);
         }
 
+        Relic oldRelic = SerializationUtils.clone(relic);
         mapperFacade.map(relicInfo, relic);
 
         relic.setUpdateTime(new Date());
@@ -280,8 +302,53 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         relicDao.updateById(relic);
         log.debug("{}", relic);
 
-        RelicVo relicVo = mapperFacade.map(relic, RelicVo.class);
+        try {
+            Map<String, FieldDifference> fieldDifferenceMap = OperationLogUtil.getDifferenceFieldMap(oldRelic, relic, Relic.class);
+            // 把状态变成字符串
+            if (fieldDifferenceMap.containsKey("statusId")) {
+                String oldStatusString = mapperFacade.convert(oldRelicStatusId, String.class, "relicStatusNameConverter", null);
+                fieldDifferenceMap.get("statusId").setOldValue(oldStatusString);
+                String statusString = mapperFacade.convert(newRelicStatusId, String.class, "relicStatusNameConverter", null);
+                fieldDifferenceMap.get("statusId").setNewValue(statusString);
+            }
+            // 把仓库变成字符串  
+            if (fieldDifferenceMap.containsKey("warehouseId")) {
+                String oldWarehouseString = Optional.ofNullable(oldRelic.getWarehouse())
+                        .map(Warehouse::getName)
+                        .orElse(null);
+                fieldDifferenceMap.get("warehouseId").setOldValue(oldWarehouseString);
+                String newWarehouseString = Optional.ofNullable(relic.getWarehouseId())
+                        .map(i -> warehouseDao.selectNotDeletedById(i))
+                        .map(Warehouse::getName)
+                        .orElse(null);
+                fieldDifferenceMap.get("warehouseId").setNewValue(newWarehouseString);
+            }
+            // 把货架变成字符串  
+            if (fieldDifferenceMap.containsKey("shelfId")) {
+                String oldShelfString = Optional.ofNullable(oldRelic.getShelf())
+                        .map(Shelf::getName)
+                        .orElse(null);
+                fieldDifferenceMap.get("shelfId").setOldValue(oldShelfString);
+                String newShelfString = Optional.ofNullable(relic.getShelfId())
+                        .map(i -> shelfDao.selectNotDeletedById(i))
+                        .map(Shelf::getName)
+                        .orElse(null);
+                fieldDifferenceMap.get("shelfId").setNewValue(newShelfString);
+            }
 
+            log.debug("{}", fieldDifferenceMap);
+            // 添加操作记录
+            OperationItemTypeEnum itemType = OperationItemTypeEnum.Relic;
+            Integer itemId = relic.getId();
+            String detail = OperationLogUtil.getUpdateItemDetailLog(itemType, itemId, relic.getName(), fieldDifferenceMap);
+            operationLogService.addOperationLog(itemType, itemId,
+                    "修改文物", detail);
+        } catch (IllegalAccessException | InstantiationException e) {
+            log.error("获取不同成员变量错误", e);
+            throw new BusinessException(BusinessErrorEnum.InternalServerError);
+        }
+
+        RelicVo relicVo = mapperFacade.map(relic, RelicVo.class);
         relicVo.clearFieldsByPermissionCode(permissionCodeSet);
         return relicVo;
     }

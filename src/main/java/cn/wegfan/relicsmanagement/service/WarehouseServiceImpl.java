@@ -5,21 +5,22 @@ import cn.wegfan.relicsmanagement.entity.Warehouse;
 import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
 import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
-import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
-import cn.wegfan.relicsmanagement.util.BusinessException;
-import cn.wegfan.relicsmanagement.util.EscapeUtil;
+import cn.wegfan.relicsmanagement.util.*;
+import cn.wegfan.relicsmanagement.util.OperationLogUtil.FieldDifference;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;
 import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import cn.wegfan.relicsmanagement.vo.WarehouseVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
+import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -34,6 +35,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Autowired
     private RelicDao relicDao;
+
+    @Autowired
+    private OperationLogService operationLogService;
 
     @Autowired
     private MapperFacade mapperFacade;
@@ -78,6 +82,21 @@ public class WarehouseServiceImpl implements WarehouseService {
 
         WarehouseVo warehouseVo = mapperFacade.map(warehouse, WarehouseVo.class);
 
+        try {
+            Map<String, FieldDifference> fieldDifferenceMap = OperationLogUtil.getDifferenceFieldMap(null, warehouse, Warehouse.class);
+
+            log.debug("{}", fieldDifferenceMap);
+            // 添加操作记录
+            OperationItemTypeEnum itemType = OperationItemTypeEnum.Warehouse;
+            Integer itemId = warehouse.getId();
+            String detail = OperationLogUtil.getCreateItemDetailLog(itemType, itemId, fieldDifferenceMap);
+            operationLogService.addOperationLog(itemType, itemId,
+                    "新建仓库", detail);
+        } catch (IllegalAccessException | InstantiationException e) {
+            log.error("获取不同成员变量错误", e);
+            throw new BusinessException(BusinessErrorEnum.InternalServerError);
+        }
+
         return warehouseVo;
     }
 
@@ -95,20 +114,37 @@ public class WarehouseServiceImpl implements WarehouseService {
             throw new BusinessException(BusinessErrorEnum.DuplicateWarehouseName);
         }
 
+        Warehouse oldWarehouse = SerializationUtils.clone(warehouse);
+
         warehouse.setName(name);
         warehouse.setUpdateTime(new Date());
 
         warehouseDao.updateById(warehouse);
 
-        WarehouseVo warehouseVo = mapperFacade.map(warehouse, WarehouseVo.class);
+        try {
+            Map<String, FieldDifference> fieldDifferenceMap = OperationLogUtil.getDifferenceFieldMap(oldWarehouse, warehouse, Warehouse.class);
 
+            log.debug("{}", fieldDifferenceMap);
+            // 添加操作记录
+            OperationItemTypeEnum itemType = OperationItemTypeEnum.Warehouse;
+            Integer itemId = warehouse.getId();
+            String detail = OperationLogUtil.getUpdateItemDetailLog(itemType, itemId, warehouse.getName(), fieldDifferenceMap);
+            operationLogService.addOperationLog(itemType, itemId,
+                    "修改仓库", detail);
+        } catch (IllegalAccessException | InstantiationException e) {
+            log.error("获取不同成员变量错误", e);
+            throw new BusinessException(BusinessErrorEnum.InternalServerError);
+        }
+
+        WarehouseVo warehouseVo = mapperFacade.map(warehouse, WarehouseVo.class);
         return warehouseVo;
     }
 
     @Override
     public SuccessVo deleteWarehouse(Integer warehouseId) {
+        Warehouse warehouse = warehouseDao.selectNotDeletedById(warehouseId);
         // 检测没有被删除的仓库中是否存在仓库编号对应的仓库
-        if (warehouseDao.selectNotDeletedById(warehouseId) == null) {
+        if (warehouse == null) {
             throw new BusinessException(BusinessErrorEnum.WarehouseNotExists);
         }
         // 检测该仓库里是否还有货架
@@ -117,6 +153,12 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
 
         int result = warehouseDao.deleteWarehouseById(warehouseId);
+
+        // 添加操作记录
+        String detail = OperationLogUtil.getDeleteItemDetailLog(OperationItemTypeEnum.Warehouse, warehouseId, warehouse.getName());
+        operationLogService.addOperationLog(OperationItemTypeEnum.Warehouse, warehouseId,
+                "删除仓库", detail);
+
         return new SuccessVo(result > 0);
     }
 

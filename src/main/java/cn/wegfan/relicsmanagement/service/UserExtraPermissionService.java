@@ -7,6 +7,6 @@ import java.util.Set;
 
 public interface UserExtraPermissionService extends IService<UserExtraPermission> {
 
-    void updateUserExtraPermissions(Integer userId, Integer jobId, Set<Integer> permissionId);
+    Set<Integer> updateUserExtraPermissions(Integer userId, Integer jobId, Set<Integer> permissionId);
 
 }
