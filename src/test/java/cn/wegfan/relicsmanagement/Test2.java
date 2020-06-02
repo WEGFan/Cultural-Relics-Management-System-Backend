@@ -1,9 +1,20 @@
 package cn.wegfan.relicsmanagement;
 
 import cn.hutool.core.img.ImgUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.wegfan.relicsmanagement.entity.Permission;
+import cn.wegfan.relicsmanagement.entity.Relic;
+import cn.wegfan.relicsmanagement.entity.User;
+import cn.wegfan.relicsmanagement.entity.Warehouse;
+import cn.wegfan.relicsmanagement.mapper.RelicDao;
+import cn.wegfan.relicsmanagement.mapper.UserDao;
+import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
+import cn.wegfan.relicsmanagement.service.UserExtraPermissionService;
+import cn.wegfan.relicsmanagement.util.OperationLogUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.metadata.TypeBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,10 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @SpringBootTest
@@ -185,16 +193,61 @@ public class Test2 {
     @Autowired
     private MapperFacade mapperFacade;
 
+    @Autowired
+    private RelicDao relicDao;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private WarehouseDao warehouseDao;
+
     @Test
-    void test() {
-        A a = new A();
-        a.setValue("");
-        B b = mapperFacade.map(a, B.class);
-        log.debug("{}", b.value);
+    void test2() {
+        Relic relic = relicDao.selectNotDeletedByRelicId(1007);
+        String newWarehouseString = Optional.ofNullable(relic.getWarehouseId())
+                .map(i -> warehouseDao.selectNotDeletedById(i))
+                .map(Warehouse::getName)
+                .orElse("");
+        log.debug(newWarehouseString);
     }
 
-    public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
-        ;
+    @Test
+    void test() {
+        User user = userDao.selectNotDeletedById(23);
+        User oldUser = ObjectUtil.clone(user);
+        log.debug("{}", oldUser);
+        Set<Permission> permissionSet = user.getExtraPermissions();
+        log.debug("{}", permissionSet);
+        Set<Integer> permissionIdSet = mapperFacade.map(permissionSet,
+                new TypeBuilder<Set<Permission>>() {
+                }.build(),
+                new TypeBuilder<Set<Integer>>() {
+                }.build());
+        log.debug("{}", permissionIdSet);
+        Set<Permission> realPermission = mapperFacade.map(permissionIdSet, Set.class);
+        log.debug("{}", realPermission);
+    }
+
+    @Autowired
+    private UserExtraPermissionService userExtraPermissionService;
+
+    public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, InstantiationException {
+        User user = new User();
+        user.setName("asdasd");
+        user.setWorkId(111);
+        user.setTelephone("121212");
+
+        User oldUser = ObjectUtil.clone(user);
+        // Set<Integer> realPermissionIdSet = userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
+        // Set<Permission> realPermission = mapperFacade.map(realPermissionIdSet, Set.class);
+        Map a = OperationLogUtil.getDifferenceFieldMap(null, user, User.class);
+        log.debug("{}", a);
+        // log.debug("{}", OperationLogUtil.getCreateItemDetailLog(a));
+
+        if (true) {
+            return;
+        }
         Path path = Paths.get("a", "b", "..");
         Path path2 = path
                 .resolve("ddd")

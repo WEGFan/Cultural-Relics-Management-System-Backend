@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "workId": "10000",
-    "password": "admin"
+    "password": "12345678"
 }
 
 ### login normal user
@@ -51,13 +51,13 @@ POST {{host}}/api/v1/users
 Content-Type: application/json
 
 {
-    "workId": 10005,
-    "name": "admin",
-    "password": "123456",
-    "jobId": 5,
+    "workId": 4522,
+    "name": "admi111n",
+    "password": "12345678",
+    "jobId": 1,
     "extraPermissionsId": [
     ],
-    "telephone": "5"
+    "telephone": "13456444654"
 }
 
 ### update user
@@ -65,11 +65,11 @@ PUT {{host}}/api/v1/users/16
 Content-Type: application/json
 
 {
-    "workId": "aaa",
+    "workId": "777444555",
     "name": "paizhao",
     "password": "",
     "jobId": 1,
-    "extraPermissionsId": null,
+    "extraPermissionsId": [],
     "telephone": "13800000001"
 }
 
@@ -207,12 +207,12 @@ Content-Type: application/json
 DELETE {{host}}/api/v1/checks/sessions
 
 ### relic check move
-PUT {{host}}/api/v1/checks/37/relics/1040
+PUT {{host}}/api/v1/checks/68/relics/1042
 Content-Type: application/json
 
 {
-    "warehouseId": "44aa",
-    "shelfId": ""
+    "warehouseId": "4",
+    "shelfId": "79"
 }
 
 ### list relic check detail
