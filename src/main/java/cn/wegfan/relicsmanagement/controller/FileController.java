@@ -108,7 +108,7 @@ public class FileController {
     }
 
     /**
-     * 文物 Excel 表
+     * 文物盘点 Excel 表
      */
     @GetMapping(value = "exports/checks/{fileName}")
     @ResponseBody
