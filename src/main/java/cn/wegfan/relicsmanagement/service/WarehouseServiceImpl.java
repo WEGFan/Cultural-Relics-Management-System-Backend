@@ -85,7 +85,6 @@ public class WarehouseServiceImpl implements WarehouseService {
         try {
             Map<String, FieldDifference> fieldDifferenceMap = OperationLogUtil.getDifferenceFieldMap(null, warehouse, Warehouse.class);
 
-            log.debug("{}", fieldDifferenceMap);
             // 添加操作记录
             OperationItemTypeEnum itemType = OperationItemTypeEnum.Warehouse;
             Integer itemId = warehouse.getId();
@@ -124,7 +123,6 @@ public class WarehouseServiceImpl implements WarehouseService {
         try {
             Map<String, FieldDifference> fieldDifferenceMap = OperationLogUtil.getDifferenceFieldMap(oldWarehouse, warehouse, Warehouse.class);
 
-            log.debug("{}", fieldDifferenceMap);
             // 添加操作记录
             OperationItemTypeEnum itemType = OperationItemTypeEnum.Warehouse;
             Integer itemId = warehouse.getId();

@@ -16,8 +16,6 @@ public class BigDecimalDeserializer extends JsonDeserializer<BigDecimal> {
             return null;
         }
         return new BigDecimal(decimalString).setScale(2, BigDecimal.ROUND_HALF_UP);
-        // return jsonParser.getDecimalValue().setScale(2, RoundingMode.FLOOR);
-
     }
 
 }

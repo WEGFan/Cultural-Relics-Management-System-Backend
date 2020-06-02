@@ -56,9 +56,7 @@ public class ShelfServiceImpl implements ShelfService {
         }
 
         Page<Shelf> pageResult = shelfDao.selectPageNotDeletedByWarehouseIdAndName(page, warehouseId, EscapeUtil.escapeSqlLike(name));
-        // log.debug(String.valueOf(result.getRecords()));
-        // log.debug("current={} size={} total={} pages={}", result.getCurrent(), result.getSize(), result.getTotal(), result.getPages());
-        // log.debug("{} {}", result.hasPrevious(), result.hasNext());
+
         List<Shelf> shelfList = pageResult.getRecords();
         List<ShelfVo> shelfVoList = mapperFacade.mapAsList(shelfList, ShelfVo.class);
 
@@ -107,7 +105,6 @@ public class ShelfServiceImpl implements ShelfService {
             String warehouseName = warehouse.getName();
             fieldDifferenceMap.get("warehouseId").setNewValue(warehouseName);
 
-            log.debug("{}", fieldDifferenceMap);
             // 添加操作记录
             OperationItemTypeEnum itemType = OperationItemTypeEnum.Shelf;
             Integer itemId = shelf.getId();
@@ -173,7 +170,6 @@ public class ShelfServiceImpl implements ShelfService {
                 fieldDifferenceMap.get("warehouseId").setNewValue(warehouseName);
             }
 
-            log.debug("{}", fieldDifferenceMap);
             // 添加操作记录
             OperationItemTypeEnum itemType = OperationItemTypeEnum.Shelf;
             Integer itemId = shelf.getId();

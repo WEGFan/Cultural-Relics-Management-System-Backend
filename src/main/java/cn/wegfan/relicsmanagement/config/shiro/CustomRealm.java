@@ -44,18 +44,9 @@ public class CustomRealm extends AuthorizingRealm {
         }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 
-        log.debug(user.toString());
-
         Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByUserId(user.getId());
-
-        log.debug("{}={}", user, permissionCodeSet);
         info.setStringPermissions(permissionCodeSet);
 
-        // List<Permission> permissionsByUserName = permissionDao.getPermissionsByUserName(userName);
-        // for (Permission permission : permissionsByUserName) {
-        //     info.addStringPermission(permission.getPermissionName());
-        // }
-        // info.setRoles(roles);
         return info;
     }
 
@@ -78,28 +69,5 @@ public class CustomRealm extends AuthorizingRealm {
                 ByteSource.Util.bytes(salt), getName());
         return authenticationInfo;
     }
-
-    // @Override
-    // protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-    //     // 获得需认证账号
-    //     String account = (String)token.getPrincipal();
-    //     // 在数据库中查找用户信息
-    //     User confirmInfo = userService.findUserByAccount(account);
-    //     // 获得正确的密码
-    //     if (confirmInfo == null) {
-    //         return null;
-    //     }
-    //     String password = confirmInfo.getPassword();
-    //     if (password == null || password.equals("")) {
-    //         return null;
-    //     }
-    //     // 打包认证信息
-    //     SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(confirmInfo, password, getName());
-    //     // 设置加密盐
-    //     String salt = confirmInfo.getSalt();
-    //     authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(salt));
-    //
-    //     return authenticationInfo;
-    // }
 
 }

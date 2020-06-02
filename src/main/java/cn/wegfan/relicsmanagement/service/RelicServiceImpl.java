@@ -99,11 +99,8 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
         Page<Relic> pageResult = relicDao.selectPageNotDeletedByCondition(page, EscapeUtil.escapeSqlLike(name), status,
                 warehouseId, shelfId, dateType, startTime, endTime);
-        // log.debug(String.valueOf(result.getRecords()));
-        // log.debug("current={} size={} total={} pages={}", result.getCurrent(), result.getSize(), result.getTotal(), result.getPages());
-        // log.debug("{} {}", result.hasPrevious(), result.hasNext());
+
         List<Relic> relicList = pageResult.getRecords();
-        log.debug(relicList.toString());
         List<RelicVo> relicVoList = mapperFacade.mapAsList(relicList, RelicVo.class);
 
         // 获取当前登录的用户权限
@@ -122,7 +119,6 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         }
 
         RelicVo relicVo = mapperFacade.map(relic, RelicVo.class);
-        log.debug(relicVo.toString());
 
         // 获取当前登录的用户权限
         Set<String> permissionCodeSet = permissionService.listAllPermissionCodeByCurrentLoginUser();
@@ -136,7 +132,6 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         File tempFile = new File(tempPath);
         // 获取文件真实类型
         String fileType = FileTypeUtil.getType(tempFile);
-        log.debug(fileType);
         if (!"jpg".equals(fileType) && !"png".equals(fileType)) {
             throw new BusinessException(BusinessErrorEnum.FileNotJpgOrPng);
         }
@@ -153,7 +148,6 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
 
         // 先插入到数据库并获取id
         relicDao.insert(relic);
-        log.debug(relic.toString());
 
         String fileName = relic.getId() + ".jpg";
         File file = FileUtil.touch(tempFile.getParentFile().getParentFile(), fileName);
@@ -300,7 +294,6 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         }
 
         relicDao.updateById(relic);
-        log.debug("{}", relic);
 
         try {
             Map<String, FieldDifference> fieldDifferenceMap = OperationLogUtil.getDifferenceFieldMap(oldRelic, relic, Relic.class);
@@ -336,7 +329,6 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
                 fieldDifferenceMap.get("shelfId").setNewValue(newShelfString);
             }
 
-            log.debug("{}", fieldDifferenceMap);
             // 添加操作记录
             OperationItemTypeEnum itemType = OperationItemTypeEnum.Relic;
             Integer itemId = relic.getId();

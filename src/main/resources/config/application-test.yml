@@ -1,9 +1,0 @@
-spring:
-  datasource:
-    url: 'jdbc:mysql://wegfan.cn:3306/relics_manage_sys?serverTimezone=Asia/Shanghai'
-    username: 'relics_manage_sys'
-    password: 'relics.Q8~Is+,Hh24+3P;Ta%Ib$k@0B2$uz6*T67:1oj/z}R;(D^gSTGFycj>i(J`y@,QU'
-
-logging:
-  level:
-    cn.wegfan.relicsmanagement: debug

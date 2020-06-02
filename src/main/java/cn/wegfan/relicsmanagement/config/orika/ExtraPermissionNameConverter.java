@@ -14,15 +14,6 @@ import java.util.StringJoiner;
 @Slf4j
 public class ExtraPermissionNameConverter extends CustomConverter<Set<Permission>, String> {
 
-    // private Map<Integer, String> permissionNameMap;
-
-    // public ExtraPermissionNameConverter(PermissionDao permissionDao) {
-    //     super();
-    //     permissionNameMap = permissionDao.selectPermissionList()
-    //             .stream()
-    //             .collect(Collectors.toMap(Permission::getId, Permission::getName));
-    // }
-
     @Override
     public String convert(Set<Permission> source, Type<? extends String> destinationType, MappingContext mappingContext) {
         StringJoiner stringJoiner = new StringJoiner("；");

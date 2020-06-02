@@ -65,8 +65,6 @@ public class RelicController {
                                    @RequestParam Integer page,
                                    @RequestParam Integer count,
                                    @RequestParam(required = false) Boolean excel) {
-        log.debug("{} {} {} {}", name, status, page, count);
-        log.debug("{} {} {}", from, to, dateType);
         // TODO: 导出excel权限
         if (Boolean.TRUE.equals(excel)) {
             return DataReturnVo.success(relicService.exportRelicByConditionToExcel(name, status,

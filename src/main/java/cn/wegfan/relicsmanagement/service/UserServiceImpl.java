@@ -54,10 +54,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserVo> listAllInWorkUsers() {
         List<User> userList = userDao.selectNotDeletedList();
-        // for (User user : userList) {
-        //     user.setPermissions(permissionDao.selectListByUserId(user.getId()));
-        // }
-        log.debug(userList.toString());
         List<UserVo> userVoList = mapperFacade.mapAsList(userList, UserVo.class);
         return userVoList;
     }
@@ -76,7 +72,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserVo getUserById(Integer userId) {
         User user = userDao.selectById(userId);
-        log.debug(user.toString());
         UserVo userVo = mapperFacade.map(user, UserVo.class);
         return userVo;
     }
@@ -98,7 +93,6 @@ public class UserServiceImpl implements UserService {
         // 密码加盐
         user.setSalt(PasswordUtil.generateSalt(user.getName() + user.getTelephone()));
         user.setPassword(PasswordUtil.encryptPassword(user.getPassword(), user.getSalt()));
-        log.debug(user.toString());
 
         userDao.insert(user);
         Set<Integer> realPermissionIdSet = userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
@@ -119,7 +113,6 @@ public class UserServiceImpl implements UserService {
             String jobString = mapperFacade.convert(user.getJobId(), String.class, "jobNameConverter", null);
             fieldDifferenceMap.get("jobId").setNewValue(jobString);
 
-            log.debug("{}", fieldDifferenceMap);
             // 添加操作记录
             OperationItemTypeEnum itemType = OperationItemTypeEnum.User;
             Integer itemId = user.getId();
@@ -161,7 +154,6 @@ public class UserServiceImpl implements UserService {
         mapperFacade.map(userInfo, user);
 
         user.setUpdateTime(new Date());
-        log.debug(user.toString());
 
         userDao.updateById(user);
         Set<Integer> realPermissionIdSet = userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
@@ -190,7 +182,6 @@ public class UserServiceImpl implements UserService {
                 fieldDifferenceMap.get("jobId").setNewValue(jobString);
             }
 
-            log.debug("{}", fieldDifferenceMap);
             // 添加操作记录
             OperationItemTypeEnum itemType = OperationItemTypeEnum.User;
             Integer itemId = user.getId();
@@ -249,10 +240,6 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(BusinessErrorEnum.WrongAccountOrPassword);
         }
 
-        // if (!subject.isAuthenticated()) {
-        //     throw new BusinessException(BusinessErrorEnum.WrongAccountOrPassword);
-        // }
-        log.debug(user.toString());
         UserVo userVo = mapperFacade.map(user, UserVo.class);
         return userVo;
     }
@@ -277,11 +264,9 @@ public class UserServiceImpl implements UserService {
         Integer currentLoginUserId = (Integer)subject.getPrincipal();
 
         User user = userDao.selectNotDeletedById(currentLoginUserId);
-        log.debug(user.toString());
+
         String encryptedOldPassword = PasswordUtil.encryptPassword(oldPassword, user.getSalt());
         String encryptedNewPassword = PasswordUtil.encryptPassword(newPassword, user.getSalt());
-
-        log.debug("{} {}", user.getPassword(), encryptedOldPassword);
 
         // 如果旧密码不正确
         if (!encryptedOldPassword.equals(user.getPassword())) {

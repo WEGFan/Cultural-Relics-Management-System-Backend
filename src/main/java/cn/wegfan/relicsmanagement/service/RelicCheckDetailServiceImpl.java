@@ -57,20 +57,15 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
     @Override
     public PageResultVo<RelicCheckDetailVo> listRelicCheckDetailByCheckIdAndStatusAndPage(Integer checkId, Boolean checked, long pageIndex, long pageSize) {
         Page<RelicCheckDetail> page = new Page<>(pageIndex, pageSize);
-
         Page<RelicCheckDetail> pageResult = relicCheckDetailDao.selectPageByCheckId(page, checkId, checked);
 
         List<RelicCheckDetail> relicCheckDetailList = pageResult.getRecords();
-        log.debug(relicCheckDetailList.toString());
-
         List<RelicCheckDetailVo> relicCheckDetailVoList = mapperFacade.mapAsList(relicCheckDetailList, RelicCheckDetailVo.class);
         return new PageResultVo<RelicCheckDetailVo>(relicCheckDetailVoList, pageResult);
     }
 
     @Override
     public FilePathVo exportRelicCheckDetailByCheckIdToExcel(Integer checkId) {
-        RelicCheck relicCheck = relicCheckDao.selectByCheckId(checkId);
-
         long pageSize = 500;
 
         Path dir = Paths.get("data", "exports", "checks")
@@ -203,7 +198,6 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
                 fieldDifferenceMap.get("shelfId").setNewValue(newShelfString);
             }
 
-            log.debug("{}", fieldDifferenceMap);
             // 添加操作记录
             OperationItemTypeEnum itemType = OperationItemTypeEnum.Relic;
             Integer itemId = relic.getId();
@@ -253,7 +247,6 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
         // 如果旧仓库正在被盘点
         if (oldRelicCheck != null) {
             List<RelicCheckDetail> oldRelicCheckDetailList = relicCheckDetailDao.selectNotCheckedListByCheckIdAndOldShelfId(oldRelicCheck.getId(), shelfId);
-            log.debug(oldRelicCheckDetailList.toString());
             // 如果存在还没有被盘点的文物，就删除掉
             if (!oldRelicCheckDetailList.isEmpty()) {
                 List<Integer> idList = oldRelicCheckDetailList.stream()

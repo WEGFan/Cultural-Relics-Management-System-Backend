@@ -37,16 +37,4 @@ public class UserVo {
      */
     private Set<Integer> extraPermissionsId;
 
-    // @Override
-    // public String toString() {
-    //     return new StringJoiner(", ", UserVo.class.getSimpleName() + "[", "]")
-    //             .add("id=" + id)
-    //             .add("workId=" + workId)
-    //             .add("name='" + name + "'")
-    //             .add("jobId=" + jobId)
-    //             .add("telephone='" + telephone + "'")
-    //             .add("permissionId=" + permissionId)
-    //             .toString();
-    // }
-
 }

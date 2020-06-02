@@ -12,11 +12,4 @@ public class SuccessVo {
      */
     private Boolean success;
 
-    // @Override
-    // public String toString() {
-    //     return new StringJoiner(", ", SuccessVo.class.getSimpleName() + "[", "]")
-    //             .add("success=" + success)
-    //             .toString();
-    // }
-
 }

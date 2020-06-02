@@ -47,8 +47,9 @@ public class PageResultVo<T> {
      */
     private Boolean hasNext;
 
-    public PageResultVo(List<T> content, Page pageResult) {
-        this(pageResult);
+    @SuppressWarnings("unchecked")
+    public PageResultVo(List<T> content, Page<?> pageResult) {
+        this((Page<T>)pageResult);
         this.content = content;
     }
 
@@ -61,18 +62,5 @@ public class PageResultVo<T> {
         hasPrevious = pageResult.hasPrevious();
         hasNext = pageResult.hasNext();
     }
-
-    // @Override
-    // public String toString() {
-    //     return new StringJoiner(", ", PageResultVo.class.getSimpleName() + "[", "]")
-    //             .add("content=" + content)
-    //             .add("currentPage=" + currentPage)
-    //             .add("pageSize=" + pageSize)
-    //             .add("totalPages=" + totalPages)
-    //             .add("totalRecords=" + totalRecords)
-    //             .add("hasPrevious=" + hasPrevious)
-    //             .add("hasNext=" + hasNext)
-    //             .toString();
-    // }
 
 }

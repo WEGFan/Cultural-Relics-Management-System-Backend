@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,6 +24,9 @@ import java.util.*;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public DataReturnVo handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
@@ -70,8 +74,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public DataReturnVo handleException(Exception e) {
         log.error("", e);
-        // TODO: 删除返回错误信息
-        return DataReturnVo.error(500, String.format("内部服务器错误，错误信息（生产环境会删除）：%s", e.toString()));
+        if ("prod".equals(activeProfile)) {
+            return DataReturnVo.error(500, "内部服务器错误，请联系管理员");
+        }
+        return DataReturnVo.error(500, String.format("内部服务器错误，错误信息：%s", e.toString()));
     }
 
     @Data

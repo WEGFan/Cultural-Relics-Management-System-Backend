@@ -99,7 +99,6 @@ public class OperationLogServiceImpl implements OperationLogService {
         operationLog.setDetail(detail);
         operationLog.setCreateTime(new Date());
         operationLog.setOperatorId((Integer)SecurityUtils.getSubject().getPrincipal());
-        log.debug(String.valueOf(operationLog));
         operationLogDao.insert(operationLog);
     }
 

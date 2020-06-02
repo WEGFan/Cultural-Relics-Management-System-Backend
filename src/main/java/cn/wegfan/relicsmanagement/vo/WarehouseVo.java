@@ -15,12 +15,4 @@ public class WarehouseVo {
      */
     private String name;
 
-    // @Override
-    // public String toString() {
-    //     return new StringJoiner(", ", WarehouseVo.class.getSimpleName() + "[", "]")
-    //             .add("id=" + id)
-    //             .add("name='" + name + "'")
-    //             .toString();
-    // }
-
 }

@@ -13,17 +13,6 @@ public class UserMapping implements OrikaMapperFactoryConfigurer {
 
     @Override
     public void configure(MapperFactory mapperFactory) {
-        // mapperFactory
-        //         .getConverterFactory()
-        //         .registerConverter("permissionIdConvert", new CustomConverter<Set<Permission>, Set<Integer>>() {
-        //             @Override
-        //             public Set<Integer> convert(Set<Permission> extraPermissions, Type<? extends Set<Integer>> type, MappingContext mappingContext) {
-        //                 // 把权限的id提取成列表
-        //                 return extraPermissions.stream()
-        //                         .map(Permission::getId)
-        //                         .collect(Collectors.toSet());
-        //             }
-        //         });
         mapperFactory.classMap(User.class, UserVo.class)
                 .fieldMap("extraPermissions", "extraPermissionsId").converter("permissionIdConvert").add()
                 .byDefault()

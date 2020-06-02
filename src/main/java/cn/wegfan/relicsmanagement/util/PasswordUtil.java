@@ -16,7 +16,6 @@ public class PasswordUtil {
     public static String encryptPassword(String password, String salt) {
         SimpleHash simpleHash = new SimpleHash(HASH_ALGORITHM, password, salt, HASH_ITERATIONS);
         String result = simpleHash.toString();
-        log.debug("pass={}", result);
         return result;
     }
 
@@ -27,7 +26,6 @@ public class PasswordUtil {
         byte[] realSeed = (now.getTime() + "2CnzE^MFjGFjvs*QVcbK5!<QI" + seed).getBytes();
         generator.setSeed(realSeed);
         String result = generator.nextBytes(32).toHex();
-        log.debug("salt={}", result);
         return result;
     }
 

@@ -20,7 +20,6 @@ public class CustomLoginFilter extends FormAuthenticationFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
-        // throw new BusinessException(BusinessErrorEnum.Unauthorized);
         HttpServletResponse httpServletResponse = (HttpServletResponse)response;
 
         httpServletResponse.setCharacterEncoding("UTF-8");
@@ -30,7 +29,6 @@ public class CustomLoginFilter extends FormAuthenticationFilter {
         ObjectMapper objectMapper = new ObjectMapper();
 
         httpServletResponse.getWriter().write(objectMapper.writeValueAsString(result));
-
         return false;
     }
 

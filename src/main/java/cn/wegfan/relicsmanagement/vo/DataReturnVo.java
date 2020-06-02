@@ -37,13 +37,4 @@ public class DataReturnVo {
         return new DataReturnVo(null, exception.getCode(), exception.getMessage());
     }
 
-    // @Override
-    // public String toString() {
-    //     return new StringJoiner(", ", DataReturnVo.class.getSimpleName() + "[", "]")
-    //             .add("data=" + data)
-    //             .add("code=" + code)
-    //             .add("msg='" + msg + "'")
-    //             .toString();
-    // }
-
 }

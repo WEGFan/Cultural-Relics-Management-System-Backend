@@ -19,7 +19,6 @@ import cn.wegfan.relicsmanagement.vo.SuccessVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,20 +54,15 @@ public class RelicCheckServiceImpl implements RelicCheckService {
     @Override
     public PageResultVo<RelicCheckVo> listByWarehouseIdAndPage(Integer warehouseId, long pageIndex, long pageSize) {
         Page<RelicCheck> page = new Page<>(pageIndex, pageSize);
-
         Page<RelicCheck> pageResult = relicCheckDao.selectPageByWarehouseId(page, warehouseId);
 
         List<RelicCheck> relicCheckList = pageResult.getRecords();
-        log.debug(relicCheckList.toString());
-        // TODO: checkCount
         List<RelicCheckVo> relicCheckVoList = mapperFacade.mapAsList(relicCheckList, RelicCheckVo.class);
         return new PageResultVo<RelicCheckVo>(relicCheckVoList, pageResult);
     }
 
     @Override
     public CheckIdVo startRelicCheck(Integer warehouseId) {
-        // 获取当前登录的用户编号
-        Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
         Warehouse warehouse = warehouseDao.selectNotDeletedById(warehouseId);
         // 检查仓库是否存在
         if (warehouse == null) {
@@ -106,7 +100,6 @@ public class RelicCheckServiceImpl implements RelicCheckService {
             String warehouseName = warehouse.getName();
             fieldDifferenceMap.get("warehouseId").setNewValue(warehouseName);
 
-            log.debug("{}", fieldDifferenceMap);
             // 添加操作记录
             OperationItemTypeEnum itemType = OperationItemTypeEnum.Check;
             Integer itemId = relicCheck.getId();

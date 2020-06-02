@@ -28,12 +28,6 @@ public class RelicExcelVo {
     @ExcelProperty("数量")
     private Integer quantity;
 
-    // /**
-    //  * 照片地址
-    //  */
-    // @ExcelProperty("")
-    // private String picturePath;
-
     /**
      * 年代
      */

@@ -64,7 +64,6 @@ public class OperationLogUtil {
                     ObjectUtil.defaultIfNull(v.newValue, "")));
         });
         resultString += stringJoiner.toString();
-        log.debug("{}", resultString);
         return resultString;
     }
 
@@ -82,7 +81,6 @@ public class OperationLogUtil {
                     ObjectUtil.defaultIfNull(v.newValue, "")));
         });
         resultString += stringJoiner.toString();
-        log.debug("{}", resultString);
         return resultString;
     }
 

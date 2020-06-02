@@ -17,7 +17,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户编号     primary key
+     * 用户编号
      */
     @TableId(type = IdType.AUTO)
     private Integer id;

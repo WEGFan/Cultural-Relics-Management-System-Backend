@@ -4,7 +4,6 @@ import lombok.Getter;
 
 @Getter
 public enum BusinessErrorEnum {
-
     Unauthorized(401, "没有权限"),
     UserNotLogin(403, "用户未登录"),
     InternalServerError(500, "内部服务器错误"),

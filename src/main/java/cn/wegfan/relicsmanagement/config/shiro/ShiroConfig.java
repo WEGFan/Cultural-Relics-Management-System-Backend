@@ -67,18 +67,10 @@ public class ShiroConfig {
         return customRealm;
     }
 
-    // @Bean
-    // public CacheManager cacheManager() {
-    //     EhCacheManager cacheManager = new EhCacheManager();
-    //     cacheManager.setCacheManagerConfigFile("classpath:ehcache-config.xml");
-    //     return cacheManager;
-    // }
-    //权限管理，配置主要是Realm的管理认证
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm());
-        // securityManager.setCacheManager(cacheManager());
         securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
@@ -93,16 +85,12 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filterMap);
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-        // TODO
+
         filterChainDefinitionMap.put("/api/v1/sessions", "anon");
-        filterChainDefinitionMap.put("/api/v1/tests", "anon");
-        // filterChainDefinitionMap.put("/api/v1/backups", "perms[aaa]");
         filterChainDefinitionMap.put("/api/v1/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
-
     }
 
     @Bean
