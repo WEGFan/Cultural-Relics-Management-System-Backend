@@ -140,6 +140,11 @@ public class UserServiceImpl implements UserService {
         if (sameWorkIdUser != null && !sameWorkIdUser.getId().equals(userId)) {
             throw new BusinessException(BusinessErrorEnum.DuplicateWorkId);
         }
+        // 如果管理员尝试修改自己的职务
+        Integer currentLoginUserId = (Integer)SecurityUtils.getSubject().getPrincipal();
+        if (currentLoginUserId.equals(userId) && user.getJobId() == 5 && userInfo.getJobId() != 5) {
+            throw new BusinessException(BusinessErrorEnum.AdminCanNotEditOwnJob);
+        }
 
         User oldUser = SerializationUtils.clone(user);
 
