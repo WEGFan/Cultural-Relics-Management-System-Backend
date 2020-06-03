@@ -6,6 +6,9 @@
  Date: 02/06/2020 21:05:19
 */
 
+CREATE USER IF NOT EXISTS 'relics_manage_sys'@'localhost' IDENTIFIED BY 'relics.Q8~Is+,Hh24+3P;Ta%Ib$k@0B2$uz6*T67:1oj/z}R;(D^gSTGFycj>i(J`y@,QU';
+GRANT ALL PRIVILEGES ON relics_manage_sys.* TO 'relics_manage_sys'@'localhost';
+
 CREATE DATABASE IF NOT EXISTS relics_manage_sys DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
 USE relics_manage_sys;
 
