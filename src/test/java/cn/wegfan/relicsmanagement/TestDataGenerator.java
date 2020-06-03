@@ -91,11 +91,11 @@ public class TestDataGenerator {
     }
 
     private void generateJdenticon(String string, String filename, boolean override) throws IOException, TranscoderException {
-        String filePath = Paths.get("data", "images")
+        File filePath = Paths.get("data", "images")
                 .resolve(filename + ".jpg")
                 .toAbsolutePath()
-                .toString();
-        FileUtil.mkdir(filePath);
+                .toFile();
+        FileUtil.mkdir(filePath.getParentFile());
 
         if (FileUtil.exist(filePath) && !override) {
             return;
@@ -110,7 +110,7 @@ public class TestDataGenerator {
         graphics.dispose();
 
         ImgUtil.pressImage(background, ImageIO.read(file), 0, 0, 1.0f);
-        ImgUtil.write(background, new File(filePath));
+        ImgUtil.write(background, filePath);
     }
 
     private void generateWarehouse() {
