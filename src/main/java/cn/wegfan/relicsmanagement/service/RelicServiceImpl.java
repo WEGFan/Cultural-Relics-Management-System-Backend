@@ -212,10 +212,10 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         Integer newRelicWarehouseId = relicInfo.getWarehouseId();
         Integer newRelicShelfId = relicInfo.getShelfId();
 
-        // 如果修改后文物状态不是在馆，则清除仓库货架信息
-        if (!newRelicStatusId.equals(RelicStatusEnum.InMuseum.getStatusId())) {
-            newRelicWarehouseId = null;
-            newRelicShelfId = null;
+        // 如果文物状态不是在馆，且仓库和货架信息不为空的话，就报错提示
+        if (!relic.getStatusId().equals(RelicStatusEnum.InMuseum.getStatusId()) &&
+                (newRelicWarehouseId != null || newRelicShelfId != null)) {
+            throw new BusinessException(BusinessErrorEnum.NotInMuseumRelicCanNotHaveLocation);
         }
 
         // 根据修改后状态和仓库、货架判断文物是否被移动
@@ -265,7 +265,7 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
             relicCheckDetailService.updateRelicCheckDetailAfterRelicMove(relicId, oldPlace, newPlace);
         }
 
-        // 如果文物状态不是在馆就清除仓库和货架信息
+        // 如果文物状态不是在馆就清除仓库和货架信息（由于实体映射配置了不映射null，所以得手动设置下）
         if (!relic.getStatusId().equals(RelicStatusEnum.InMuseum.getStatusId())) {
             relic.setWarehouseId(null);
             relic.setShelfId(null);

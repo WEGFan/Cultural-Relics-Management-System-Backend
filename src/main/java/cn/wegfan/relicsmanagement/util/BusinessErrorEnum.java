@@ -28,7 +28,8 @@ public enum BusinessErrorEnum {
     UploadFileTooLarge(10018, "上传的文件大小超过 10 MB"),
     CanNotDeleteOwnAccount(10019, "不能删除自己的帐号"),
     RelicNotInMuseum(10020, "文物不在馆内"),
-    AdminCanNotEditOwnJob(10021, "管理员不可以修改自己的职务");
+    AdminCanNotEditOwnJob(10021, "管理员不可以修改自己的职务"),
+    NotInMuseumRelicCanNotHaveLocation(10022, "不在馆的文物不能有仓库/货架信息");
 
     private final Integer errorCode;
 
