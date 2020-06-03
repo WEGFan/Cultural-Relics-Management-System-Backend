@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.controller;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
 import cn.wegfan.relicsmanagement.dto.stringdto.RelicInfoStringDto;
@@ -97,6 +98,7 @@ public class RelicController {
                 .resolve(tempFileName)
                 .toAbsolutePath()
                 .toFile();
+        FileUtil.mkdir(file);
         log.debug("{}", file);
         multipartFile.transferTo(file);
         return DataReturnVo.success(relicService.addRelicByPicturePath(file.toString()));
