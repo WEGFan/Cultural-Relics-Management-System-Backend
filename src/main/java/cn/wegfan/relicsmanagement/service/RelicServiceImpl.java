@@ -213,7 +213,7 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         Integer newRelicShelfId = relicInfo.getShelfId();
 
         // 如果文物状态不是在馆，且仓库和货架信息不为空的话，就报错提示
-        if (!relic.getStatusId().equals(RelicStatusEnum.InMuseum.getStatusId()) &&
+        if (!newRelicStatusId.equals(RelicStatusEnum.InMuseum.getStatusId()) &&
                 (newRelicWarehouseId != null || newRelicShelfId != null)) {
             throw new BusinessException(BusinessErrorEnum.NotInMuseumRelicCanNotHaveLocation);
         }
