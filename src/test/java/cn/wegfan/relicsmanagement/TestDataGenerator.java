@@ -1,21 +1,21 @@
-package cn.wegfan.relicsmanagement.util.generator;
+package cn.wegfan.relicsmanagement;
 
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.lang.WeightRandom;
 import cn.hutool.core.util.RandomUtil;
-import cn.wegfan.relicsmanagement.entity.Relic;
-import cn.wegfan.relicsmanagement.entity.Shelf;
-import cn.wegfan.relicsmanagement.entity.Warehouse;
-import cn.wegfan.relicsmanagement.mapper.RelicDao;
-import cn.wegfan.relicsmanagement.mapper.ShelfDao;
-import cn.wegfan.relicsmanagement.mapper.UserDao;
-import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
+import cn.hutool.core.util.StrUtil;
+import cn.wegfan.relicsmanagement.entity.*;
+import cn.wegfan.relicsmanagement.mapper.*;
 import cn.wegfan.relicsmanagement.service.RelicService;
+import cn.wegfan.relicsmanagement.util.PasswordUtil;
 import com.github.atomfrede.jadenticon.Jadenticon;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.batik.transcoder.TranscoderException;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -30,8 +30,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@Component
+@SpringBootTest
+@Slf4j
 public class TestDataGenerator {
+
+    @Autowired
+    private JobDao jobDao;
 
     @Autowired
     private RelicDao relicDao;
@@ -48,13 +52,45 @@ public class TestDataGenerator {
     @Autowired
     private ShelfDao shelfDao;
 
-    public final int WAREHOUSE_COUNT = 10;
+    private final int WAREHOUSE_COUNT = 10;
 
-    public final int SHELF_PER_WAREHOUSE = 20;
+    private final int SHELF_PER_WAREHOUSE = 20;
 
-    public final int RELIC_COUNT = 1000;
+    private final int RELIC_COUNT = 1000;
 
-    public void generateJdenticon(String string, String filename, boolean override) throws IOException, TranscoderException {
+    @Test
+    void generateTestData() throws IOException, TranscoderException {
+        log.info("generating users");
+        generateUser();
+        log.info("generating {} warehouses", WAREHOUSE_COUNT);
+        generateWarehouse();
+        log.info("generating {} shelves", SHELF_PER_WAREHOUSE * WAREHOUSE_COUNT);
+        generateShelf();
+        log.info("generating {} relics", RELIC_COUNT);
+        generateRelic();
+    }
+
+    private void generateUser() {
+        List<Job> jobList = jobDao.selectJobList();
+        for (Job job : jobList) {
+            for (int i = 1; i <= 3; i++) {
+                User user = new User();
+                user.setJobId(job.getId());
+                Integer workId = 1000 + 10 * job.getId() + i;
+                user.setWorkId(workId);
+                user.setName(StrUtil.format("{} #{}", job.getName(), i));
+                user.setTelephone("1300000" + workId);
+                user.setSalt(PasswordUtil.generateSalt(UUID.fastUUID().toString()));
+                user.setPassword(PasswordUtil.encryptPassword("12345678", user.getSalt()));
+                user.setCreateTime(new Date());
+                user.setUpdateTime(new Date());
+                userDao.insert(user);
+            }
+        }
+
+    }
+
+    private void generateJdenticon(String string, String filename, boolean override) throws IOException, TranscoderException {
         String filePath = Paths.get("data", "images")
                 .resolve(filename + ".jpg")
                 .toAbsolutePath()
@@ -76,7 +112,7 @@ public class TestDataGenerator {
         ImgUtil.write(background, new File(filePath));
     }
 
-    public void generateWarehouse() {
+    private void generateWarehouse() {
         for (int i = 1; i <= WAREHOUSE_COUNT; i++) {
             Warehouse warehouse = new Warehouse();
             warehouse.setName("仓库 #" + i);
@@ -86,7 +122,7 @@ public class TestDataGenerator {
         }
     }
 
-    public void generateShelf() {
+    private void generateShelf() {
         for (int i = 1; i <= WAREHOUSE_COUNT; i++) {
             for (int j = 1; j <= SHELF_PER_WAREHOUSE; j++) {
                 Shelf shelf = new Shelf();
@@ -99,7 +135,7 @@ public class TestDataGenerator {
         }
     }
 
-    public void generateRelic() throws IOException, TranscoderException {
+    private void generateRelic() throws IOException, TranscoderException {
         for (int i = 0; i < 1000; i++) {
             String randomString = RandomUtil.randomString(64);
             generateJdenticon(randomString, String.format("jdenticon-%03d", i), false);
