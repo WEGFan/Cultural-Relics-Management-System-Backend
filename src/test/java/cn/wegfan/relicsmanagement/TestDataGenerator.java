@@ -95,6 +95,7 @@ public class TestDataGenerator {
                 .resolve(filename + ".jpg")
                 .toAbsolutePath()
                 .toString();
+        FileUtil.mkdir(filePath);
 
         if (FileUtil.exist(filePath) && !override) {
             return;
