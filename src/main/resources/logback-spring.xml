@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <!-- 存储路径 -->
+    <property name="LOG_HOME" value="data/log" />
+    <!-- 日期格式 -->
+    <property name="LOG_DATEFORMAT_PATTERN" value="yyyy-MM-dd HH:mm:ss.SSS" />
+    <!-- 输出格式 -->
+    <property name="LOG_PATTERN" value="%date{${LOG_DATEFORMAT_PATTERN}} %5level - [%logger] [%file:%line \(%method\)] : %message%n%xEx" />
+    <!-- 彩色输出格式 -->
+    <property name="LOG_COLOR_PATTERN" value="%yellow(%date{${LOG_DATEFORMAT_PATTERN}}) %highlight(%5level) - [%magenta(%logger)] [%cyan(%file:%line \(%method\))]: %message%n%xEx" />
+
+    <!-- 控制台输出 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%yellow(%date{${LOG_DATEFORMAT_PATTERN}}) %highlight(%5level) - [%magenta(%logger)] [%cyan(%file:%line \(%method\))]: %message%n%xEx</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 文件输出 -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%date{${LOG_DATEFORMAT_PATTERN}} %5level - [%logger] [%file:%line \(%method\)] : %message%n%xEx</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 彩色文件输出 -->
+    <appender name="colorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/color.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/color.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%yellow(%date{${LOG_DATEFORMAT_PATTERN}}) %highlight(%5level) - [%magenta(%logger)] [%cyan(%file:%line \(%method\))]: %message%n%xEx</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 异常文件输出 -->
+    <appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%date{${LOG_DATEFORMAT_PATTERN}} %5level - [%logger] [%file:%line \(%method\)] : %message%n%xEx</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+        <appender-ref ref="colorFile" />
+        <appender-ref ref="errorFile" />
+    </root>
+
+    <!-- 根据spring环境配置 -->
+    <springProfile name="dev,server-test">
+        <logger name="cn.wegfan.relicsmanagement" level="DEBUG" additivity="true" />
+        <logger name="org.apache.shiro" level="DEBUG" additivity="true" />
+    </springProfile>
+    <springProfile name="prod">
+
+    </springProfile>
+</configuration>

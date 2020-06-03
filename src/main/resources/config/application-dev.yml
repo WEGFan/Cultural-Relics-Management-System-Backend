@@ -3,7 +3,3 @@ spring:
     url: 'jdbc:mysql://localhost:3306/relics_manage_sys?serverTimezone=Asia/Shanghai'
     username: 'root'
     password: 'wegfan'
-logging:
-  level:
-    cn.wegfan.relicsmanagement: 'debug'
-    org.apache.shiro: 'debug'
