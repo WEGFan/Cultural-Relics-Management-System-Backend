@@ -1,5 +1,6 @@
 package cn.wegfan.relicsmanagement.util;
 
+import cn.wegfan.relicsmanagement.constant.BusinessErrorEnum;
 import lombok.Getter;
 import lombok.Setter;
 

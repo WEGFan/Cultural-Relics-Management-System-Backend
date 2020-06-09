@@ -1,7 +1,7 @@
 package cn.wegfan.relicsmanagement.dto;
 
 import cn.hutool.core.util.StrUtil;
-import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
+import cn.wegfan.relicsmanagement.constant.PermissionCodeEnum;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

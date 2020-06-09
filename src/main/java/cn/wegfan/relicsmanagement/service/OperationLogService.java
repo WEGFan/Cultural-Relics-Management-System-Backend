@@ -1,6 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.util.OperationItemTypeEnum;
+import cn.wegfan.relicsmanagement.constant.OperationItemTypeEnum;
 import cn.wegfan.relicsmanagement.vo.FilePathVo;
 import cn.wegfan.relicsmanagement.vo.OperationLogVo;
 import cn.wegfan.relicsmanagement.vo.PageResultVo;

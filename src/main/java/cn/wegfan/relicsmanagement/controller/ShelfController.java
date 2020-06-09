@@ -1,10 +1,10 @@
 package cn.wegfan.relicsmanagement.controller;
 
+import cn.wegfan.relicsmanagement.constant.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.dto.ShelfDto;
 import cn.wegfan.relicsmanagement.dto.stringdto.ShelfStringDto;
 import cn.wegfan.relicsmanagement.service.ShelfService;
-import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
-import cn.wegfan.relicsmanagement.util.Util;
+import cn.wegfan.relicsmanagement.util.PaginationUtil;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -41,7 +41,7 @@ public class ShelfController {
                                                @RequestParam(required = false) Integer page,
                                                @RequestParam(required = false) Integer count) {
         if (page != null && count != null) {
-            return DataReturnVo.success(shelfService.listNotDeletedShelvesByWarehouseIdAndNameAndPage(warehouseId, name, page, Util.clampPageCount(count)));
+            return DataReturnVo.success(shelfService.listNotDeletedShelvesByWarehouseIdAndNameAndPage(warehouseId, name, page, PaginationUtil.clampPageCount(count)));
         }
         if (warehouseId != null) {
             return DataReturnVo.success(shelfService.listNotDeletedShelvesByWarehouseId(warehouseId));

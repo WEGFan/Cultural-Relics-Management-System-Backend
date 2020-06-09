@@ -2,11 +2,11 @@ package cn.wegfan.relicsmanagement.controller;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
+import cn.wegfan.relicsmanagement.constant.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
 import cn.wegfan.relicsmanagement.dto.stringdto.RelicInfoStringDto;
 import cn.wegfan.relicsmanagement.service.RelicService;
-import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
-import cn.wegfan.relicsmanagement.util.Util;
+import cn.wegfan.relicsmanagement.util.PaginationUtil;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -73,7 +73,7 @@ public class RelicController {
         }
         return DataReturnVo.success(relicService.searchNotDeletedRelicsByPage(name, status,
                 warehouse, shelf, dateType, from, to,
-                page, Util.clampPageCount(count)));
+                page, PaginationUtil.clampPageCount(count)));
     }
 
     /**

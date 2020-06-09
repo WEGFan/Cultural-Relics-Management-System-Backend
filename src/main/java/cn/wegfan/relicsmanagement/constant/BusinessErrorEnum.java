@@ -1,4 +1,4 @@
-package cn.wegfan.relicsmanagement.util;
+package cn.wegfan.relicsmanagement.constant;
 
 import lombok.Getter;
 

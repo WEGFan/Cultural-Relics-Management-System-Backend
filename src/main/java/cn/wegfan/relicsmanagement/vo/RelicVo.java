@@ -2,7 +2,7 @@ package cn.wegfan.relicsmanagement.vo;
 
 import cn.wegfan.relicsmanagement.config.jackson.BigDecimalDeserializer;
 import cn.wegfan.relicsmanagement.config.jackson.BigDecimalSerializer;
-import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
+import cn.wegfan.relicsmanagement.constant.PermissionCodeEnum;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;

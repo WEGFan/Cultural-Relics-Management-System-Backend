@@ -1,6 +1,6 @@
 package cn.wegfan.relicsmanagement.util;
 
-public class Util {
+public class PaginationUtil {
 
     public static long clampPageCount(long pageCount) {
         final long maxPageCount = 20;

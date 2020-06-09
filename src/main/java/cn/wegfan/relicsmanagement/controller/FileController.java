@@ -1,9 +1,9 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.hutool.core.io.FileUtil;
-import cn.wegfan.relicsmanagement.util.BusinessErrorEnum;
+import cn.wegfan.relicsmanagement.constant.BusinessErrorEnum;
+import cn.wegfan.relicsmanagement.constant.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.util.BusinessException;
-import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

@@ -1,8 +1,8 @@
 package cn.wegfan.relicsmanagement.controller;
 
+import cn.wegfan.relicsmanagement.constant.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.service.OperationLogService;
-import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
-import cn.wegfan.relicsmanagement.util.Util;
+import cn.wegfan.relicsmanagement.util.PaginationUtil;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -43,7 +43,7 @@ public class OperationController {
                     from, to));
         }
         return DataReturnVo.success(operationLogService.listOperationLogByOperatorAndTypeAndDateAndPage(operator, itemType,
-                from, to, page, Util.clampPageCount(count)));
+                from, to, page, PaginationUtil.clampPageCount(count)));
     }
 
 }

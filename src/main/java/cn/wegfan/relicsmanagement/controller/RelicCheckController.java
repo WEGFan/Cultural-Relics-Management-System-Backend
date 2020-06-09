@@ -1,13 +1,13 @@
 package cn.wegfan.relicsmanagement.controller;
 
+import cn.wegfan.relicsmanagement.constant.PermissionCodeEnum;
 import cn.wegfan.relicsmanagement.dto.RelicMoveDto;
 import cn.wegfan.relicsmanagement.dto.WarehouseIdDto;
 import cn.wegfan.relicsmanagement.dto.stringdto.RelicMoveStringDto;
 import cn.wegfan.relicsmanagement.dto.stringdto.WarehouseIdStringDto;
 import cn.wegfan.relicsmanagement.service.RelicCheckDetailService;
 import cn.wegfan.relicsmanagement.service.RelicCheckService;
-import cn.wegfan.relicsmanagement.util.PermissionCodeEnum;
-import cn.wegfan.relicsmanagement.util.Util;
+import cn.wegfan.relicsmanagement.util.PaginationUtil;
 import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -43,7 +43,7 @@ public class RelicCheckController {
     public DataReturnVo listChecks(@RequestParam(required = false) Integer warehouseId,
                                    @RequestParam Integer page,
                                    @RequestParam Integer count) {
-        return DataReturnVo.success(relicCheckService.listByWarehouseIdAndPage(warehouseId, page, Util.clampPageCount(count)));
+        return DataReturnVo.success(relicCheckService.listByWarehouseIdAndPage(warehouseId, page, PaginationUtil.clampPageCount(count)));
     }
 
     /**
@@ -66,7 +66,7 @@ public class RelicCheckController {
         if (count == null) {
             count = 1;
         }
-        return DataReturnVo.success(relicCheckDetailService.listRelicCheckDetailByCheckIdAndStatusAndPage(checkId, checked, page, Util.clampPageCount(count)));
+        return DataReturnVo.success(relicCheckDetailService.listRelicCheckDetailByCheckIdAndStatusAndPage(checkId, checked, page, PaginationUtil.clampPageCount(count)));
     }
 
     /**
