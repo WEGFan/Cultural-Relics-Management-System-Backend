@@ -178,7 +178,9 @@ public class TestDataGenerator {
             relic.setComment2(name + "[备注2]");
             relic.setQuantity(i);
             relic.setSize(String.format("%d x %d x %d", i, i, i));
-            relic.setYear(name + "[年代]");
+            String[] yearList = {"夏", "商", "西周", "东周", "春秋", "战国", "秦", "西汉", "东汉", "三国", "西晋",
+                    "东晋", "南北朝", "隋唐", "五代十国", "宋", "元", "明", "清", "近代"};
+            relic.setYear(RandomUtil.randomEle(yearList));
             relic.setReign(name + "[年号]");
             relic.setType(name + "[器型]");
             relic.setSource(name + "[来源]");
