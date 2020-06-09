@@ -92,7 +92,7 @@ public class RelicController {
      */
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADD_RELIC)
-    public DataReturnVo addRelic(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    public DataReturnVo addRelic(@RequestParam("file") MultipartFile multipartFile) throws IOException, IllegalAccessException {
         String tempFileName = UUID.fastUUID().toString(true);
         File file = Paths.get("data", "images", "tmp")
                 .resolve(tempFileName)

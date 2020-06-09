@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -128,7 +129,7 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
     }
 
     @Override
-    public RelicIdPicturePathVo addRelicByPicturePath(String tempPath) {
+    public RelicIdPicturePathVo addRelicByPicturePath(String tempPath) throws IllegalAccessException {
         File tempFile = new File(tempPath);
         // 获取文件真实类型
         String fileType = FileTypeUtil.getType(tempFile);
@@ -141,6 +142,14 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         FileUtil.move(tempFile, tempFileWithExtension, true);
 
         Relic relic = new Relic();
+        // 设置所有字符串类型的值为空白字符串
+        for (Field field : relic.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            Class<?> fieldType = field.getType();
+            if (fieldType == String.class) {
+                field.set(relic, "");
+            }
+        }
         // 设置为待评估
         relic.setStatusId(1);
         relic.setCreateTime(new Date());
