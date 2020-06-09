@@ -218,6 +218,13 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
             throw new BusinessException(BusinessErrorEnum.NotInMuseumRelicCanNotHaveLocation);
         }
 
+        // 如果文物状态从外借、维修、离馆改为在馆，检测是否填写了仓库、货架信息
+        if (oldRelicStatusId > RelicStatusEnum.InMuseum.getStatusId() &&
+                newRelicStatusId.equals(RelicStatusEnum.InMuseum.getStatusId()) &&
+                (newRelicWarehouseId == null || newRelicShelfId == null)) {
+            throw new BusinessException(400, "文物的仓库/货架信息不能为空");
+        }
+
         // 根据修改后状态和仓库、货架判断文物是否被移动
         boolean relicMoved = newRelicStatusId.equals(RelicStatusEnum.InMuseum.getStatusId()) &&
                 (!Objects.equals(oldRelicWarehouseId, newRelicWarehouseId) ||
