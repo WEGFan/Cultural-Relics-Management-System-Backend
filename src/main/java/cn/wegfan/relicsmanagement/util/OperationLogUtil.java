@@ -26,7 +26,6 @@ public class OperationLogUtil {
             after = (T)cls.newInstance();
         }
         Field[] fields = cls.getDeclaredFields();
-        log.info("{}", (Object)fields);
         for (Field field : fields) {
             field.setAccessible(true);
             OperationLogProperty annotation = field.getAnnotation(OperationLogProperty.class);
@@ -47,7 +46,6 @@ public class OperationLogUtil {
                 log.error("", e);
             }
         }
-        log.debug("{}", resultFieldMap);
         return resultFieldMap;
     }
 
