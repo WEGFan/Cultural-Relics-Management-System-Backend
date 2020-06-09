@@ -6,6 +6,7 @@ import cn.wegfan.relicsmanagement.config.validator.NumberString;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Slf4j
@@ -30,6 +31,8 @@ public class RelicInfoStringDto implements Serializable {
     /**
      * 年代
      */
+    @Pattern(regexp = "^(|夏|商|西周|东周|春秋|战国|秦|西汉|东汉|三国|西晋|东晋|南北朝|隋唐|五代十国|宋|元|明|清|近代)$",
+            message = "年代不合法")
     private String year;
 
     /**
