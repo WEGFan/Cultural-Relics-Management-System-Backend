@@ -1,6 +1,6 @@
 package cn.wegfan.relicsmanagement.mapper;
 
-import cn.wegfan.relicsmanagement.entity.Job;
+import cn.wegfan.relicsmanagement.model.entity.Job;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;

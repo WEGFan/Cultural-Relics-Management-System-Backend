@@ -1,6 +1,6 @@
 package cn.wegfan.relicsmanagement.mapper;
 
-import cn.wegfan.relicsmanagement.entity.UserExtraPermission;
+import cn.wegfan.relicsmanagement.model.entity.UserExtraPermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.stereotype.Repository;

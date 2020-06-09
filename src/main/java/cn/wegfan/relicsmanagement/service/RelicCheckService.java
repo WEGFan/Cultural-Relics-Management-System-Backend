@@ -1,9 +1,9 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.vo.CheckIdVo;
-import cn.wegfan.relicsmanagement.vo.PageResultVo;
-import cn.wegfan.relicsmanagement.vo.RelicCheckVo;
-import cn.wegfan.relicsmanagement.vo.SuccessVo;
+import cn.wegfan.relicsmanagement.model.vo.CheckIdVo;
+import cn.wegfan.relicsmanagement.model.vo.PageResultVo;
+import cn.wegfan.relicsmanagement.model.vo.RelicCheckVo;
+import cn.wegfan.relicsmanagement.model.vo.SuccessVo;
 
 public interface RelicCheckService {
 

@@ -1,7 +1,7 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.dto.UserInfoDto;
-import cn.wegfan.relicsmanagement.vo.*;
+import cn.wegfan.relicsmanagement.model.dto.UserInfoDto;
+import cn.wegfan.relicsmanagement.model.vo.*;
 
 import java.util.List;
 

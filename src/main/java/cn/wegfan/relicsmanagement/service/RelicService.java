@@ -1,9 +1,9 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.dto.RelicInfoDto;
-import cn.wegfan.relicsmanagement.entity.Relic;
-import cn.wegfan.relicsmanagement.entity.RelicStatus;
-import cn.wegfan.relicsmanagement.vo.*;
+import cn.wegfan.relicsmanagement.model.dto.RelicInfoDto;
+import cn.wegfan.relicsmanagement.model.entity.Relic;
+import cn.wegfan.relicsmanagement.model.entity.RelicStatus;
+import cn.wegfan.relicsmanagement.model.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Date;

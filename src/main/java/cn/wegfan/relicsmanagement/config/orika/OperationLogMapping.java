@@ -1,8 +1,8 @@
 package cn.wegfan.relicsmanagement.config.orika;
 
-import cn.wegfan.relicsmanagement.entity.OperationLog;
-import cn.wegfan.relicsmanagement.vo.OperationLogExcelVo;
-import cn.wegfan.relicsmanagement.vo.OperationLogVo;
+import cn.wegfan.relicsmanagement.model.entity.OperationLog;
+import cn.wegfan.relicsmanagement.model.vo.OperationLogExcelVo;
+import cn.wegfan.relicsmanagement.model.vo.OperationLogVo;
 import ma.glasnost.orika.MapperFactory;
 import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
 import org.springframework.stereotype.Component;

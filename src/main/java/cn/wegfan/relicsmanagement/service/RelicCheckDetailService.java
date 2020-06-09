@@ -1,11 +1,11 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.dto.RelicMoveDto;
-import cn.wegfan.relicsmanagement.entity.RelicCheckDetail;
-import cn.wegfan.relicsmanagement.vo.FilePathVo;
-import cn.wegfan.relicsmanagement.vo.PageResultVo;
-import cn.wegfan.relicsmanagement.vo.RelicCheckDetailVo;
-import cn.wegfan.relicsmanagement.vo.SuccessVo;
+import cn.wegfan.relicsmanagement.model.dto.RelicMoveDto;
+import cn.wegfan.relicsmanagement.model.entity.RelicCheckDetail;
+import cn.wegfan.relicsmanagement.model.vo.FilePathVo;
+import cn.wegfan.relicsmanagement.model.vo.PageResultVo;
+import cn.wegfan.relicsmanagement.model.vo.RelicCheckDetailVo;
+import cn.wegfan.relicsmanagement.model.vo.SuccessVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 public interface RelicCheckDetailService extends IService<RelicCheckDetail> {

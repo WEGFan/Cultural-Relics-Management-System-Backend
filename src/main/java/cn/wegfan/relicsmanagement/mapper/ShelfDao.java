@@ -1,7 +1,7 @@
 package cn.wegfan.relicsmanagement.mapper;
 
-import cn.wegfan.relicsmanagement.entity.Shelf;
-import cn.wegfan.relicsmanagement.entity.Warehouse;
+import cn.wegfan.relicsmanagement.model.entity.Shelf;
+import cn.wegfan.relicsmanagement.model.entity.Warehouse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.*;

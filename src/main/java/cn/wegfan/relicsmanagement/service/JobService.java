@@ -1,6 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.vo.JobVo;
+import cn.wegfan.relicsmanagement.model.vo.JobVo;
 
 import java.util.List;
 

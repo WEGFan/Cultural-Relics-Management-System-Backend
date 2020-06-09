@@ -1,8 +1,8 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.entity.Job;
 import cn.wegfan.relicsmanagement.mapper.JobDao;
-import cn.wegfan.relicsmanagement.vo.JobVo;
+import cn.wegfan.relicsmanagement.model.entity.Job;
+import cn.wegfan.relicsmanagement.model.vo.JobVo;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;

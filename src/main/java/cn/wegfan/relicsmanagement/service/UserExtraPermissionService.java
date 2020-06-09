@@ -1,6 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.entity.UserExtraPermission;
+import cn.wegfan.relicsmanagement.model.entity.UserExtraPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Set;

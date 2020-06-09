@@ -1,8 +1,8 @@
 package cn.wegfan.relicsmanagement.config;
 
 import cn.hutool.core.lang.UUID;
-import cn.wegfan.relicsmanagement.entity.User;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
+import cn.wegfan.relicsmanagement.model.entity.User;
 import cn.wegfan.relicsmanagement.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

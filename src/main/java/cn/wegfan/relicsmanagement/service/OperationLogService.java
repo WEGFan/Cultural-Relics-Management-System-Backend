@@ -1,9 +1,9 @@
 package cn.wegfan.relicsmanagement.service;
 
 import cn.wegfan.relicsmanagement.constant.OperationItemTypeEnum;
-import cn.wegfan.relicsmanagement.vo.FilePathVo;
-import cn.wegfan.relicsmanagement.vo.OperationLogVo;
-import cn.wegfan.relicsmanagement.vo.PageResultVo;
+import cn.wegfan.relicsmanagement.model.vo.FilePathVo;
+import cn.wegfan.relicsmanagement.model.vo.OperationLogVo;
+import cn.wegfan.relicsmanagement.model.vo.PageResultVo;
 
 import java.util.Date;
 

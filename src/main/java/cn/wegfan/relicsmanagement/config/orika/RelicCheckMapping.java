@@ -1,7 +1,7 @@
 package cn.wegfan.relicsmanagement.config.orika;
 
-import cn.wegfan.relicsmanagement.entity.RelicCheck;
-import cn.wegfan.relicsmanagement.vo.RelicCheckVo;
+import cn.wegfan.relicsmanagement.model.entity.RelicCheck;
+import cn.wegfan.relicsmanagement.model.vo.RelicCheckVo;
 import ma.glasnost.orika.MapperFactory;
 import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
 import org.springframework.stereotype.Component;

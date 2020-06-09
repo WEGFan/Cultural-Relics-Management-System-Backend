@@ -1,8 +1,8 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.vo.PageResultVo;
-import cn.wegfan.relicsmanagement.vo.SuccessVo;
-import cn.wegfan.relicsmanagement.vo.WarehouseVo;
+import cn.wegfan.relicsmanagement.model.vo.PageResultVo;
+import cn.wegfan.relicsmanagement.model.vo.SuccessVo;
+import cn.wegfan.relicsmanagement.model.vo.WarehouseVo;
 
 import java.util.List;
 

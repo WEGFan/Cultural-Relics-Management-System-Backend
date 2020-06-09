@@ -1,9 +1,9 @@
 package cn.wegfan.relicsmanagement.config.orika;
 
-import cn.wegfan.relicsmanagement.dto.UserInfoDto;
-import cn.wegfan.relicsmanagement.entity.User;
-import cn.wegfan.relicsmanagement.vo.UserExcelVo;
-import cn.wegfan.relicsmanagement.vo.UserVo;
+import cn.wegfan.relicsmanagement.model.dto.UserInfoDto;
+import cn.wegfan.relicsmanagement.model.entity.User;
+import cn.wegfan.relicsmanagement.model.vo.UserExcelVo;
+import cn.wegfan.relicsmanagement.model.vo.UserVo;
 import ma.glasnost.orika.MapperFactory;
 import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
 import org.springframework.stereotype.Component;

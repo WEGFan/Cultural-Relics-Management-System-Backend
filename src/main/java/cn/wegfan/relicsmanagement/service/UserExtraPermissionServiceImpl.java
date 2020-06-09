@@ -1,11 +1,11 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.entity.Permission;
-import cn.wegfan.relicsmanagement.entity.UserExtraPermission;
 import cn.wegfan.relicsmanagement.mapper.JobDao;
 import cn.wegfan.relicsmanagement.mapper.PermissionDao;
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.mapper.UserExtraPermissionDao;
+import cn.wegfan.relicsmanagement.model.entity.Permission;
+import cn.wegfan.relicsmanagement.model.entity.UserExtraPermission;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

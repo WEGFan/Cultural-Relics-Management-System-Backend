@@ -1,7 +1,7 @@
 package cn.wegfan.relicsmanagement.mapper;
 
-import cn.wegfan.relicsmanagement.entity.OperationLog;
-import cn.wegfan.relicsmanagement.entity.User;
+import cn.wegfan.relicsmanagement.model.entity.OperationLog;
+import cn.wegfan.relicsmanagement.model.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.One;

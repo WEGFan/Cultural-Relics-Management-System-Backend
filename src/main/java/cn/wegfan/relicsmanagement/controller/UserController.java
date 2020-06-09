@@ -1,12 +1,12 @@
 package cn.wegfan.relicsmanagement.controller;
 
 import cn.wegfan.relicsmanagement.constant.PermissionCodeEnum;
-import cn.wegfan.relicsmanagement.dto.UserChangePasswordDto;
-import cn.wegfan.relicsmanagement.dto.UserInfoDto;
-import cn.wegfan.relicsmanagement.dto.stringdto.UserInfoStringDto;
+import cn.wegfan.relicsmanagement.model.dto.UserChangePasswordDto;
+import cn.wegfan.relicsmanagement.model.dto.UserInfoDto;
+import cn.wegfan.relicsmanagement.model.stringdto.UserInfoStringDto;
+import cn.wegfan.relicsmanagement.model.vo.DataReturnVo;
 import cn.wegfan.relicsmanagement.service.UserService;
 import cn.wegfan.relicsmanagement.util.PaginationUtil;
-import cn.wegfan.relicsmanagement.vo.DataReturnVo;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

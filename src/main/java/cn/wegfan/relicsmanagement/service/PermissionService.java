@@ -1,6 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.entity.Permission;
+import cn.wegfan.relicsmanagement.model.entity.Permission;
 
 import java.util.List;
 import java.util.Set;
