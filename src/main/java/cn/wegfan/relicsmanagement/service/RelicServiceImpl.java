@@ -27,7 +27,6 @@ import cn.wegfan.relicsmanagement.util.OperationLogUtil.FieldDifference;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
-import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -392,11 +391,13 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         }
 
         ExcelWriter excelWriter = EasyExcel.write(file, RelicExcelVo.class)
-                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
                 .excludeColumnFiledNames(excludeColumnList)
                 .build();
 
         WriteSheet writeSheet = EasyExcel.writerSheet("文物列表").build();
+
+        Path imageDirectory = Paths.get("data", "images")
+                .toAbsolutePath();
 
         int pageIndex = 1;
         PageResultVo<RelicVo> pageResult;
@@ -406,6 +407,7 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
                     pageIndex, pageSize);
             List<RelicVo> relicVoList = pageResult.getContent();
             List<RelicExcelVo> data = mapperFacade.mapAsList(relicVoList, RelicExcelVo.class);
+            data.forEach(i -> i.setPicturePath(imageDirectory.resolve(FileUtil.getName(i.getPicturePath())).toString()));
 
             excelWriter.write(data, writeSheet);
             pageIndex++;

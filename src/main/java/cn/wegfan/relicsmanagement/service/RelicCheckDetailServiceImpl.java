@@ -15,7 +15,6 @@ import cn.wegfan.relicsmanagement.util.OperationLogUtil.FieldDifference;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
-import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -80,10 +79,12 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
         File file = dir.resolve(fileName)
                 .toFile();
         ExcelWriter excelWriter = EasyExcel.write(file, RelicCheckDetailExcelVo.class)
-                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
                 .build();
 
         WriteSheet writeSheet = EasyExcel.writerSheet("文物盘点列表").build();
+
+        Path imageDirectory = Paths.get("data", "images")
+                .toAbsolutePath();
 
         int pageIndex = 1;
         PageResultVo<RelicCheckDetailVo> pageResult;
@@ -92,8 +93,8 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
                     pageIndex, pageSize);
             List<RelicCheckDetailVo> relicCheckDetailVoList = pageResult.getContent();
             List<RelicCheckDetailExcelVo> data = mapperFacade.mapAsList(relicCheckDetailVoList, RelicCheckDetailExcelVo.class);
-            // 设置盘点状态
             data.forEach(i -> {
+                // 设置盘点状态
                 if (i.getCheckTime() == null) {
                     i.setStatus("未盘点");
                 } else if (i.getOldWarehouseId().equals(i.getNewWarehouseId()) &&
@@ -102,6 +103,8 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
                 } else {
                     i.setStatus("盘点异常");
                 }
+                // 设置照片地址
+                i.setPicturePath(imageDirectory.resolve(FileUtil.getName(i.getPicturePath())).toString());
             });
             excelWriter.write(data, writeSheet);
             pageIndex++;
