@@ -3,7 +3,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 02/06/2020 21:05:19
+ Date: 2020-06-10 03:09:58
 */
 
 CREATE USER IF NOT EXISTS 'relics_manage_sys'@'localhost' IDENTIFIED BY 'relics.Q8~Is+,Hh24+3P;Ta%Ib$k@0B2$uz6*T67:1oj/z}R;(D^gSTGFycj>i(J`y@,QU';
@@ -186,15 +186,15 @@ DROP TABLE IF EXISTS `relic`;
 CREATE TABLE `relic`
 (
     `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文物编号',
-    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
+    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '名称',
     `quantity` int(11) NULL DEFAULT NULL COMMENT '数量',
-    `picture_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '照片地址',
-    `year` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '年代',
-    `reign` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '年号',
-    `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '器型',
-    `source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '来源',
-    `size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '尺寸',
-    `weight` double(15, 2) NULL DEFAULT NULL COMMENT '重量 kg',
+    `picture_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '照片地址',
+    `year` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '年代',
+    `reign` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '年号',
+    `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '器型',
+    `source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '来源',
+    `size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '尺寸',
+    `weight` double(15, 6) NULL DEFAULT NULL COMMENT '重量 kg',
     `warehouse_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '收储仓库id',
     `shelf_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '收储货架id',
     `enter_price` decimal(15, 2) NULL DEFAULT NULL COMMENT '入馆价值',
@@ -338,7 +338,7 @@ CREATE TABLE `shelf`
     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '仓库名',
     `warehouse_id` int(11) UNSIGNED NOT NULL COMMENT '所属仓库编号',
     `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `update_time` datetime(0) NOT NULL COMMENT '更新时间',
     `delete_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`) USING BTREE,
     INDEX `shelf_ibfk_warehouse_id` (`warehouse_id`) USING BTREE,
@@ -367,7 +367,7 @@ CREATE TABLE `user`
     `job_id` int(255) UNSIGNED NOT NULL COMMENT '职务',
     `telephone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机号',
     `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `update_time` datetime(0) NOT NULL COMMENT '更新时间',
     `delete_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `user_idx_work_id` (`work_id`) USING BTREE COMMENT '工号唯一索引',
@@ -414,7 +414,7 @@ CREATE TABLE `warehouse`
     `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '仓库编号',
     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '仓库名',
     `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `update_time` datetime(0) NOT NULL COMMENT '更新时间',
     `delete_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
