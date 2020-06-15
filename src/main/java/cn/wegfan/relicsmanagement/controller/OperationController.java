@@ -31,7 +31,7 @@ public class OperationController {
      */
     @GetMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
-    public DataReturnVo exportOperationsToExcel(@RequestParam(required = false) Integer operator,
+    public DataReturnVo exportOperationsToExcel(@RequestParam(required = false, name = "operatorName") Integer operator,
                                                 @RequestParam(required = false) String itemType,
                                                 @RequestParam(required = false) Date from,
                                                 @RequestParam(required = false) Date to,
