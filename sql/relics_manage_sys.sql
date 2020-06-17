@@ -3,7 +3,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 2020-06-10 03:09:58
+ Date: 2020-06-17 19:54:34
 */
 
 CREATE USER IF NOT EXISTS 'relics_manage_sys'@'localhost' IDENTIFIED BY 'relics.Q8~Is+,Hh24+3P;Ta%Ib$k@0B2$uz6*T67:1oj/z}R;(D^gSTGFycj>i(J`y@,QU';
@@ -159,7 +159,7 @@ CREATE TABLE `permission`
 INSERT INTO `permission`
 VALUES (1, 'admin', '管理员');
 INSERT INTO `permission`
-VALUES (2, 'warehouse', '创建、修改、删除仓库');
+VALUES (2, 'warehouse', '创建、修改、删除仓库、货架');
 INSERT INTO `permission`
 VALUES (3, 'relic:add', '拍照创建文物');
 INSERT INTO `permission`
