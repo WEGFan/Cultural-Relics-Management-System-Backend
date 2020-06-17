@@ -81,6 +81,10 @@ public class OperationLogServiceImpl implements OperationLogService {
                     startTime, endTime, pageIndex, pageSize);
             List<OperationLogVo> operationLogVoList = pageResult.getContent();
             List<OperationLogExcelVo> data = mapperFacade.mapAsList(operationLogVoList, OperationLogExcelVo.class);
+            data.forEach(i -> {
+                OperationItemTypeEnum typeEnum = OperationItemTypeEnum.getFromCode(i.getItemType());
+                i.setItemType(typeEnum.getName());
+            });
 
             excelWriter.write(data, writeSheet);
             pageIndex++;

@@ -19,4 +19,13 @@ public enum OperationItemTypeEnum {
         this.name = name;
     }
 
+    public static OperationItemTypeEnum getFromCode(String code) {
+        for (OperationItemTypeEnum element : values()) {
+            if (code.equals(element.code)) {
+                return element;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant which code is " + code);
+    }
+
 }
