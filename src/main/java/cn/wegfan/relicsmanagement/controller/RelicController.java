@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 
@@ -94,11 +95,12 @@ public class RelicController {
     @RequiresPermissions(PermissionCodeEnum.ADD_RELIC)
     public DataReturnVo addRelic(@RequestParam("file") MultipartFile multipartFile) throws IOException, IllegalAccessException {
         String tempFileName = UUID.fastUUID().toString(true);
-        File file = Paths.get("data", "images", "tmp")
-                .resolve(tempFileName)
+        Path dir = Paths.get("data", "images", "tmp")
+                .toAbsolutePath();
+        FileUtil.mkdir(dir.toFile());
+        File file = dir.resolve(tempFileName)
                 .toAbsolutePath()
                 .toFile();
-        FileUtil.mkdir(file);
         log.debug("{}", file);
         multipartFile.transferTo(file);
         return DataReturnVo.success(relicService.addRelicByPicturePath(file.toString()));

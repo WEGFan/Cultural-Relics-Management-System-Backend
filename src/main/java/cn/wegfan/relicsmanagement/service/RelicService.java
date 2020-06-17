@@ -20,7 +20,7 @@ public interface RelicService extends IService<Relic> {
 
     RelicVo getRelicById(Integer relicId);
 
-    RelicIdPicturePathVo addRelicByPicturePath(String tempPath) throws IllegalAccessException;
+    RelicIdPicturePathVo addRelicByPicturePath(String filePath) throws IllegalAccessException;
 
     SuccessVo deleteRelicById(Integer relicId);
 

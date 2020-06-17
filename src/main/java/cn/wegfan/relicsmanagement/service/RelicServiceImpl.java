@@ -134,8 +134,10 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
     }
 
     @Override
-    public RelicIdPicturePathVo addRelicByPicturePath(String tempPath) throws IllegalAccessException {
-        File tempFile = new File(tempPath);
+    public RelicIdPicturePathVo addRelicByPicturePath(String filePath) throws IllegalAccessException {
+        Path dir = Paths.get("data", "images")
+                .toAbsolutePath();
+        File tempFile = new File(filePath);
         // 获取文件真实类型
         String fileType = FileTypeUtil.getType(tempFile);
         if (!"jpg".equals(fileType) && !"png".equals(fileType)) {
@@ -163,11 +165,16 @@ public class RelicServiceImpl extends ServiceImpl<RelicDao, Relic> implements Re
         // 先插入到数据库并获取id
         relicDao.insert(relic);
 
+        // 创建最终文件
         String fileName = relic.getId() + ".jpg";
-        File file = FileUtil.touch(tempFile.getParentFile().getParentFile(), fileName);
+        File file = dir.resolve(fileName).toFile();
+        FileUtil.touch(file);
         // 转换成jpg格式
         ImgUtil.convert(tempFileWithExtension, file);
+        // 删除临时文件
+        FileUtil.del(tempFileWithExtension);
 
+        // 设置文件路径
         relic.setPicturePath("/api/files/relics/images/" + fileName);
         relicDao.updateById(relic);
 
