@@ -58,7 +58,7 @@ public class OperationLogUtil {
                 }
                 FieldDifference fieldDifference = new FieldDifference(name, oldValue, newValue);
                 resultFieldMap.put(field.getName(), fieldDifference);
-                log.info("{} {}", name, fieldDifference);
+                log.debug("{} {}", name, fieldDifference);
             } catch (IllegalAccessException e) {
                 log.error("", e);
             }
