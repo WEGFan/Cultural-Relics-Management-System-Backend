@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.wegfan</groupId>
     <artifactId>relicsmanagement</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Cultural Relics Management System Backend</name>
     <description>Cultural Relics Management System Backend</description>
 
