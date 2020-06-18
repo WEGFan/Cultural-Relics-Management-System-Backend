@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class UserExtraPermissionServiceImpl extends ServiceImpl<UserExtraPermissionDao, UserExtraPermission> implements UserExtraPermissionService {
+public class UserExtraPermissionServiceImpl extends ServiceImpl<UserExtraPermissionDao, UserExtraPermission>
+        implements UserExtraPermissionService {
 
     @Autowired
     private UserExtraPermissionDao userExtraPermissionDao;

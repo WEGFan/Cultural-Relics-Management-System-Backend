@@ -27,7 +27,8 @@ public class OperationLogUtil {
      *
      * @return 不同成员变量值的映射，key 为成员变量名，value 为包含描述、修改前后的值的 {@link FieldDifference FieldDifference}
      */
-    public static <T> Map<String, FieldDifference> getDifferenceFieldMap(T before, T after, Class<?> cls) throws IllegalAccessException, InstantiationException {
+    public static <T> Map<String, FieldDifference> getDifferenceFieldMap(T before, T after, Class<?> cls)
+            throws IllegalAccessException, InstantiationException {
         Map<String, FieldDifference> resultFieldMap = new LinkedHashMap<>();
         // 如果前后都是null则直接返回空map
         if (before == null && after == null) {

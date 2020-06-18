@@ -55,9 +55,4 @@ public class PermissionCodeEnum {
      */
     public static final String MOVE_RELIC = "relic:move";
 
-    /**
-     * 查询、导出文物一览表
-     */
-    public static final String EXPORT_RELIC = "relic:export:relics";
-
 }

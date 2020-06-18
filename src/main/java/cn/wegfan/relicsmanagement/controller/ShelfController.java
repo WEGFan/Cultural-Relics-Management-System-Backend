@@ -41,7 +41,8 @@ public class ShelfController {
                                                @RequestParam(required = false) Integer page,
                                                @RequestParam(required = false) Integer count) {
         if (page != null && count != null) {
-            return DataReturnVo.success(shelfService.listNotDeletedShelvesByWarehouseIdAndNameAndPage(warehouseId, name, page, PaginationUtil.clampPageCount(count)));
+            return DataReturnVo.success(shelfService.listNotDeletedShelvesByWarehouseIdAndNameAndPage(warehouseId, name,
+                    page, PaginationUtil.clampPageCount(count)));
         }
         if (warehouseId != null) {
             return DataReturnVo.success(shelfService.listNotDeletedShelvesByWarehouseId(warehouseId));

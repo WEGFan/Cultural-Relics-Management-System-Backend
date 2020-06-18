@@ -99,7 +99,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(PasswordUtil.encryptPassword(user.getPassword(), user.getSalt()));
 
         userDao.insert(user);
-        Set<Integer> realPermissionIdSet = userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
+        Set<Integer> realPermissionIdSet = userExtraPermissionService.updateUserExtraPermissions(user.getId(),
+                user.getJobId(), userInfo.getExtraPermissionsId());
 
         Set<Permission> realPermission = mapperFacade.map(realPermissionIdSet,
                 new TypeBuilder<Set<Integer>>() {
@@ -158,14 +159,14 @@ public class UserServiceImpl implements UserService {
         } else {
             userInfo.setPassword(null);
         }
-        // TODO: 清除用户的session缓存
-        // TODO: 判断职务和权限
+
         mapperFacade.map(userInfo, user);
 
         user.setUpdateTime(new Date());
 
         userDao.updateById(user);
-        Set<Integer> realPermissionIdSet = userExtraPermissionService.updateUserExtraPermissions(user.getId(), user.getJobId(), userInfo.getExtraPermissionsId());
+        Set<Integer> realPermissionIdSet = userExtraPermissionService.updateUserExtraPermissions(user.getId(),
+                user.getJobId(), userInfo.getExtraPermissionsId());
 
         Set<Permission> realPermission = mapperFacade.map(realPermissionIdSet,
                 new TypeBuilder<Set<Integer>>() {
@@ -178,9 +179,11 @@ public class UserServiceImpl implements UserService {
             Map<String, FieldDifference> fieldDifferenceMap = OperationLogUtil.getDifferenceFieldMap(oldUser, user, User.class);
             // 把额外权限变成字符串
             if (fieldDifferenceMap.containsKey("extraPermissions")) {
-                String oldPermissionString = mapperFacade.convert(user.getExtraPermissions(), String.class, "extraPermissionNameConverter", null);
+                String oldPermissionString = mapperFacade.convert(user.getExtraPermissions(), String.class,
+                        "extraPermissionNameConverter", null);
                 fieldDifferenceMap.get("extraPermissions").setOldValue(oldPermissionString);
-                String extraPermissionString = mapperFacade.convert(realPermission, String.class, "extraPermissionNameConverter", null);
+                String extraPermissionString = mapperFacade.convert(realPermission, String.class,
+                        "extraPermissionNameConverter", null);
                 fieldDifferenceMap.get("extraPermissions").setNewValue(extraPermissionString);
             }
             // 把职务编号变成字符串  
@@ -218,7 +221,6 @@ public class UserServiceImpl implements UserService {
         if (currentLoginUserId.equals(userId)) {
             throw new BusinessException(BusinessErrorEnum.CanNotDeleteOwnAccount);
         }
-        // TODO: 清除用户的session缓存
         int result = userDao.deleteUserById(userId);
 
         // 添加操作记录
@@ -260,7 +262,6 @@ public class UserServiceImpl implements UserService {
         if (subject.getPrincipal() == null) {
             throw new BusinessException(BusinessErrorEnum.UserNotLogin);
         }
-        // TODO: 清除缓存
         subject.logout();
         return new SuccessVo(true);
     }

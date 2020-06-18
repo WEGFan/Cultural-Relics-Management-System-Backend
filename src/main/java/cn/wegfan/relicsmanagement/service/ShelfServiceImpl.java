@@ -52,7 +52,8 @@ public class ShelfServiceImpl implements ShelfService {
     private MapperFacade mapperFacade;
 
     @Override
-    public PageResultVo<ShelfVo> listNotDeletedShelvesByWarehouseIdAndNameAndPage(Integer warehouseId, String name, long pageIndex, long pageSize) {
+    public PageResultVo<ShelfVo> listNotDeletedShelvesByWarehouseIdAndNameAndPage(Integer warehouseId, String name,
+                                                                                  long pageIndex, long pageSize) {
         Page<Shelf> page = new Page<>(pageIndex, pageSize);
 
         if (StrUtil.isEmpty(name)) {

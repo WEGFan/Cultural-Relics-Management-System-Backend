@@ -34,7 +34,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao, RelicCheckDetail> implements RelicCheckDetailService {
+public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao, RelicCheckDetail>
+        implements RelicCheckDetailService {
 
     @Autowired
     private RelicCheckDetailDao relicCheckDetailDao;
@@ -58,7 +59,8 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
     private MapperFacade mapperFacade;
 
     @Override
-    public PageResultVo<RelicCheckDetailVo> listRelicCheckDetailByCheckIdAndStatusAndPage(Integer checkId, Boolean checked, long pageIndex, long pageSize) {
+    public PageResultVo<RelicCheckDetailVo> listRelicCheckDetailByCheckIdAndStatusAndPage(Integer checkId, Boolean checked,
+                                                                                          long pageIndex, long pageSize) {
         Page<RelicCheckDetail> page = new Page<>(pageIndex, pageSize);
         Page<RelicCheckDetail> pageResult = relicCheckDetailDao.selectPageByCheckId(page, checkId, checked);
 
@@ -209,7 +211,8 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
             // 添加操作记录
             OperationItemTypeEnum itemType = OperationItemTypeEnum.Relic;
             Integer itemId = relic.getId();
-            String detail = OperationLogUtil.getUpdateItemDetailLog(itemType, itemId, relic.getName(), fieldDifferenceMap);
+            String detail = OperationLogUtil.getUpdateItemDetailLog(itemType, itemId,
+                    relic.getName(), fieldDifferenceMap);
             // 把“更改”替换成“盘点”
             detail = detail.replaceFirst("更改", "盘点");
             operationLogService.addOperationLog(itemType, itemId,
@@ -254,7 +257,8 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
 
         // 如果旧仓库正在被盘点
         if (oldRelicCheck != null) {
-            List<RelicCheckDetail> oldRelicCheckDetailList = relicCheckDetailDao.selectNotCheckedListByCheckIdAndOldShelfId(oldRelicCheck.getId(), shelfId);
+            List<RelicCheckDetail> oldRelicCheckDetailList =
+                    relicCheckDetailDao.selectNotCheckedListByCheckIdAndOldShelfId(oldRelicCheck.getId(), shelfId);
             // 如果存在还没有被盘点的文物，就删除掉
             if (!oldRelicCheckDetailList.isEmpty()) {
                 List<Integer> idList = oldRelicCheckDetailList.stream()

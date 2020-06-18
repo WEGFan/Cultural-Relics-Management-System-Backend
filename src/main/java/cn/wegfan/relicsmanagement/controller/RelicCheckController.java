@@ -43,7 +43,8 @@ public class RelicCheckController {
     public DataReturnVo listChecks(@RequestParam(required = false) Integer warehouseId,
                                    @RequestParam Integer page,
                                    @RequestParam Integer count) {
-        return DataReturnVo.success(relicCheckService.listByWarehouseIdAndPage(warehouseId, page, PaginationUtil.clampPageCount(count)));
+        return DataReturnVo.success(relicCheckService.listByWarehouseIdAndPage(warehouseId,
+                page, PaginationUtil.clampPageCount(count)));
     }
 
     /**
@@ -72,7 +73,8 @@ public class RelicCheckController {
         if (count == null) {
             count = 1;
         }
-        return DataReturnVo.success(relicCheckDetailService.listRelicCheckDetailByCheckIdAndStatusAndPage(checkId, checked, page, PaginationUtil.clampPageCount(count)));
+        return DataReturnVo.success(relicCheckDetailService.listRelicCheckDetailByCheckIdAndStatusAndPage(checkId, checked,
+                page, PaginationUtil.clampPageCount(count)));
     }
 
     /**

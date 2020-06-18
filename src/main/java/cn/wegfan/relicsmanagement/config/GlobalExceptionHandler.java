@@ -61,7 +61,8 @@ public class GlobalExceptionHandler {
         Map<String, BindingErrorDetail> errorLog = new HashMap<>();
         for (ObjectError error : errors) {
             FieldError fieldError = (FieldError)error;
-            BindingErrorDetail errorDetail = errorLog.compute(fieldError.getField(), (k, v) -> (v == null ? new BindingErrorDetail() : v));
+            BindingErrorDetail errorDetail = errorLog.compute(fieldError.getField(),
+                    (k, v) -> (v == null ? new BindingErrorDetail() : v));
             errorDetail.setValue(String.valueOf(fieldError.getRejectedValue()));
             errorDetail.getMsg().add(error.getDefaultMessage());
         }
