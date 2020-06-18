@@ -1,10 +1,8 @@
 package cn.wegfan.relicsmanagement.model.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class RelicIdPicturePathVo {
 
     /**
@@ -16,5 +14,10 @@ public class RelicIdPicturePathVo {
      * 照片地址
      */
     private String picturePath;
+
+    public RelicIdPicturePathVo(Integer id, String picturePath) {
+        this.id = id;
+        this.picturePath = picturePath;
+    }
 
 }

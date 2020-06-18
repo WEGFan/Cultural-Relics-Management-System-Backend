@@ -2,13 +2,11 @@ package cn.wegfan.relicsmanagement.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-@AllArgsConstructor
 public class Permission implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,5 +26,11 @@ public class Permission implements Serializable {
      * 权限名称
      */
     private String name;
+
+    public Permission(Integer id, String code, String name) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+    }
 
 }

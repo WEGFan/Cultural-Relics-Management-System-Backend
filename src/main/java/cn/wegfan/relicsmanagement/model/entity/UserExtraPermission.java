@@ -1,12 +1,10 @@
 package cn.wegfan.relicsmanagement.model.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-@AllArgsConstructor
 public class UserExtraPermission implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,5 +18,10 @@ public class UserExtraPermission implements Serializable {
      * 权限编号
      */
     private Integer permissionId;
+
+    public UserExtraPermission(Integer userId, Integer permissionId) {
+        this.userId = userId;
+        this.permissionId = permissionId;
+    }
 
 }

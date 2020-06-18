@@ -2,13 +2,11 @@ package cn.wegfan.relicsmanagement.model.stringdto;
 
 import cn.wegfan.relicsmanagement.config.validator.EmptyOrRange;
 import cn.wegfan.relicsmanagement.config.validator.NumberString;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-@AllArgsConstructor
 public class RelicMoveStringDto implements Serializable {
 
     private static final long serialVersionUID = 1L;

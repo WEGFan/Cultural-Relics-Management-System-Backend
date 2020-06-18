@@ -1,12 +1,10 @@
 package cn.wegfan.relicsmanagement.model.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-@AllArgsConstructor
 public class RelicMoveDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,5 +18,10 @@ public class RelicMoveDto implements Serializable {
      * 货架编号
      */
     private Integer shelfId;
+
+    public RelicMoveDto(Integer warehouseId, Integer shelfId) {
+        this.warehouseId = warehouseId;
+        this.shelfId = shelfId;
+    }
 
 }
