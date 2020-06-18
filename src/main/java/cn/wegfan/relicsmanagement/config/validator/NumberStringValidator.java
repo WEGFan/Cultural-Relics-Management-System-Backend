@@ -24,6 +24,7 @@ public class NumberStringValidator implements ConstraintValidator<NumberString, 
 
     @Override
     public boolean isValid(CharSequence value, ConstraintValidatorContext context) {
+        // 空字符串和null当成校验通过
         if (value == null || value.length() == 0) {
             return true;
         }

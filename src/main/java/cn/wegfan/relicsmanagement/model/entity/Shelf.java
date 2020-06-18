@@ -10,6 +10,9 @@ import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 货架
+ */
 @Data
 public class Shelf implements Serializable {
 

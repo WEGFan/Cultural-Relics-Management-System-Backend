@@ -24,6 +24,8 @@ public class SessionController {
 
     /**
      * 用户登录
+     *
+     * @param stringDto 用户登录对象
      */
     @PostMapping("")
     public DataReturnVo userLogin(@RequestBody @Valid UserLoginStringDto stringDto) {

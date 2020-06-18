@@ -2,6 +2,9 @@ package cn.wegfan.relicsmanagement.constant;
 
 import lombok.Getter;
 
+/**
+ * 操作对象类型枚举
+ */
 @Getter
 public enum OperationItemTypeEnum {
     User("user", "用户"),

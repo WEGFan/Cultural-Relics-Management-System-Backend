@@ -6,16 +6,28 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 接口返回对象
+ */
 @Slf4j
 @Getter
 @Setter
 @ToString
 public class DataReturnVo {
 
+    /**
+     * 数据
+     */
     private Object data;
 
+    /**
+     * 状态码
+     */
     private Integer code;
 
+    /**
+     * 提示信息
+     */
     private String msg;
 
     public DataReturnVo(Object data, Integer code, String msg) {

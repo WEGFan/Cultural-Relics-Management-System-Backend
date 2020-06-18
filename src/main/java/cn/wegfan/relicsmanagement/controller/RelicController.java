@@ -47,13 +47,16 @@ public class RelicController {
     /**
      * 获取所有文物信息
      *
-     * @param name     按名称筛选
-     * @param status   按状态筛选
-     * @param page     页码
-     * @param count    获取个数
-     * @param from     开始时间
-     * @param to       结束时间
-     * @param dateType 时间类型 enter入馆时间 leave离馆时间 lend外借时间 fix送修时间
+     * @param name      按名称筛选
+     * @param status    按状态筛选
+     * @param warehouse 按仓库筛选
+     * @param shelf     按货架筛选
+     * @param from      开始时间
+     * @param to        结束时间
+     * @param dateType  时间类型 enter入馆时间 leave离馆时间 lend外借时间 fix送修时间
+     * @param page      页码
+     * @param count     每页个数
+     * @param excel     是否导出成 Excel
      */
     @GetMapping("")
     @RequiresPermissions(PermissionCodeEnum.VIEW_RELIC_INFO)
@@ -89,7 +92,9 @@ public class RelicController {
     }
 
     /**
-     * 拍照上传文物【拍照人员】
+     * 拍照上传文物
+     *
+     * @param multipartFile 上传的文件
      */
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADD_RELIC)
@@ -107,11 +112,10 @@ public class RelicController {
     }
 
     /**
-     * 修改文物详细信息【文职员工】
-     * 入馆后修改文物状态信息/移动【仓库管理员】
-     * 修改文物价值【资产科】
+     * 修改文物信息
      *
-     * @param relicId 文物编号
+     * @param relicId   文物编号
+     * @param stringDto 文物信息对象
      */
     @PutMapping("{relicId}")
     @RequiresPermissions(

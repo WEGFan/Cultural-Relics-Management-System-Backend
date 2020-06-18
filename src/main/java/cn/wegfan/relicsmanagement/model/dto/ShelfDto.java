@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 前端传的货架对象
+ */
 @Data
 public class ShelfDto implements Serializable {
 

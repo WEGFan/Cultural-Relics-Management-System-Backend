@@ -1,5 +1,8 @@
 package cn.wegfan.relicsmanagement.constant;
 
+/**
+ * 权限代码枚举
+ */
 public class PermissionCodeEnum {
 
     /**

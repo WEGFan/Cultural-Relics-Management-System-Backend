@@ -5,6 +5,9 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * 前端传的用户信息对象
+ */
 @Data
 public class UserInfoDto implements Serializable {
 

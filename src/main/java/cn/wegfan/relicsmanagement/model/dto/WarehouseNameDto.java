@@ -5,6 +5,9 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
+/**
+ * 前端传的仓库名称对象
+ */
 @Data
 public class WarehouseNameDto implements Serializable {
 

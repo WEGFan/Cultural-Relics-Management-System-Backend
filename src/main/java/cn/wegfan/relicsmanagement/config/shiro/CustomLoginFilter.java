@@ -12,12 +12,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 自定义登录失败后返回 json 过滤器
+ */
 @Slf4j
 public class CustomLoginFilter extends FormAuthenticationFilter {
 
-    /**
-     * 在访问controller前判断是否登录，返回json，不进行重定向。
-     */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
         HttpServletResponse httpServletResponse = (HttpServletResponse)response;

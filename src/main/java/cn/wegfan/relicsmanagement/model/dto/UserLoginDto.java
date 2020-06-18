@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 前端传的用户登录对象
+ */
 @Data
 public class UserLoginDto implements Serializable {
 

@@ -23,11 +23,15 @@ public class OperationController {
     private OperationLogService operationLogService;
 
     /**
-     * 导出操作动态 Excel 表【管理员】
+     * 获取所有操作记录
      *
-     * @param excel 是否导出成 Excel
-     * @param from  起始时间
-     * @param to    结束时间
+     * @param operator 按操作人筛选
+     * @param itemType 按操作对象类型筛选
+     * @param from     开始时间
+     * @param to       结束时间
+     * @param page     页码
+     * @param count    每页个数
+     * @param excel    是否导出成 Excel
      */
     @GetMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)

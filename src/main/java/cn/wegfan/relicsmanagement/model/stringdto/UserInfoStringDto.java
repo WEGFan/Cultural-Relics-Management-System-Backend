@@ -8,6 +8,9 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * 前端传的用户信息对象，所有成员变量均为字符串类型
+ */
 @Data
 public class UserInfoStringDto implements Serializable {
 

@@ -6,6 +6,9 @@ import org.hibernate.validator.constraints.Range;
 
 import java.io.Serializable;
 
+/**
+ * 前端传的仓库编号对象，所有成员变量均为字符串类型
+ */
 @Data
 public class WarehouseIdStringDto implements Serializable {
 

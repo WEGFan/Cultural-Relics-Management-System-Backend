@@ -11,6 +11,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * 文物
+ */
 @Data
 public class Relic implements Serializable {
 

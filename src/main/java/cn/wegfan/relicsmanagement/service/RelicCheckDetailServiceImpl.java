@@ -131,6 +131,7 @@ public class RelicCheckDetailServiceImpl extends ServiceImpl<RelicCheckDetailDao
 
         Integer warehouseId = dto.getWarehouseId();
         Integer shelfId = dto.getShelfId();
+        // 如果为空，则表示不更改，从原对象中获取值
         if (warehouseId == null) {
             warehouseId = relic.getWarehouseId();
         }

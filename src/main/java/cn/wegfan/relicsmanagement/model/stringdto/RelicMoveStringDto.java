@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 前端传的文物移动对象，所有成员变量均为字符串类型
+ */
 @Data
 public class RelicMoveStringDto implements Serializable {
 

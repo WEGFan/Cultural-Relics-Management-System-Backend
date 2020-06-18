@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * 双向权限编号与权限对象转换器
+ */
 @Component
 @Slf4j
 public class BidirectionalPermissionIdEntitySetConverter extends BidirectionalConverter<Set<Permission>, Set<Integer>> {

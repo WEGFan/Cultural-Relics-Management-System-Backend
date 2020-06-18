@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 职务权限
+ */
 @Data
 public class JobPermission implements Serializable {
 

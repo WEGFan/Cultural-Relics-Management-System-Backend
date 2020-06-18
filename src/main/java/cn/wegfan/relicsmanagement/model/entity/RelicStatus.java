@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 文物状态
+ */
 @Data
 public class RelicStatus implements Serializable {
 

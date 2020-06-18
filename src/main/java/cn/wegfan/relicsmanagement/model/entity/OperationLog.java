@@ -8,6 +8,9 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 操作日志
+ */
 @Data
 public class OperationLog implements Serializable {
 

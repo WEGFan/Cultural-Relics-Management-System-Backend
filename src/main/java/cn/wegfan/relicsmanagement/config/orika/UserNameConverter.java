@@ -2,14 +2,15 @@ package cn.wegfan.relicsmanagement.config.orika;
 
 import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.model.entity.User;
-import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.CustomConverter;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.metadata.Type;
 import org.springframework.stereotype.Component;
 
+/**
+ * 用户编号到姓名转换器
+ */
 @Component
-@Slf4j
 public class UserNameConverter extends CustomConverter<Integer, String> {
 
     private UserDao userDao;

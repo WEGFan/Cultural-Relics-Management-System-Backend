@@ -7,6 +7,9 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * 职务
+ */
 @Data
 public class Job implements Serializable {
 

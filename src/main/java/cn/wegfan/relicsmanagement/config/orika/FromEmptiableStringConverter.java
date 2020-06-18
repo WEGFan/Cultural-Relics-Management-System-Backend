@@ -4,6 +4,9 @@ import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.builtin.FromStringConverter;
 import ma.glasnost.orika.metadata.Type;
 
+/**
+ * 可空字符串转换器
+ */
 public class FromEmptiableStringConverter extends FromStringConverter {
 
     @Override

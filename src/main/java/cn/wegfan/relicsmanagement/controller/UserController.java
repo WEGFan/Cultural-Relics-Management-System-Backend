@@ -28,8 +28,11 @@ public class UserController {
     private MapperFacade mapperFacade;
 
     /**
-     * 获取所有用户信息【管理员】
-     * 导出用户信息 Excel 表【管理员】
+     * 获取所有用户信息
+     *
+     * @param page  页码
+     * @param count 每页个数
+     * @param excel 是否导出成 Excel
      */
     @GetMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
@@ -49,7 +52,9 @@ public class UserController {
     }
 
     /**
-     * 增加新用户【管理员】
+     * 增加新用户
+     *
+     * @param stringDto 用户信息对象
      */
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
@@ -59,9 +64,10 @@ public class UserController {
     }
 
     /**
-     * 修改用户信息【管理员】
+     * 修改用户信息
      *
-     * @param userId 用户编号
+     * @param userId    用户编号
+     * @param stringDto 用户信息对象
      */
     @PutMapping("{userId}")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
@@ -73,6 +79,8 @@ public class UserController {
 
     /**
      * 修改用户密码
+     *
+     * @param dto 用户修改密码对象
      */
     @PutMapping("password")
     @RequiresUser
@@ -81,7 +89,7 @@ public class UserController {
     }
 
     /**
-     * 删除用户【管理员】
+     * 删除用户
      *
      * @param userId 用户编号
      */

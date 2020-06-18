@@ -10,6 +10,9 @@ import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 盘点
+ */
 @Data
 public class RelicCheck implements Serializable {
 

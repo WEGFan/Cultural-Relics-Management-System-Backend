@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 前端传的仓库编号对象
+ */
 @Data
 public class WarehouseIdDto implements Serializable {
 

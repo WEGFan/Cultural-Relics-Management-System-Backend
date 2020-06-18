@@ -9,9 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
+/**
+ * 前端传的文物信息对象，所有成员变量均为字符串类型
+ */
 @Slf4j
 @Data
-
 public class RelicInfoStringDto implements Serializable {
 
     private static final long serialVersionUID = 1L;

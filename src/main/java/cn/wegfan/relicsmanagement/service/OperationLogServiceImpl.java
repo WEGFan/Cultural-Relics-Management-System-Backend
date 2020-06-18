@@ -82,6 +82,7 @@ public class OperationLogServiceImpl implements OperationLogService {
             List<OperationLogVo> operationLogVoList = pageResult.getContent();
             List<OperationLogExcelVo> data = mapperFacade.mapAsList(operationLogVoList, OperationLogExcelVo.class);
             data.forEach(i -> {
+                // 将操作对象类型转换成中文
                 OperationItemTypeEnum typeEnum = OperationItemTypeEnum.getFromCode(i.getItemType());
                 i.setItemType(typeEnum.getName());
             });

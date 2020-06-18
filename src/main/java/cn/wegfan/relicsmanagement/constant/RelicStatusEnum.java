@@ -2,6 +2,9 @@ package cn.wegfan.relicsmanagement.constant;
 
 import lombok.Getter;
 
+/**
+ * 文物状态枚举
+ */
 @Getter
 public enum RelicStatusEnum {
     /**

@@ -15,6 +15,15 @@ import java.util.List;
 @Repository
 public interface RelicCheckDetailDao extends BaseMapper<RelicCheckDetail> {
 
+    /**
+     * 根据盘点编号分页筛选或获取所有盘点详情记录
+     *
+     * @param page    分页对象
+     * @param checkId 盘点编号
+     * @param checked 根据盘点状态筛选 true已盘点 false未盘点 null不筛选
+     *
+     * @return 盘点详情记录分页对象
+     */
     // language=xml
     @Select("<script>" +
             "SELECT * FROM relic_check_detail" +
@@ -65,19 +74,57 @@ public interface RelicCheckDetailDao extends BaseMapper<RelicCheckDetail> {
     })
     Page<RelicCheckDetail> selectPageByCheckId(Page<?> page, Integer checkId, Boolean checked);
 
+    /**
+     * 按盘点编号和文物编号获取盘点详情记录
+     *
+     * @param checkId 盘点编号
+     * @param relicId 文物编号
+     *
+     * @return 盘点详情记录对象
+     */
     @Select("SELECT * FROM relic_check_detail WHERE check_id = #{checkId} AND relic_id = #{relicId} LIMIT 1")
     RelicCheckDetail selectByCheckIdAndRelicId(Integer checkId, Integer relicId);
 
+    /**
+     * 按盘点编号和文物编号获取没有被盘点的盘点详情记录
+     *
+     * @param checkId 盘点编号
+     * @param relicId 文物编号
+     *
+     * @return 盘点详情记录对象
+     */
     @Select("SELECT * FROM relic_check_detail WHERE check_id = #{checkId} AND relic_id = #{relicId} AND check_time IS NULL LIMIT 1")
     RelicCheckDetail selectNotCheckedByCheckIdAndRelicId(Integer checkId, Integer relicId);
 
+    /**
+     * 按盘点编号和货架编号获取没有被盘点的盘点详情记录列表
+     *
+     * @param checkId 盘点编号
+     * @param shelfId 文物编号
+     *
+     * @return 盘点详情记录分页对象列表
+     */
     @Select("SELECT * FROM relic_check_detail WHERE check_id = #{checkId} AND old_shelf_id = #{shelfId} AND check_time IS NULL")
     List<RelicCheckDetail> selectNotCheckedListByCheckIdAndOldShelfId(Integer checkId, Integer shelfId);
 
+    /**
+     * 根据盘点编号统计已盘点文物数量
+     *
+     * @param checkId 盘点编号
+     *
+     * @return 已盘点文物数量
+     */
     @SuppressWarnings("unused")
     @Select("SELECT count(*) FROM relic_check_detail WHERE check_id = #{checkId} AND check_time IS NOT NULL")
     int countCheckedByCheckId(Integer checkId);
 
+    /**
+     * 根据盘点编号统计盘点异常的文物数量
+     *
+     * @param checkId 盘点编号
+     *
+     * @return 盘点异常的文物数量
+     */
     @SuppressWarnings("unused")
     @Select("SELECT count(*) FROM relic_check_detail " +
             "WHERE check_id = #{checkId} " +

@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 用户额外权限
+ */
 @Data
 public class UserExtraPermission implements Serializable {
 

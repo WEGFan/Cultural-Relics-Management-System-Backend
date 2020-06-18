@@ -10,6 +10,11 @@ import java.util.List;
 @Repository
 public interface RelicStatusDao extends BaseMapper<RelicStatus> {
 
+    /**
+     * 获取所有文物状态
+     *
+     * @return 文物状态对象列表
+     */
     @Select("SELECT * FROM relic_status")
     List<RelicStatus> selectRelicStatusList();
 

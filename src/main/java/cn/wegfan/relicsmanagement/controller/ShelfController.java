@@ -27,12 +27,12 @@ public class ShelfController {
     private MapperFacade mapperFacade;
 
     /**
-     * 获取某仓库的所有货架【仓库管理员】
+     * 获取某仓库的所有货架
      *
      * @param warehouseId 按仓库编号筛选
      * @param name        按名称筛选
      * @param page        页码
-     * @param count       获取个数
+     * @param count       每页个数
      */
     @GetMapping("")
     @RequiresUser
@@ -50,7 +50,9 @@ public class ShelfController {
     }
 
     /**
-     * 创建货架【仓库管理员】
+     * 创建货架
+     *
+     * @param stringDto 货架对象
      */
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
@@ -60,9 +62,10 @@ public class ShelfController {
     }
 
     /**
-     * 修改货架信息【仓库管理员】
+     * 修改货架信息
      *
-     * @param shelfId 货架编号
+     * @param shelfId   货架编号
+     * @param stringDto 货架对象
      */
     @PutMapping("{shelfId}")
     @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
@@ -73,7 +76,7 @@ public class ShelfController {
     }
 
     /**
-     * 删除货架【仓库管理员】
+     * 删除货架
      *
      * @param shelfId 货架编号
      */

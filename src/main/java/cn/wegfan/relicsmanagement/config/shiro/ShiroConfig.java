@@ -52,7 +52,6 @@ public class ShiroConfig {
         return sessionManager;
     }
 
-    // 自定义 realm
     @Bean
     public Realm realm() {
         HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
@@ -80,13 +79,16 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
+        // 自定义登录过滤器，授权失败返回json
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("authc", new CustomLoginFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
+        // 设置用户会话控制器可以匿名
         filterChainDefinitionMap.put("/api/v1/sessions", "anon");
+        // 其他控制器需要授权
         filterChainDefinitionMap.put("/api/v1/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

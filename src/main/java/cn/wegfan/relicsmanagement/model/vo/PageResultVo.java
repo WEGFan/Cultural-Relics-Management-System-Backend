@@ -7,6 +7,9 @@ import lombok.ToString;
 
 import java.util.List;
 
+/**
+ * 接口返回的分页对象
+ */
 @Getter
 @Setter
 @ToString
@@ -47,12 +50,18 @@ public class PageResultVo<T> {
      */
     private Boolean hasNext;
 
+    /**
+     * 使用 {@code content} 作为内容，{@code pageResult} 作为分页属性
+     */
     @SuppressWarnings("unchecked")
     public PageResultVo(List<T> content, Page<?> pageResult) {
         this((Page<T>)pageResult);
         this.content = content;
     }
 
+    /**
+     * 使用 {@code pageResult} 作为内容和分页属性
+     */
     public PageResultVo(Page<T> pageResult) {
         content = pageResult.getRecords();
         currentPage = Math.toIntExact(pageResult.getCurrent());

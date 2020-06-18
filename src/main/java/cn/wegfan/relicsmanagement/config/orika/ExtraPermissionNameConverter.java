@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 import java.util.StringJoiner;
 
+/**
+ * 权限集合到分号连接的字符串转换器
+ */
 @Component
 @Slf4j
 public class ExtraPermissionNameConverter extends CustomConverter<Set<Permission>, String> {

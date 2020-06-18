@@ -15,6 +15,11 @@ import java.util.Set;
 @Repository
 public interface JobDao extends BaseMapper<Job> {
 
+    /**
+     * 获取所有职务
+     *
+     * @return 职务对象列表
+     */
     @Select("SELECT * FROM job")
     @Results(id = "jobPermissionsResultMap", value = {
             @Result(property = "id", column = "id", id = true),

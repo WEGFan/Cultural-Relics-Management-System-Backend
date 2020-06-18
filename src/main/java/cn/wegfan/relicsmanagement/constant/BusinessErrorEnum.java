@@ -2,6 +2,9 @@ package cn.wegfan.relicsmanagement.constant;
 
 import lombok.Getter;
 
+/**
+ * 业务异常枚举
+ */
 @Getter
 public enum BusinessErrorEnum {
     Unauthorized(401, "没有权限"),
@@ -31,8 +34,14 @@ public enum BusinessErrorEnum {
     AdminCanNotEditOwnJob(10021, "管理员不可以修改自己的职务"),
     NotInMuseumRelicCanNotHaveLocation(10022, "不在馆的文物不能有仓库/货架信息");
 
+    /**
+     * 错误代码
+     */
     private final Integer errorCode;
 
+    /**
+     * 错误信息
+     */
     private final String errorMessage;
 
     BusinessErrorEnum(Integer errorCode, String errorMessage) {

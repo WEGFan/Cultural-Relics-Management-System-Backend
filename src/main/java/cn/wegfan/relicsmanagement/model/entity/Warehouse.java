@@ -9,6 +9,9 @@ import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 仓库
+ */
 @Data
 public class Warehouse implements Serializable {
 

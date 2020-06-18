@@ -36,7 +36,7 @@ public class RelicCheckController {
      *
      * @param warehouseId 按仓库编号筛选
      * @param page        页码
-     * @param count       获取个数
+     * @param count       每页个数
      */
     @GetMapping("")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
@@ -48,6 +48,12 @@ public class RelicCheckController {
 
     /**
      * 获取某次盘点的文物列表
+     *
+     * @param checkId 盘点编号
+     * @param checked 按盘点状态筛选 true已盘点 false未盘点 null不筛选
+     * @param page    页码
+     * @param count   每页个数
+     * @param excel   是否导出成 Excel
      */
     @GetMapping("{checkId}/relics")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
@@ -71,6 +77,8 @@ public class RelicCheckController {
 
     /**
      * 开始一次盘点
+     *
+     * @param stringDto 仓库编号对象
      */
     @PostMapping("sessions")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
@@ -81,6 +89,8 @@ public class RelicCheckController {
 
     /**
      * 结束一次盘点
+     *
+     * @param checkId 盘点编号
      */
     @DeleteMapping("sessions/{checkId}")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)
@@ -91,7 +101,9 @@ public class RelicCheckController {
     /**
      * 提交当前文物位置和状态信息
      *
-     * @param relicId 文物编号
+     * @param checkId   盘点编号
+     * @param relicId   文物编号
+     * @param stringDto 文物移动对象
      */
     @PutMapping("{checkId}/relics/{relicId}")
     @RequiresPermissions(PermissionCodeEnum.CHECK_RELIC)

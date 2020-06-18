@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Mybatis Plus 配置
+ */
 @EnableTransactionManagement
 @Configuration
 @MapperScan("cn.wegfan.relicsmanagement.mapper")

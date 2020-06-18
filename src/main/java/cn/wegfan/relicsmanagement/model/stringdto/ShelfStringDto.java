@@ -7,6 +7,9 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
+/**
+ * 前端传的货架对象，所有成员变量均为字符串类型
+ */
 @Data
 public class ShelfStringDto implements Serializable {
 

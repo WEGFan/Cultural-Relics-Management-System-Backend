@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 前端传的文物信息对象
+ */
 @Slf4j
 @Data
 public class RelicInfoDto implements Serializable {

@@ -6,6 +6,9 @@ import ma.glasnost.orika.metadata.Type;
 
 import java.math.BigDecimal;
 
+/**
+ * 可空字符串到 BigDecimal 转换器
+ */
 public class EmptiableStringToBigDecimalConverter extends CustomConverter<String, BigDecimal> {
 
     @Override

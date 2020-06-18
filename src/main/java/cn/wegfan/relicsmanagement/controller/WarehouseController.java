@@ -22,11 +22,11 @@ public class WarehouseController {
     private WarehouseService warehouseService;
 
     /**
-     * 获取所有仓库信息【仓库管理员】
+     * 获取所有仓库信息
      *
      * @param name  按名称筛选
      * @param page  页码
-     * @param count 获取个数
+     * @param count 每页个数
      */
     @GetMapping("")
     @RequiresUser
@@ -40,7 +40,9 @@ public class WarehouseController {
     }
 
     /**
-     * 创建仓库【仓库管理员】
+     * 创建仓库
+     *
+     * @param dto 仓库名称对象
      */
     @PostMapping("")
     @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
@@ -49,9 +51,10 @@ public class WarehouseController {
     }
 
     /**
-     * 修改仓库信息【仓库管理员】
+     * 修改仓库信息
      *
      * @param warehouseId 仓库编号
+     * @param dto         仓库名称对象
      */
     @PutMapping("{warehouseId}")
     @RequiresPermissions(PermissionCodeEnum.WAREHOUSE)
@@ -61,7 +64,7 @@ public class WarehouseController {
     }
 
     /**
-     * 删除仓库【仓库管理员】
+     * 删除仓库
      *
      * @param warehouseId 仓库编号
      */

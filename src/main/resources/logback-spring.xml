@@ -9,6 +9,8 @@
     <!-- 彩色输出格式 -->
     <property name="LOG_COLOR_PATTERN" value="%yellow(%date{${LOG_DATEFORMAT_PATTERN}}) %highlight(%5level) - [%magenta(%logger)] [%cyan(%file:%line \(%method\))]: %message%n%xEx" />
 
+    <!-- NOTE: 由于logback的bug，pattern内使用变量会导致不换行，所以只能暂时使用完整格式字符串 -->
+
     <!-- 控制台输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">

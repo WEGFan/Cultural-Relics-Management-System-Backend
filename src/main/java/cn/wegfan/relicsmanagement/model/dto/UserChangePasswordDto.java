@@ -6,6 +6,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+/**
+ * 前端传的用户修改密码对象
+ */
 @Data
 public class UserChangePasswordDto implements Serializable {
 

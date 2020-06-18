@@ -30,6 +30,8 @@ public class FileController {
 
     /**
      * 获取文物图片
+     *
+     * @param fileName 文件名
      */
     @GetMapping(value = "relics/images/{fileName}", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
@@ -47,7 +49,9 @@ public class FileController {
     }
 
     /**
-     * 用户信息 Excel 表
+     * 获取用户信息 Excel 表
+     *
+     * @param fileName 文件名
      */
     @GetMapping(value = "exports/users/{fileName}")
     @ResponseBody
@@ -75,7 +79,9 @@ public class FileController {
     }
 
     /**
-     * 文物 Excel 表
+     * 获取文物 Excel 表
+     *
+     * @param fileName 文件名
      */
     @GetMapping(value = "exports/relics/{fileName}")
     @ResponseBody
@@ -103,7 +109,9 @@ public class FileController {
     }
 
     /**
-     * 文物盘点 Excel 表
+     * 获取文物盘点 Excel 表
+     *
+     * @param fileName 文件名
      */
     @GetMapping(value = "exports/checks/{fileName}")
     @ResponseBody
@@ -131,7 +139,9 @@ public class FileController {
     }
 
     /**
-     * 操作记录 Excel 表
+     * 获取操作记录 Excel 表
+     *
+     * @param fileName 文件名
      */
     @GetMapping(value = "exports/operations/{fileName}")
     @ResponseBody
