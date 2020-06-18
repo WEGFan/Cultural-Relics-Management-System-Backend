@@ -25,9 +25,8 @@ public class CustomLoginFilter extends FormAuthenticationFilter {
         httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setContentType("application/json");
         DataReturnVo result = DataReturnVo.businessError(new BusinessException(BusinessErrorEnum.UserNotLogin));
-        log.debug(result.toString());
-        ObjectMapper objectMapper = new ObjectMapper();
 
+        ObjectMapper objectMapper = new ObjectMapper();
         httpServletResponse.getWriter().write(objectMapper.writeValueAsString(result));
         return false;
     }

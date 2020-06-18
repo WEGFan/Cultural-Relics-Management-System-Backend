@@ -3,7 +3,6 @@ package cn.wegfan.relicsmanagement.service;
 import cn.hutool.core.util.StrUtil;
 import cn.wegfan.relicsmanagement.constant.BusinessErrorEnum;
 import cn.wegfan.relicsmanagement.constant.OperationItemTypeEnum;
-import cn.wegfan.relicsmanagement.mapper.RelicDao;
 import cn.wegfan.relicsmanagement.mapper.ShelfDao;
 import cn.wegfan.relicsmanagement.mapper.WarehouseDao;
 import cn.wegfan.relicsmanagement.model.entity.Warehouse;
@@ -36,9 +35,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Autowired
     private ShelfDao shelfDao;
-
-    @Autowired
-    private RelicDao relicDao;
 
     @Autowired
     private OperationLogService operationLogService;

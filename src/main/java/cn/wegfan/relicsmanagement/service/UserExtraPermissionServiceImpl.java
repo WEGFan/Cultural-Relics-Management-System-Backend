@@ -1,8 +1,6 @@
 package cn.wegfan.relicsmanagement.service;
 
-import cn.wegfan.relicsmanagement.mapper.JobDao;
 import cn.wegfan.relicsmanagement.mapper.PermissionDao;
-import cn.wegfan.relicsmanagement.mapper.UserDao;
 import cn.wegfan.relicsmanagement.mapper.UserExtraPermissionDao;
 import cn.wegfan.relicsmanagement.model.entity.Permission;
 import cn.wegfan.relicsmanagement.model.entity.UserExtraPermission;
@@ -22,16 +20,10 @@ import java.util.stream.Collectors;
 public class UserExtraPermissionServiceImpl extends ServiceImpl<UserExtraPermissionDao, UserExtraPermission> implements UserExtraPermissionService {
 
     @Autowired
-    private UserDao userDao;
-
-    @Autowired
     private UserExtraPermissionDao userExtraPermissionDao;
 
     @Autowired
     private PermissionDao permissionDao;
-
-    @Autowired
-    private JobDao jobDao;
 
     /**
      * 管理员职位编号
