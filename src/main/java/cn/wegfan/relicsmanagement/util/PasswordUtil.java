@@ -22,8 +22,8 @@ public class PasswordUtil {
     public static String generateSalt(String seed) {
         SecureRandomNumberGenerator generator = new SecureRandomNumberGenerator();
         Date now = new Date();
-        // base91.encode(hashlib.sha1('2017030103004,范育铭'.encode('utf-8')).hexdigest().encode()[::-1])[::2]
-        byte[] realSeed = (now.getTime() + "2CnzE^MFjGFjvs*QVcbK5!<QI" + seed).getBytes();
+        // base91.encode(hashlib.sha256('{},{},{}'.format( ... ).encode('utf-8')).hexdigest()[::-1].encode())[::-2]
+        byte[] realSeed = (now.getTime() + "HvD84ykW{PD~sMFd1G]A@=uE7!FA.7tL@O%;e2}," + seed).getBytes();
         generator.setSeed(realSeed);
         String result = generator.nextBytes(32).toHex();
         return result;
