@@ -35,13 +35,13 @@ public class OperationController {
      */
     @GetMapping("")
     @RequiresPermissions(PermissionCodeEnum.ADMIN)
-    public DataReturnVo exportOperationsToExcel(@RequestParam(required = false, name = "operatorName") Integer operator,
-                                                @RequestParam(required = false) String itemType,
-                                                @RequestParam(required = false) Date from,
-                                                @RequestParam(required = false) Date to,
-                                                @RequestParam Integer page,
-                                                @RequestParam Integer count,
-                                                @RequestParam(required = false) Boolean excel) {
+    public DataReturnVo listOperations(@RequestParam(required = false, name = "operatorName") Integer operator,
+                                       @RequestParam(required = false) String itemType,
+                                       @RequestParam(required = false) Date from,
+                                       @RequestParam(required = false) Date to,
+                                       @RequestParam Integer page,
+                                       @RequestParam Integer count,
+                                       @RequestParam(required = false) Boolean excel) {
         if (Boolean.TRUE.equals(excel)) {
             return DataReturnVo.success(operationLogService.exportOperationLogToExcel(operator, itemType,
                     from, to));
